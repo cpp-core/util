@@ -29,12 +29,12 @@ public:
 	using core::tp::apply_nth;
 	
 	auto idx = find_first(m_tuple, [&](const auto& e) { return e.long_name == long_name; });
-	if (idx < 0) throw bad_option_error(long_name, typeid(T));
+	if (idx < 0) throw get_option_error(long_name);
 
 	auto value = apply_nth(m_tuple, idx, [&](const auto& e) { return std::any(e.value); });
 	auto *ptr = std::any_cast<T>(&value);
 	if (ptr == nullptr)
-	    throw bad_type_error(long_name, typeid(T), value.type());
+	    throw get_type_error(long_name, typeid(T), value.type());
 	return *ptr;
     }
 
@@ -57,10 +57,7 @@ public:
 		auto idx = find_first(m_tuple, [&](const auto& e) { return e.matches(token); });
 		
 		if (idx < 0)
-		{
-		    cerr << "Unrecognzied option: " << token << endl;
-		    return false;
-		}
+		    throw unknown_option_error(token);
 
 		apply_nth(m_tuple, idx, [&](auto& e) { return e.match(token, tokens); });
 	    }

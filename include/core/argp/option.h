@@ -11,22 +11,8 @@ namespace core::argp
 
 struct ArgBase
 {
-    ArgBase(char arg_short_name, string_view arg_long_name, string_view arg_description)
-	: short_name(arg_short_name)
-	, long_name(arg_long_name)
-	, description(arg_description)
-    { }
-    
-    bool matches(string_view token) const
-    {
-	if (token.size() == 2 and token[0] == OptionSymbol)
-	    return token[1] == short_name;
-	if (token.size() == long_name.size() + 2
-	    and token[0] == OptionSymbol
-	    and token[1] == OptionSymbol)
-	    return token.substr(2) == long_name;
-	return false;
-    }
+    ArgBase(char arg_short_name, string_view arg_long_name, string_view arg_description);
+    bool matches(string_view token) const;
 
     char short_name;
     string long_name;
@@ -36,10 +22,8 @@ struct ArgBase
 struct ArgFlag : ArgBase
 {
     using ArgBase::ArgBase;
+    void match(string_view token, Tokens& tokens) { value = true; }
     
-    void match(string_view token, Tokens& tokens)
-    { value = true; }
-
     bool value{false};
 };
 
@@ -64,9 +48,7 @@ struct ArgFlagApply : ArgBase
 struct ArgFlagCount : ArgBase
 {
     using ArgBase::ArgBase;
-
-    void match(string_view token, Tokens& tokens)
-    { ++value; }
+    void match(string_view token, Tokens& tokens) { ++value; }
 
     size_t value{0};
 };
@@ -81,7 +63,7 @@ struct ArgStore : ArgBase
     
     void match(string_view token, Tokens& tokens)
     {
-	if (tokens.size() == 0)
+	if (tokens.size() == 0 or is_option(tokens.front()))
 	    throw missing_value_error(long_name, typeid(T));
 	
 	auto str = tokens.front();
