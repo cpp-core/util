@@ -11,10 +11,11 @@ namespace core::argp
 using Tokens = std::queue<string_view>;
 static constexpr char OptionSymbol = '-';
 
-bool is_first_identifier(char c);
+bool is_identifier(char c);
 bool is_long_option(string_view arg);
 bool is_short_option(string_view arg);
 bool is_option_separator(string_view arg);
 bool is_option(string_view arg);
+bool is_option_group(string_view arg);
 
 }; // core::argp

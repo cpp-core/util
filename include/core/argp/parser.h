@@ -38,33 +38,55 @@ public:
 	return *ptr;
     }
 
+    void process_token(string_view token, Tokens& tokens)
+    {
+	using core::tp::find_first;
+	using core::tp::apply_nth;
+		
+	auto idx = find_first(m_tuple, [&](const auto& e) { return e.matches(token); });
+
+	if (idx < 0)
+	{
+	    if (token == "-*") throw unknown_option_error(tokens.front());
+	    else throw unknown_option_error(token);
+	}
+	
+	apply_nth(m_tuple, idx, [&](auto& e) { e.match(token, tokens); });
+    }
+
     bool parse(const strings& args)
     {
 	Tokens tokens;
 	for (const auto& arg : args)
 	    tokens.emplace(arg);
+	tokens.pop();
 
+	bool done_with_options{false};
 	while (tokens.size() > 0)
 	{
 	    auto token = tokens.front();
 	    tokens.pop();
-
-	    if (is_option(token))
+	    
+	    if (done_with_options or token[0] != OptionSymbol)
 	    {
-		using core::tp::find_first;
-		using core::tp::apply_nth;
-		
-		auto idx = find_first(m_tuple, [&](const auto& e) { return e.matches(token); });
-		
-		if (idx < 0)
-		    throw unknown_option_error(token);
-
-		apply_nth(m_tuple, idx, [&](auto& e) { return e.match(token, tokens); });
+		tokens.push(token);
+		process_token("-*", tokens);
+	    }
+	    else if (is_option_separator(token))
+	    {
+		done_with_options = true;
+	    }
+	    else if (is_option(token))
+	    {
+		process_token(token, tokens);
+	    }
+	    else if (is_option_group(token))
+	    {
+		for (auto c : token.substr(1))
+		    process_token(string{'-', c}, tokens);
 	    }
 	    else
-	    {
-		m_extra.push_back(string(token));
-	    }
+		throw unknown_option_error(token);
 	}
 	
 	return true;
@@ -89,13 +111,20 @@ private:
     strings m_extra;
 };
 
+namespace interface
+{
+using core::argp::ArgParse;
+using core::argp::ArgFlag;
+using core::argp::ArgFlagApply;
+using core::argp::ArgFlagCount;
+using core::argp::ArgStore;
+using core::argp::ArgStoreContainer;
+};
+
 }; // argp
 
-using argp::ArgParse;
-using argp::ArgFlag;
-using argp::ArgFlagApply;
-using argp::ArgFlagCount;
-using argp::ArgStore;
-using argp::ArgStoreContainer;
+using namespace argp::interface;
 
 }; // core
+
+
