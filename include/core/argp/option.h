@@ -76,4 +76,34 @@ struct ArgStore : ArgBase
     T value;
 };
 
+template<template<class...> class C, class T,
+	 size_t Min = 1, size_t Max = std::numeric_limits<size_t>::max()>
+struct ArgStoreContainer : ArgBase
+{
+    ArgStoreContainer(char short_name, string_view long_name, string_view description)
+	: ArgBase(short_name, long_name, description)
+    { }
+    
+    void match(string_view token, Tokens& tokens)
+    {
+	while (tokens.size() > 0 and not is_option(tokens.front()))
+	{
+	    auto str = tokens.front();
+	    tokens.pop();
+	    
+	    try { value.emplace_back(core::lexical_cast<T>(str)); }
+	    catch (const core::lexical_cast_error& error)
+	    { throw bad_value_error(long_name, typeid(T), str); }
+	}
+
+	auto count = value.size();
+	if (count < Min)
+	    throw too_few_values_error(long_name, typeid(T), count, Min);
+	else if (count > Max)
+	    throw too_many_values_error(long_name, typeid(T), count, Max);
+    }
+
+    C<T> value;
+};
+
 }; // core::argp

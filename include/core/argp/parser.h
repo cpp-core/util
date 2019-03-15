@@ -96,5 +96,6 @@ using argp::ArgFlag;
 using argp::ArgFlagApply;
 using argp::ArgFlagCount;
 using argp::ArgStore;
+using argp::ArgStoreContainer;
 
 }; // core
