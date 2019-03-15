@@ -82,12 +82,13 @@ struct ArgStore : ArgBase
     void match(string_view token, Tokens& tokens)
     {
 	if (tokens.size() == 0)
-	    throw missing_value_error(long_name);
+	    throw missing_value_error(long_name, typeid(T));
 	
 	auto str = tokens.front();
 	tokens.pop();
 	try { value = core::lexical_cast<T>(str); }
-	catch (const core::lexical_cast_error& error) { throw bad_value_error(str); }
+	catch (const core::lexical_cast_error& error)
+	{ throw bad_value_error(long_name, typeid(T), str); }
     }
 
     T value;
