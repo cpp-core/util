@@ -18,4 +18,6 @@ bool is_option_separator(string_view arg);
 bool is_option(string_view arg);
 bool is_option_group(string_view arg);
 
+string make_spec(string_view arg_value, size_t min, size_t max);
+
 }; // core::argp

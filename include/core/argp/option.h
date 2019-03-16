@@ -4,10 +4,13 @@
 #pragma once
 #include "core/argp/base.h"
 #include "core/argp/error.h"
+#include "core/demangle.h"
 #include "core/string/lexical_cast.h"
 
 namespace core::argp
 {
+
+struct noop { constexpr void operator()() const noexcept { } };
 
 struct ArgBase
 {
@@ -17,26 +20,21 @@ struct ArgBase
     char short_name;
     string long_name;
     string description;
-};
-
-struct ArgFlag : ArgBase
-{
-    using ArgBase::ArgBase;
-    void match(string_view token, Tokens& tokens) { value = true; }
-    
-    bool value{false};
+    string value_spec;
+    size_t count{0};
 };
 
 template<class F>
-struct ArgFlagApply : ArgBase
+struct ArgFlag : ArgBase
 {
-    ArgFlagApply(char short_name, string_view long_name, string_view description, F&& func)
+    ArgFlag(char short_name, string_view long_name, string_view description, F&& func = noop{})
 	: ArgBase(short_name, long_name, description)
 	, function(std::move(func))
     { }
 
     void match(string_view token, Tokens& tokens)
     {
+	++count;
 	value = true;
 	function();
     }
@@ -45,21 +43,18 @@ struct ArgFlagApply : ArgBase
     F function;
 };
 
-struct ArgFlagCount : ArgBase
-{
-    using ArgBase::ArgBase;
-    void match(string_view token, Tokens& tokens) { ++value; }
+ArgFlag(char, string_view, string_view) -> ArgFlag<noop>;
 
-    size_t value{0};
-};
-
-template<class T>
+template<class T, bool Overwrite = true>
 struct ArgStore : ArgBase
 {
     ArgStore(char short_name, string_view long_name, string_view description, T default_value)
 	: ArgBase(short_name, long_name, description)
 	, value(default_value)
-    { }
+    {
+	if (short_name == '*') value_spec = make_spec(long_name, 1, 1);
+	else value_spec = make_spec(core::type_name<T>(), 1, 1);
+    }
     
     void match(string_view token, Tokens& tokens)
     {
@@ -68,9 +63,14 @@ struct ArgStore : ArgBase
 	
 	auto str = tokens.front();
 	tokens.pop();
+	
 	try { value = core::lexical_cast<T>(str); }
 	catch (const core::lexical_cast_error& error)
 	{ throw bad_value_error(long_name, typeid(T), str); }
+
+	if (count > 0 and not Overwrite)
+	    throw std::runtime_error("Option seen twice.");
+	++count;
     }
 
     T value;
@@ -82,7 +82,10 @@ struct ArgStoreContainer : ArgBase
 {
     ArgStoreContainer(char short_name, string_view long_name, string_view description)
 	: ArgBase(short_name, long_name, description)
-    { }
+    {
+	if (short_name == '*') value_spec = make_spec(long_name, Min, Max);
+	else value_spec = make_spec(core::type_name<T>(), Min, Max);
+    }
     
     void match(string_view token, Tokens& tokens)
     {
