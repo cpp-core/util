@@ -38,7 +38,7 @@ public:
 	using core::tp::apply_nth;
 	
 	auto idx = find_index(long_name);
-	auto value = apply_nth(m_tuple, idx, [&](const auto& e) { return std::any(e.value); });
+	auto value = apply_nth([&](const auto& e) { return std::any(e.value); }, idx, m_tuple);
 	auto *ptr = std::any_cast<T>(&value);
 	if (ptr == nullptr)
 	    throw get_type_error(long_name, typeid(T), value.type());
@@ -48,7 +48,7 @@ public:
     size_t get_count(string long_name)
     {
 	auto idx = find_index(long_name);
-	return core::tp::apply_nth(m_tuple, idx, [&](const auto& e) { return e.count; });
+	return core::tp::apply_nth([&](const auto& e) { return e.count; }, idx, m_tuple);
     }
 
     void process_token(string_view token, Tokens& tokens)
@@ -64,7 +64,7 @@ public:
 	    else throw unknown_option_error(token);
 	}
 	
-	apply_nth(m_tuple, idx, [&](auto& e) { e.match(token, tokens); });
+	apply_nth([&](auto& e) { e.match(token, tokens); }, idx, m_tuple);
     }
 
     string star_value_spec()
