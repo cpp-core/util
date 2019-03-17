@@ -11,6 +11,7 @@ namespace core::argp
 {
 
 struct noop { constexpr void operator()() const noexcept { } };
+struct ident { constexpr bool operator()() const noexcept { return true; } };
 
 struct ArgBase
 {
@@ -45,10 +46,10 @@ struct ArgFlag : ArgBase
 
 ArgFlag(char, string_view, string_view) -> ArgFlag<noop>;
 
-template<class T, bool Overwrite = true>
-struct ArgStore : ArgBase
+template<class T>
+struct ArgValue : ArgBase
 {
-    ArgStore(char short_name, string_view long_name, string_view description, T default_value)
+    ArgValue(char short_name, string_view long_name, string_view description, T default_value)
 	: ArgBase(short_name, long_name, description)
 	, value(default_value)
     {
@@ -68,8 +69,6 @@ struct ArgStore : ArgBase
 	catch (const core::lexical_cast_error& error)
 	{ throw bad_value_error(long_name, typeid(T), str); }
 
-	if (count > 0 and not Overwrite)
-	    throw std::runtime_error("Option seen twice.");
 	++count;
     }
 
@@ -78,9 +77,9 @@ struct ArgStore : ArgBase
 
 template<template<class...> class C, class T,
 	 size_t Min = 1, size_t Max = std::numeric_limits<size_t>::max()>
-struct ArgStoreContainer : ArgBase
+struct ArgValueContainer : ArgBase
 {
-    ArgStoreContainer(char short_name, string_view long_name, string_view description)
+    ArgValueContainer(char short_name, string_view long_name, string_view description)
 	: ArgBase(short_name, long_name, description)
     {
 	if (short_name == '*') value_spec = make_spec(long_name, Min, Max);

@@ -167,8 +167,8 @@ namespace interface
 {
 using core::argp::ArgParse;
 using core::argp::ArgFlag;
-using core::argp::ArgStore;
-using core::argp::ArgStoreContainer;
+using core::argp::ArgValue;
+using core::argp::ArgValueContainer;
 };
 
 }; // argp
