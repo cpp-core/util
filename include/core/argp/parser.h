@@ -8,6 +8,9 @@
 #include "core/tuple/apply.h"
 #include "core/tuple/find.h"
 #include "core/tuple/map.h"
+#include "core/mp/constants.h"
+#include "core/mp/find_index.h"
+#include "core/mp/transform.h"
 
 namespace core
 {
@@ -15,41 +18,60 @@ namespace core
 namespace argp
 {
 
+template<class T>
+using flag_character = core::mp::_char<T::FlagCharacter>;
+
 template<class... Ts>
 class ArgParse
 {
 public:
     using Tuple = std::tuple<Ts...>;
+    using Flags = core::mp::transform_t<flag_character, core::mp::list<Ts...>>;
+    
     ArgParse(Ts&&... args)
 	: m_tuple(std::make_tuple(std::move(args)...))
     { }
 
-    index_t find_index(string_view long_name)
+    // index_t find_index(string_view long_name)
+    // {
+    // 	using core::tp::find_first;
+    // 	auto idx = find_first(m_tuple, [&](const auto& e) { return e.long_name == long_name; });
+    // 	if (idx < 0) throw get_option_error(long_name);
+    // 	return idx;
+    // }
+
+    template<char C>
+    auto get()
     {
-	using core::tp::find_first;
-	auto idx = find_first(m_tuple, [&](const auto& e) { return e.long_name == long_name; });
-	if (idx < 0) throw get_option_error(long_name);
-	return idx;
+	constexpr auto Index = core::mp::find_index_v<Flags, core::mp::_char<C>>;
+	return std::get<Index>(m_tuple).value;
     }
 
-    template<class T>
-    T get(string long_name)
+    template<char C>
+    auto get_count()
     {
-	using core::tp::apply_nth;
+	constexpr auto Index = core::mp::find_index_v<Flags, core::mp::_char<C>>;
+	return std::get<Index>(m_tuple).count;
+    }
+
+    // template<class T>
+    // T get(string long_name)
+    // {
+    // 	using core::tp::apply_nth;
 	
-	auto idx = find_index(long_name);
-	auto value = apply_nth([&](const auto& e) { return std::any(e.value); }, idx, m_tuple);
-	auto *ptr = std::any_cast<T>(&value);
-	if (ptr == nullptr)
-	    throw get_type_error(long_name, typeid(T), value.type());
-	return *ptr;
-    }
+    // 	auto idx = find_index(long_name);
+    // 	auto value = apply_nth([&](const auto& e) { return std::any(e.value); }, idx, m_tuple);
+    // 	auto *ptr = std::any_cast<T>(&value);
+    // 	if (ptr == nullptr)
+    // 	    throw get_type_error(long_name, typeid(T), value.type());
+    // 	return *ptr;
+    // }
 
-    size_t get_count(string long_name)
-    {
-	auto idx = find_index(long_name);
-	return core::tp::apply_nth([&](const auto& e) { return e.count; }, idx, m_tuple);
-    }
+    // size_t get_count(string long_name)
+    // {
+    // 	auto idx = find_index(long_name);
+    // 	return core::tp::apply_nth([&](const auto& e) { return e.count; }, idx, m_tuple);
+    // }
 
     void process_token(string_view token, Tokens& tokens)
     {
@@ -71,7 +93,7 @@ public:
     {
 	auto printer = [&](const auto& result, const auto& arg)
 		       {
-			   if (arg.short_name != '*')
+			   if (arg.FlagCharacter != '*')
 			       return result;
 			   return result + " " + arg.value_spec;
 		       };
@@ -83,14 +105,14 @@ public:
 	cout << "program: " << program_name << " [options]" << star_value_spec() << endl;
 	auto printer = [&](const auto& arg)
 		       {
-			   if (arg.short_name == '*')
+			   if (arg.FlagCharacter == '*')
 			       return;
 			   
 			   auto n = 20 - arg.long_name.size() - arg.value_spec.size();
 			   if (n < 1) n = 1;
 			   
 			   os << "\t";
-			   os << "-" << arg.short_name << ", ";
+			   os << "-" << arg.FlagCharacter << ", ";
 			   os << "--" << arg.long_name << " ";
 			   os << arg.value_spec;
 			   os << string(n, ' ');
@@ -166,9 +188,10 @@ private:
 namespace interface
 {
 using core::argp::ArgParse;
-using core::argp::ArgFlag;
-using core::argp::ArgValue;
-using core::argp::ArgValueContainer;
+template<char C> using ArgFlag = core::argp::ArgFlag<C>;
+
+// using core::argp::ArgValue;
+// using core::argp::ArgValueContainer;
 };
 
 }; // argp
