@@ -10,7 +10,11 @@
 namespace core::argp
 {
 
-struct noop { constexpr void operator()() const noexcept { } };
+struct noop
+{
+    template<class... Ts>
+    constexpr void operator()(Ts&...) const noexcept { }
+};
 struct ident { constexpr bool operator()() const noexcept { return true; } };
 
 template<char C>
@@ -40,10 +44,10 @@ struct ArgBase
     size_t count{0};
 };
 
-template<char C, class F = noop>
+template<char C, class F>
 struct ArgFlag : ArgBase<C>
 {
-    ArgFlag(string_view long_name, string_view description, F&& func = noop{})
+    ArgFlag(string_view long_name, string_view description, F&& func)
 	: ArgBase<C>(long_name, description)
 	, function(std::move(func))
     { }
@@ -60,15 +64,21 @@ struct ArgFlag : ArgBase<C>
 };
 
 template<char C>
-ArgFlag(char, string_view, string_view) -> ArgFlag<C, noop>;
+auto argFlag(string_view long_name, string_view description)
+{ return ArgFlag<C,noop>(long_name, description, std::move(noop{})); }
 
-template<char C, class T>
+template<char C, class F>
+auto argFlag(string_view long_name, string_view description, F&& func = noop{})
+{ return ArgFlag<C,F>(long_name, description, std::move(func)); }
+
+template<char C, class T, class F>
 struct ArgValue : ArgBase<C>
 {
     using Base = ArgBase<C>;
-    ArgValue(char short_name, string_view long_name, T default_value, string_view description)
-	: Base(short_name, long_name, description)
+    ArgValue(string_view long_name, T default_value, string_view description, F&& func)
+	: Base(long_name, description)
 	, value(default_value)
+	, function(std::move(func))
     {
 	if (Base::FlagCharacter == '*') Base::value_spec = make_spec(long_name, 1, 1);
 	else Base::value_spec = make_spec(core::type_name<T>(), 1, 1);
@@ -86,11 +96,29 @@ struct ArgValue : ArgBase<C>
 	catch (const core::lexical_cast_error& error)
 	{ throw bad_value_error(Base::long_name, typeid(T), str); }
 
-	++count;
+	function(value);
+	++Base::count;
     }
 
     T value;
+    F function;
 };
+
+template<char C, class T>
+auto argValue(string_view long_name, string_view description)
+{ return ArgValue<C,T,noop>(long_name, T{}, description, std::move(noop{})); }
+
+template<char C, class T>
+auto argValue(string_view long_name, T default_value, string_view description)
+{ return ArgValue<C,T,noop>(long_name, default_value, description, std::move(noop{})); }
+
+template<char C, class T, class F>
+auto argValue(string_view long_name, string_view description, F&& func)
+{ return ArgValue<C,T,F>(long_name, T{}, description, std::move(func)); }
+
+template<char C, class T, class F>
+auto argValue(string_view long_name, T default_value, string_view description, F&& func)
+{ return ArgValue<C,T,F>(long_name, default_value, description, std::move(func)); }
 
 /*
 template<template<class...> class C, class T,

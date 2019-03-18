@@ -188,9 +188,9 @@ private:
 namespace interface
 {
 using core::argp::ArgParse;
-template<char C> using ArgFlag = core::argp::ArgFlag<C>;
+using core::argp::argFlag;
+using core::argp::argValue;
 
-// using core::argp::ArgValue;
 // using core::argp::ArgValueContainer;
 };
 
