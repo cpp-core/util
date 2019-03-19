@@ -190,8 +190,8 @@ namespace interface
 using core::argp::ArgParse;
 using core::argp::argFlag;
 using core::argp::argValue;
+using core::argp::argValues;
 
-// using core::argp::ArgValueContainer;
 };
 
 }; // argp

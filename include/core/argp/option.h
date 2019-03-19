@@ -15,7 +15,6 @@ struct noop
     template<class... Ts>
     constexpr void operator()(Ts&...) const noexcept { }
 };
-struct ident { constexpr bool operator()() const noexcept { return true; } };
 
 template<char C>
 struct ArgBase
@@ -120,16 +119,19 @@ template<char C, class T, class F>
 auto argValue(string_view long_name, T default_value, string_view description, F&& func)
 { return ArgValue<C,T,F>(long_name, default_value, description, std::move(func)); }
 
-/*
-template<template<class...> class C, class T,
-	 size_t Min = 1, size_t Max = std::numeric_limits<size_t>::max()>
-struct ArgValueContainer : ArgBase
+
+template<char C, template<class...> class Container, class T, class F>
+struct ArgValues : ArgBase<C>
 {
-    ArgValueContainer(char short_name, string_view long_name, string_view description)
-	: ArgBase(short_name, long_name, description)
+    using Base = ArgBase<C>;
+    ArgValues(string_view long_name, string_view description, size_t amin, size_t amax, F&& func)
+	: Base(long_name, description)
+	, min(amin)
+	, max(amax)
+	, function(std::move(func))
     {
-	if (short_name == '*') value_spec = make_spec(long_name, Min, Max);
-	else value_spec = make_spec(core::type_name<T>(), Min, Max);
+	if (Base::FlagCharacter == '*') Base::value_spec = make_spec(long_name, min, max);
+	else Base::value_spec = make_spec(core::type_name<T>(), min, max);
     }
     
     void match(string_view token, Tokens& tokens)
@@ -141,17 +143,31 @@ struct ArgValueContainer : ArgBase
 	    
 	    try { value.emplace_back(core::lexical_cast<T>(str)); }
 	    catch (const core::lexical_cast_error& error)
-	    { throw bad_value_error(long_name, typeid(T), str); }
+	    { throw bad_value_error(Base::long_name, typeid(T), str); }
+
+	    function(value.back());
 	}
 
 	auto count = value.size();
-	if (count < Min)
-	    throw too_few_values_error(long_name, typeid(T), count, Min);
-	else if (count > Max)
-	    throw too_many_values_error(long_name, typeid(T), count, Max);
+	if (count < min)
+	    throw too_few_values_error(Base::long_name, typeid(T), count, min);
+	else if (count > max)
+	    throw too_many_values_error(Base::long_name, typeid(T), count, max);
     }
 
-    C<T> value;
+    size_t min, max;
+    Container<T> value;
+    F function;
 };
-*/
+
+template<char C, template<class> class Container, class T>
+auto argValues(string_view long_name, string_view description,
+	       size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
+{ return ArgValues<C,Container,T,noop>(long_name, description, min, max, std::move(noop{})); }
+
+template<char C, template<class> class Container, class T, class F>
+auto argValues(string_view long_name, string_view description, F&& func,
+	       size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
+{ return ArgValues<C,Container,T,F>(long_name, description, min, max, std::move(func)); }
+
 }; // core::argp
