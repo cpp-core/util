@@ -32,18 +32,13 @@ public:
 	: m_tuple(std::make_tuple(std::move(args)...))
     { }
 
-    // index_t find_index(string_view long_name)
-    // {
-    // 	using core::tp::find_first;
-    // 	auto idx = find_first(m_tuple, [&](const auto& e) { return e.long_name == long_name; });
-    // 	if (idx < 0) throw get_option_error(long_name);
-    // 	return idx;
-    // }
-
     template<char C>
     auto get()
     {
 	constexpr auto Index = core::mp::find_index_v<Flags, core::mp::_char<C>>;
+	static_assert(Index < std::tuple_size_v<Tuple>, "\n\n"
+		      "static assertion: No option with the given name exists.\n"
+		      "static assertion: Ignore subsequent compiler errors for the next line.\n");
 	return std::get<Index>(m_tuple).value;
     }
 
@@ -51,27 +46,11 @@ public:
     auto get_count()
     {
 	constexpr auto Index = core::mp::find_index_v<Flags, core::mp::_char<C>>;
+	static_assert(Index < std::tuple_size_v<Tuple>, "\n\n"
+		      "static assertion: No option with the given name exists.\n"
+		      "static assertion: Ignore subsequent compiler errors for the next line.\n");
 	return std::get<Index>(m_tuple).count;
     }
-
-    // template<class T>
-    // T get(string long_name)
-    // {
-    // 	using core::tp::apply_nth;
-	
-    // 	auto idx = find_index(long_name);
-    // 	auto value = apply_nth([&](const auto& e) { return std::any(e.value); }, idx, m_tuple);
-    // 	auto *ptr = std::any_cast<T>(&value);
-    // 	if (ptr == nullptr)
-    // 	    throw get_type_error(long_name, typeid(T), value.type());
-    // 	return *ptr;
-    // }
-
-    // size_t get_count(string long_name)
-    // {
-    // 	auto idx = find_index(long_name);
-    // 	return core::tp::apply_nth([&](const auto& e) { return e.count; }, idx, m_tuple);
-    // }
 
     void process_token(string_view token, Tokens& tokens)
     {

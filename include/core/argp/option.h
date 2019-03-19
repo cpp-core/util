@@ -166,8 +166,8 @@ auto argValues(string_view long_name, string_view description,
 { return ArgValues<C,Container,T,noop>(long_name, description, min, max, std::move(noop{})); }
 
 template<char C, template<class> class Container, class T, class F>
-auto argValues(string_view long_name, string_view description, F&& func,
-	       size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
+auto argValuesApply(string_view long_name, string_view description, F&& func,
+		    size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
 { return ArgValues<C,Container,T,F>(long_name, description, min, max, std::move(func)); }
 
 }; // core::argp
