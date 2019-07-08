@@ -112,34 +112,36 @@ public:
 	bool done_with_options{false};
 	while (tokens.size() > 0)
 	{
-	    auto token = tokens.front();
-	    tokens.pop();
-	    
-	    if (done_with_options or token[0] != OptionSymbol)
+	    if (done_with_options or tokens.front()[0] != OptionSymbol)
 	    {
-		tokens.push(token);
 		process_token("-*", tokens);
 	    }
-	    else if (token == "--help")
-	    {
-		output_help_message(cout, program_name);
-		exit(0);
-	    }
-	    else if (is_option_separator(token))
-	    {
-		done_with_options = true;
-	    }
-	    else if (is_option(token))
-	    {
-		process_token(token, tokens);
-	    }
-	    else if (is_option_group(token))
-	    {
-		for (auto c : token.substr(1))
-		    process_token(string{'-', c}, tokens);
-	    }
 	    else
-		throw unknown_option_error(token);
+	    {
+		auto token = tokens.front();
+		tokens.pop();
+	    
+		if (token == "--help")
+		{
+		    output_help_message(cout, program_name);
+		    exit(0);
+		}
+		else if (is_option_separator(token))
+		{
+		    done_with_options = true;
+		}
+		else if (is_option(token))
+		{
+		    process_token(token, tokens);
+		}
+		else if (is_option_group(token))
+		{
+		    for (auto c : token.substr(1))
+			process_token(string{'-', c}, tokens);
+		}
+		else
+		    throw unknown_option_error(token);
+	    }
 	}
 	
 	return true;
