@@ -4,63 +4,55 @@
 #pragma once
 #include <typeinfo>
 #include "core/common.h"
+#include "core/argp/context.h"
 
 namespace core::argp
 {
 
-static constexpr auto unknown_option_msg = "unknown option '{}'.";
-static constexpr auto missing_value_msg = "no value supplied for option '{}' with type '{}'";
-static constexpr auto bad_value_msg = "cannot parse user string '{}' as type '{}' for option '{}'";
-static constexpr auto too_few_values_msg =
-    "needed at least {} value(s) of type '{}' for option '{}', but found {}";
-static constexpr auto too_many_values_msg =
-    "needed at most {} value(s) of type '{}' for option '{}', but found {}";
-
 struct error : public std::runtime_error
 {
-    using base = std::runtime_error;
-    using base::base;
+    error(const string& msg, const Context& arg_ctx);
+    Context context;
+};
+
+struct error_type : public error
+{
+    error_type(const string& msg, const Context& ctx, const std::type_info& arg_option_type);
+    const std::type_info& option_type;
+};
+
+struct error_count : public error_type
+{
+    error_count(const string& msg, const Context& ctx, const std::type_info& option_type,
+		size_t arg_number_found, size_t arg_number_limit);
+    size_t number_found, number_limit;
 };
 
 struct unknown_option_error : public error
 {
-    unknown_option_error(string_view arg_option_name);
-    string option_name;
+    unknown_option_error(const string& name, const Context& ctx);
 };
 
-struct missing_value_error : public error
+struct missing_value_error : public error_type
 {
-    missing_value_error(string_view arg_option_name, const std::type_info& arg_option_type);
-    string option_name;
-    const std::type_info& option_type;
+    missing_value_error(const string& name, const Context& ctx, const std::type_info& type);
 };
 
-struct bad_value_error : public error
+struct bad_value_error : public error_type
 {
-    bad_value_error(string_view arg_option_name, const std::type_info& arg_option_type,
-		    string_view arg_user_token);
-    string option_name, user_token;
-    const std::type_info& option_type;
+    bad_value_error(const string& name, const Context& ctx, const std::type_info& type);
 };
 
-struct too_few_values_error : public error
+struct too_few_values_error : public error_count
 {
-    too_few_values_error(string_view arg_option_name, const std::type_info& arg_option_type,
+    too_few_values_error(const string& name, const Context& ctx, const std::type_info& type,
 			 size_t number_found, size_t number_needed);
-    string option_name;
-    const std::type_info& option_type;
-    size_t number_found;
-    size_t number_min;
 };
 
-struct too_many_values_error : public error
+struct too_many_values_error : public error_count
 {
-    too_many_values_error(string_view arg_option_name, const std::type_info& arg_option_type,
+    too_many_values_error(const string& name, const Context& ctx, const std::type_info& type,
 			  size_t arg_number_found, size_t arg_number_max);
-    string option_name;
-    const std::type_info& option_type;
-    size_t number_found;
-    size_t number_max;
 };
 
 }; // core::argp

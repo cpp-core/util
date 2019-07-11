@@ -4,6 +4,7 @@
 #pragma once
 #include <any>
 #include "core/argp/base.h"
+#include "core/argp/context.h"
 #include "core/argp/error.h"
 #include "core/tuple/apply.h"
 #include "core/tuple/find.h"
@@ -52,7 +53,7 @@ public:
 	return std::get<Index>(m_tuple).count;
     }
 
-    void process_token(string_view token, Tokens& tokens)
+    void process_token(string_view token, Context& ctx)
     {
 	using core::tp::find_first;
 	using core::tp::apply_nth;
@@ -61,11 +62,11 @@ public:
 
 	if (idx < 0)
 	{
-	    if (token == "-*") throw unknown_option_error(tokens.front());
-	    else throw unknown_option_error(token);
+	    if (token == "-*") throw unknown_option_error(string(token), ctx);
+	    else throw unknown_option_error(string(token), ctx);
 	}
 	
-	apply_nth([&](auto& e) { e.match(token, tokens); }, idx, m_tuple);
+	apply_nth([&](auto& e) { e.match(token, ctx); }, idx, m_tuple);
     }
 
     string star_value_spec()
@@ -79,8 +80,9 @@ public:
 	return core::tp::fold_l(printer, string(), m_tuple);
     }
     
-    void output_help_message(std::ostream& os, string_view program_name)
+    void output_help_message(std::ostream& os, const strings& args)
     {
+	auto program_name = args.size() > 0 ? args[0] : "no program name";
 	cout << "program: " << program_name << " [options]" << star_value_spec() << endl;
 	auto printer = [&](const auto& arg)
 		       {
@@ -102,46 +104,40 @@ public:
 
     bool parse(const strings& args)
     {
-	Tokens tokens;
-	for (const auto& arg : args)
-	    tokens.emplace(arg);
+	Context ctx{args};
+	ctx.pop();
 	
-	auto program_name = tokens.front();
-	tokens.pop();
-
 	bool done_with_options{false};
-	while (tokens.size() > 0)
+	while (not ctx.end())
 	{
-	    if (done_with_options or tokens.front()[0] != OptionSymbol)
+	    const auto& token = ctx.front();
+	    if (done_with_options or token[0] != OptionSymbol)
 	    {
-		process_token("-*", tokens);
+		process_token("-*", ctx);
+	    }
+	    else if (ctx.front() == "--help")
+	    {
+		output_help_message(cout, args);
+		exit(0);
+	    }
+	    else if (is_option_separator(token))
+	    {
+		ctx.pop();
+		done_with_options = true;
+	    }
+	    else if (is_option(token))
+	    {
+		ctx.pop();
+		process_token(token, ctx);
+	    }
+	    else if (is_option_group(token))
+	    {
+		ctx.pop();
+		for (auto c : token.substr(1))
+		    process_token(string{'-', c}, ctx);
 	    }
 	    else
-	    {
-		auto token = tokens.front();
-		tokens.pop();
-	    
-		if (token == "--help")
-		{
-		    output_help_message(cout, program_name);
-		    exit(0);
-		}
-		else if (is_option_separator(token))
-		{
-		    done_with_options = true;
-		}
-		else if (is_option(token))
-		{
-		    process_token(token, tokens);
-		}
-		else if (is_option_group(token))
-		{
-		    for (auto c : token.substr(1))
-			process_token(string{'-', c}, tokens);
-		}
-		else
-		    throw unknown_option_error(token);
-	    }
+		throw unknown_option_error(string(token), ctx);
 	}
 	
 	return true;

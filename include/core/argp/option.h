@@ -3,6 +3,7 @@
 
 #pragma once
 #include "core/argp/base.h"
+#include "core/argp/context.h"
 #include "core/argp/error.h"
 #include "core/demangle.h"
 #include "core/string/lexical_cast.h"
@@ -51,7 +52,7 @@ struct ArgFlag : ArgBase<C>
 	, function(std::move(func))
     { }
 
-    void match(string_view token, Tokens& tokens)
+    void match(string_view token, Context& ctx)
     {
 	++this->count;
 	value = true;
@@ -83,18 +84,16 @@ struct ArgValue : ArgBase<C>
 	else Base::value_spec = make_spec(core::type_name<T>(), 1, 1);
     }
     
-    void match(string_view token, Tokens& tokens)
+    void match(string_view token, Context& ctx)
     {
-	if (tokens.size() == 0 or is_option(tokens.front()))
-	    throw missing_value_error(Base::long_name, typeid(T));
+	if (ctx.end() or is_option(ctx.front()))
+	    throw missing_value_error(Base::long_name, ctx, typeid(T));
 	
-	auto str = tokens.front();
-	tokens.pop();
-	
-	try { value = core::lexical_cast<T>(str); }
+	try { value = core::lexical_cast<T>(ctx.front()); }
 	catch (const core::lexical_cast_error& error)
-	{ throw bad_value_error(Base::long_name, typeid(T), str); }
+	{ throw bad_value_error(Base::long_name, ctx, typeid(T)); }
 
+	ctx.pop();
 	function(value);
 	++Base::count;
     }
@@ -134,25 +133,25 @@ struct ArgValues : ArgBase<C>
 	else Base::value_spec = make_spec(core::type_name<T>(), min, max);
     }
     
-    void match(string_view token, Tokens& tokens)
+    void match(string_view token, Context& ctx)
     {
-	while (tokens.size() > 0 and not is_option(tokens.front()))
+	while (not ctx.end() and not is_option(ctx.front()))
 	{
-	    auto str = tokens.front();
-	    tokens.pop();
+	    const auto& str = ctx.front();
+	    ctx.pop();
 	    
 	    try { value.emplace_back(core::lexical_cast<T>(str)); }
 	    catch (const core::lexical_cast_error& error)
-	    { throw bad_value_error(Base::long_name, typeid(T), str); }
+	    { throw bad_value_error(Base::long_name, ctx, typeid(T)); }
 
 	    function(value.back());
 	}
 
 	auto count = value.size();
 	if (count < min)
-	    throw too_few_values_error(Base::long_name, typeid(T), count, min);
+	    throw too_few_values_error(Base::long_name, ctx, typeid(T), count, min);
 	else if (count > max)
-	    throw too_many_values_error(Base::long_name, typeid(T), count, max);
+	    throw too_many_values_error(Base::long_name, ctx, typeid(T), count, max);
     }
 
     size_t min, max;
