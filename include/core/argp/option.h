@@ -144,7 +144,9 @@ struct ArgValues : ArgBase<C>
     
     void match(string_view token, Context& ctx)
     {
-	while (not ctx.end() and not is_option(ctx.front()))
+	while (not ctx.end() and
+	       not is_option(ctx.front()) and
+	       not is_option_separator(ctx.front()))
 	{
 	    try
 	    {
