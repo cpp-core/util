@@ -87,11 +87,11 @@ struct ArgValue : ArgBase<C>
     void match(string_view token, Context& ctx)
     {
 	if (ctx.end() or is_option(ctx.front()))
-	    throw missing_value_error(Base::long_name, ctx, typeid(T));
+	    throw missing_value_error(token, ctx, typeid(T));
 	
 	try { value = core::lexical_cast<T>(ctx.front()); }
 	catch (const core::lexical_cast_error& error)
-	{ throw bad_value_error(Base::long_name, ctx, typeid(T)); }
+	{ throw bad_value_error(token, ctx, typeid(T)); }
 
 	ctx.pop();
 	function(value);
@@ -137,14 +137,12 @@ struct ArgValues : ArgBase<C>
     {
 	while (not ctx.end() and not is_option(ctx.front()))
 	{
-	    const auto& str = ctx.front();
-	    ctx.pop();
-	    
-	    try { value.emplace_back(core::lexical_cast<T>(str)); }
+	    try { value.emplace_back(core::lexical_cast<T>(ctx.front())); }
 	    catch (const core::lexical_cast_error& error)
-	    { throw bad_value_error(Base::long_name, ctx, typeid(T)); }
+	    { throw bad_value_error(token, ctx, typeid(T)); }
 
 	    function(value.back());
+	    ctx.pop();
 	}
 
 	auto count = value.size();

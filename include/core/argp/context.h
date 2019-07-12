@@ -15,6 +15,10 @@ public:
     bool end() const;
     string_view front() const;
     void pop();
+
+    const strings& tokens() const;
+    string canonical_line() const;
+    string canonical_marker() const;
     
 private:
     size_t m_index;
