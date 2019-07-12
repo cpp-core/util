@@ -118,6 +118,15 @@ template<char C, class T, class F>
 auto argValue(string_view long_name, T default_value, string_view description, F&& func)
 { return ArgValue<C,T,F>(long_name, default_value, description, std::move(func)); }
 
+template<class Container, class T>
+void emplace(Container& container, T&& value)
+{
+    if constexpr (std::is_same_v<Container, std::set<T>>)
+		     container.emplace(std::forward<T>(value));
+    else
+	container.emplace_back(std::forward<T>(value));
+}
+
 
 template<char C, template<class...> class Container, class T, class F>
 struct ArgValues : ArgBase<C>
@@ -137,11 +146,15 @@ struct ArgValues : ArgBase<C>
     {
 	while (not ctx.end() and not is_option(ctx.front()))
 	{
-	    try { value.emplace_back(core::lexical_cast<T>(ctx.front())); }
+	    try
+	    {
+		auto&& v = core::lexical_cast<T>(ctx.front());
+		function(v);
+		emplace(value, std::forward<T>(v));
+	    }
 	    catch (const core::lexical_cast_error& error)
 	    { throw bad_value_error(token, ctx, typeid(T)); }
 
-	    function(value.back());
 	    ctx.pop();
 	}
 
