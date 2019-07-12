@@ -8,7 +8,6 @@
 namespace core::argp
 {
 
-using Tokens = std::queue<string_view>;
 static constexpr char OptionSymbol = '-';
 
 bool is_identifier(char c);

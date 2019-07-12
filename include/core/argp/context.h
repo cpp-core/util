@@ -13,7 +13,7 @@ public:
     Context(const strings& args);
 
     bool end() const;
-    const string& front() const;
+    string_view front() const;
     void pop();
     
 private:

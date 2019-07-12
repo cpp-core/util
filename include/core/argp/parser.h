@@ -62,8 +62,8 @@ public:
 
 	if (idx < 0)
 	{
-	    if (token == "-*") throw unknown_option_error(string(token), ctx);
-	    else throw unknown_option_error(string(token), ctx);
+	    if (token == "-*") throw unknown_option_error(ctx.front(), ctx);
+	    else throw unknown_option_error(token, ctx);
 	}
 	
 	apply_nth([&](auto& e) { e.match(token, ctx); }, idx, m_tuple);
@@ -82,7 +82,7 @@ public:
     
     void output_help_message(std::ostream& os, const strings& args)
     {
-	auto program_name = args.size() > 0 ? args[0] : "no program name";
+	auto program_name = args.size() > 0 ? args[0] : "unknown program";
 	cout << "program: " << program_name << " [options]" << star_value_spec() << endl;
 	auto printer = [&](const auto& arg)
 		       {
@@ -137,7 +137,7 @@ public:
 		    process_token(string{'-', c}, ctx);
 	    }
 	    else
-		throw unknown_option_error(string(token), ctx);
+		throw unknown_option_error(token, ctx);
 	}
 	
 	return true;
