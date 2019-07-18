@@ -86,13 +86,18 @@ public:
 	cout << "program: " << program_name << " [options]" << star_value_spec() << endl;
 	auto printer = [&](const auto& arg)
 		       {
+			   static constexpr size_t Indent = 4;
+			   static constexpr size_t Align = 10;
+			   static constexpr size_t Info = 30;
 			   if (arg.FlagCharacter == '*')
 			       return;
-			   
-			   auto n = 20 - arg.long_name.size() - arg.value_spec.size();
-			   if (n < 1) n = 1;
-			   
-			   os << "\t";
+
+			   auto len = arg.long_name.size() + arg.value_spec.size();
+			   auto n = Align - len % Align;
+			   if (n + len < Info)
+			       n = Info - len;
+
+			   os << string(Indent, ' ');
 			   os << "-" << arg.FlagCharacter << ", ";
 			   os << "--" << arg.long_name << " ";
 			   os << arg.value_spec;
