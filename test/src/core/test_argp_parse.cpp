@@ -110,19 +110,6 @@ TEST(ArgParse, ArgValues)
     EXPECT_EQ(opts.get<'c'>(), (std::set<int>{1, 2, 3}));
 }
 
-// TEST(ArgParse, StaticAssert)
-// {
-//     {
-// 	ArgParse opts
-// 	    (
-// 	     argFlag<'a'>("aflag", "Flag A"),
-// 	     argFlag<'b'>("bflag", "Flag B")
-// 	     );
-// 	opts.parse({"program", "-a"});
-// 	ASSERT_THROW(opts.get<'c'>(), argp::get_type_error);
-//     }
-// }
-
 TEST(ArgParse, ThrowUnknownOptionError)
 {
     {

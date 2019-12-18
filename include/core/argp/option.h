@@ -172,12 +172,12 @@ struct ArgValues : ArgBase<C>
     F function;
 };
 
-template<char C, template<class> class Container, class T>
+template<char C, template<class...> class Container, class T>
 auto argValues(string_view long_name, string_view description,
 	       size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
 { return ArgValues<C,Container,T,noop>(long_name, description, min, max, std::move(noop{})); }
 
-template<char C, template<class> class Container, class T, class F>
+template<char C, template<class...> class Container, class T, class F>
 auto argValuesApply(string_view long_name, string_view description, F&& func,
 		    size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
 { return ArgValues<C,Container,T,F>(long_name, description, min, max, std::move(func)); }
