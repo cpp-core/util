@@ -158,7 +158,7 @@ public:
     {
 	strings args;
 	for (size_t i = 0; i < size_t(argc); ++i)
-	    args.emplace_back(std::move(string(argv[i])));
+	    args.emplace_back(string(argv[i]));
 	return parse(args);
     }
     
