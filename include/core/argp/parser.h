@@ -1,4 +1,4 @@
-// Copyright (C) 2019 by Mark Melton
+// Copyright (C) 2019, 2021 by Mark Melton
 //
 
 #pragma once
@@ -36,21 +36,21 @@ public:
     template<char C>
     auto get()
     {
-	constexpr auto Index = core::mp::find_index_v<Flags, core::mp::_char<C>>;
-	static_assert(Index < std::tuple_size_v<Tuple>, "\n\n"
+	constexpr auto Idx = core::mp::find_index_v<Flags, core::mp::_char<C>>;
+	static_assert(Idx < std::tuple_size_v<Tuple>, "\n\n"
 		      "static assertion: No option with the given name exists.\n"
 		      "static assertion: Ignore subsequent compiler errors for the next line.\n");
-	return std::get<Index>(m_tuple).value;
+	return std::get<Idx>(m_tuple).value;
     }
 
     template<char C>
     auto get_count()
     {
-	constexpr auto Index = core::mp::find_index_v<Flags, core::mp::_char<C>>;
-	static_assert(Index < std::tuple_size_v<Tuple>, "\n\n"
+	constexpr auto Idx = core::mp::find_index_v<Flags, core::mp::_char<C>>;
+	static_assert(Idx < std::tuple_size_v<Tuple>, "\n\n"
 		      "static assertion: No option with the given name exists.\n"
 		      "static assertion: Ignore subsequent compiler errors for the next line.\n");
-	return std::get<Index>(m_tuple).count;
+	return std::get<Idx>(m_tuple).count;
     }
 
     void process_token(string_view token, Context& ctx)
