@@ -2,7 +2,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/bit/sbs.h"
+#include "core/bit/sbs/sbs.h"
 #include "core/range/sample.h"
 #include "core/range/container.h"
 #include "core/mp/foreach.h"
@@ -40,35 +40,44 @@ void test_container() {
     }
 }
 
-using BasicTypes = std::tuple<int,int64,uint,uint64,float,real>;
-
-TEST(SBS, BasicTypes)
+using BaseTypes = std::tuple<int16,int,int64,uint16,uint,uint64,float,real>;
+using BriefBaseTypes = std::tuple<int,uint64,real>;
+    
+TEST(SBS, BaseTypes)
 {
-    core::mp::foreach<BasicTypes>([]<class T>() {
+    core::mp::foreach<BaseTypes>([]<class T>() {
 	    test_scalar<T>();
 	});
 }
 
-TEST(SBS, ContiguousContainers)
+TEST(SBS, Container)
 {
-    core::mp::foreach<BasicTypes>([]<class T>() {
+    core::mp::foreach<BaseTypes>([]<class T>() {
 	    test_container<std::vector,T>();
+	    test_container<std::list,T>();
 	});
 }
 
-TEST(SBS, Containers)
+TEST(SBS, Pair)
 {
-    auto g = cr::uniform<int>();
-    auto n = cr::uniform<size_t>(0, 33);
-    for (auto expected : cr::containerize<list<int>>(g, n) | v::take(NumberSamples)) {
-	std::stringstream ss;
-	to_sbs(ss, expected);
+    core::mp::foreach<BriefBaseTypes>([]<class T>() {
+	    core::mp::foreach<BriefBaseTypes>([]<class U>() {
+		    auto gt = cr::uniform<T>();
+		    auto gu = cr::uniform<U>();
+		    auto gpair = v::zip(gt, gu) |
+			v::transform([](auto r) { return std::make_pair(r.first, r.second); });
+		    
+		    for (auto expected : gpair | v::take(1)) {
+			std::stringstream ss;
+			to_sbs(ss, expected);
 
-	list<int> actual;
-	from_sbs(ss, actual);
-
-	EXPECT_EQ(actual, expected);
-    }
+			std::pair<T,U> actual;
+			from_sbs(ss, actual);
+			
+			EXPECT_EQ(actual, expected);
+		    }
+		});
+	});
 }
 
 int main(int argc, char *argv[])
