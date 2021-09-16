@@ -80,6 +80,20 @@ TEST(SBS, Pair)
 	});
 }
 
+TEST(SBS, ContainerContainer)
+{
+    vector<vector<int>> expected;
+    expected.push_back(ints{1, 2, 3});
+    expected.push_back(ints{4, 5});
+    std::stringstream ss;
+    to_sbs(ss, expected);
+
+    vector<vector<int>> actual;
+    from_sbs(ss, actual);
+
+    EXPECT_EQ(actual, expected);
+}
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
