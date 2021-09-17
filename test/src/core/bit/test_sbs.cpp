@@ -26,8 +26,8 @@ void test_with_generator() {
     }
 }
 
-using BaseTypes = std::tuple<int16,int,int64,uint16,uint,uint64,float,real>;
-using BriefBaseTypes = std::tuple<int,uint64,real>;
+using BaseTypes = std::tuple<int16,int,int64,uint16,uint,uint64,float,real,string>;
+using BriefBaseTypes = std::tuple<int,std::vector<real>,string>;
     
 TEST(SBS, BaseTypes)
 {
@@ -47,21 +47,21 @@ TEST(SBS, Pair)
 
 TEST(SBS, Container)
 {
-    core::mp::foreach<BaseTypes>([]<class T>() {
+    core::mp::foreach<BriefBaseTypes>([]<class T>() {
 	    test_with_generator<std::vector<T>>();
 	    test_with_generator<std::list<T>>();
-	    // test_with_generator<std::deque<T>>();
+	    test_with_generator<std::deque<T>>();
+	    test_with_generator<std::set<T>>();
 	});
 }
 
 TEST(SBS, ContainerContainer)
 {
-    core::mp::foreach<BaseTypes>([]<class T>() {
+    core::mp::foreach<BriefBaseTypes>([]<class T>() {
 	    test_with_generator<std::vector<std::vector<T>>>();
 	    test_with_generator<std::vector<std::list<T>>>();
-	    // test_with_generator<std::list<std::vector<T>>>();
-	    // test_with_generator<std::list<std::list<T>>>();
-	    // test_with_generator<std::vector<std::deque<T>>>();
+	    test_with_generator<std::vector<std::deque<T>>>();
+	    test_with_generator<std::vector<std::set<T>>>();
 	});
 }
 

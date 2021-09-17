@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include "core/bit/sbs/standard.h"
+#include "core/bit/sbs/decl.h"
 
 template<class T, class U>
 void to_sbs(std::ostream& os, const std::pair<T,U>& pair) {

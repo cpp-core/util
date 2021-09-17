@@ -2,39 +2,34 @@
 //
 
 #pragma once
+#include <deque>
 #include "core/common.h"
+#include "core/mp/same.h"
 
-namespace core::sbs
-{
+namespace core::sbs {
 
-// Concept for container like types.
+// Return true iff T is a template of type C
+template<class T, template<class...> class C>
+constexpr bool is_kind = core::mp::is_same_template_v<T, C>;
+
+// Concept for sequence containers that can be serilized.
 template<class T>
-concept Container = requires(T a) {
-    typename T::value_type;
-    typename T::size_type;
-    { a.begin() };
-    { a.end() };
-};
+concept SequenceContainer = is_kind<T, std::vector> ||
+    is_kind<T, std::list> ||
+    is_kind<T, std::deque>;
 
-// Concept for container like types that store elements contiguously
-// in memory.
+// Concept for associtive containers that can be serialized.
 template<class T>
-concept ContiguousContainer = requires(T a) {
-    requires Container<T>;
-    { a.data() };
-    { a.size() };
-};
+concept AssociativeContainer = is_kind<T, std::set> ||
+    is_kind<T, std::map>;
 
-// Concept for container like types that do not store elements
-// contiguously in memory.
+// Concept for containers that can be serlialized.
 template<class T>
-concept NonContiguousContainer = Container<T> and not ContiguousContainer<T>;
+concept Container = SequenceContainer<T> or AssociativeContainer<T>;
 
-// Concept for mem-copyable types (formerly pod types)
+// Concept for pod-like types that can be serialized.
 template<class T>
-concept MemCopyable = requires(T a) {
-    std::is_standard_layout_v<T>;
-};
+concept PodLike = std::is_integral_v<T> or std::is_floating_point_v<T>;
 
 }; // core::sbs
 
