@@ -6,10 +6,10 @@
 #include "core/range/sample.h"
 #include "core/range/container.h"
 #include "core/mp/foreach.h"
-#include "coro/generate.h"
+#include "coro/stream/stream.h"
 
 using namespace core;
-using namespace cogen;
+using namespace costr;
 
 const size_t NumberSamples = 64;
 
