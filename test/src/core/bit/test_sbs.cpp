@@ -6,37 +6,23 @@
 #include "core/range/sample.h"
 #include "core/range/container.h"
 #include "core/mp/foreach.h"
+#include "coro/generate.h"
 
 using namespace core;
+using namespace cogen;
 
 const size_t NumberSamples = 64;
 
 template<class T>
-void test_scalar() {
-    auto g = cr::uniform<T>();
-    for (auto expected : g | v::take(NumberSamples)) {
+void test_with_generator() {
+    auto g = uniform<T>();
+    for (auto elem : take(std::move(g), NumberSamples)) {
 	std::stringstream ss;
-	to_sbs(ss, expected);
+	to_sbs(ss, elem);
 
 	T actual;
 	from_sbs(ss, actual);
-
-	EXPECT_EQ(actual, expected);
-    }
-}
-
-template<template<class...> class C, class T>
-void test_container() {
-    auto g = cr::uniform<T>();
-    auto n = cr::uniform<size_t>(0, 33);
-    for (auto expected : cr::containerize<C<T>>(g, n) | v::take(NumberSamples)) {
-	std::stringstream ss;
-	to_sbs(ss, expected);
-
-	C<T> actual;
-	from_sbs(ss, actual);
-
-	EXPECT_EQ(actual, expected);
+	EXPECT_EQ(actual, elem);
     }
 }
 
@@ -46,15 +32,7 @@ using BriefBaseTypes = std::tuple<int,uint64,real>;
 TEST(SBS, BaseTypes)
 {
     core::mp::foreach<BaseTypes>([]<class T>() {
-	    test_scalar<T>();
-	});
-}
-
-TEST(SBS, Container)
-{
-    core::mp::foreach<BaseTypes>([]<class T>() {
-	    test_container<std::vector,T>();
-	    test_container<std::list,T>();
+	    test_with_generator<T>();
 	});
 }
 
@@ -62,36 +40,29 @@ TEST(SBS, Pair)
 {
     core::mp::foreach<BriefBaseTypes>([]<class T>() {
 	    core::mp::foreach<BriefBaseTypes>([]<class U>() {
-		    auto gt = cr::uniform<T>();
-		    auto gu = cr::uniform<U>();
-		    auto gpair = v::zip(gt, gu) |
-			v::transform([](auto r) { return std::make_pair(r.first, r.second); });
-		    
-		    for (auto expected : gpair | v::take(1)) {
-			std::stringstream ss;
-			to_sbs(ss, expected);
-
-			std::pair<T,U> actual;
-			from_sbs(ss, actual);
-			
-			EXPECT_EQ(actual, expected);
-		    }
+		    test_with_generator<std::pair<T,U>>();
 		});
+	});
+}
+
+TEST(SBS, Container)
+{
+    core::mp::foreach<BaseTypes>([]<class T>() {
+	    test_with_generator<std::vector<T>>();
+	    test_with_generator<std::list<T>>();
+	    // test_with_generator<std::deque<T>>();
 	});
 }
 
 TEST(SBS, ContainerContainer)
 {
-    vector<vector<int>> expected;
-    expected.push_back(ints{1, 2, 3});
-    expected.push_back(ints{4, 5});
-    std::stringstream ss;
-    to_sbs(ss, expected);
-
-    vector<vector<int>> actual;
-    from_sbs(ss, actual);
-
-    EXPECT_EQ(actual, expected);
+    core::mp::foreach<BaseTypes>([]<class T>() {
+	    test_with_generator<std::vector<std::vector<T>>>();
+	    test_with_generator<std::vector<std::list<T>>>();
+	    // test_with_generator<std::list<std::vector<T>>>();
+	    // test_with_generator<std::list<std::list<T>>>();
+	    // test_with_generator<std::vector<std::deque<T>>>();
+	});
 }
 
 int main(int argc, char *argv[])
