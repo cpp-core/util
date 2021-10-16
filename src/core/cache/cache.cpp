@@ -36,6 +36,10 @@ string Cache::get() const {
     return path;
 }
     
+void Cache::prepare() const {
+    get();
+}
+    
 std::pair<bool, string> Cache::get(const string& file) const {
     auto path = fmt::format("{}/{}", name(), file);
     auto exists = fs::exists(path);

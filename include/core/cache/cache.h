@@ -28,6 +28,9 @@ public:
     // Return the directory corresponding to this cache creating the
     // directory if it does not exists.
     string get() const;
+
+    // Create the directory corresponding to this cache.
+    void prepare() const;
     
     // Return the existence and the path for the given file.
     std::pair<bool, string> get(const string& file) const;
