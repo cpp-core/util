@@ -8,8 +8,8 @@ namespace core {
 
 // hash - return hash of arguments
 template<class... Args>
-size_t hash(Args&&... args) {
-    size_t v{0};
+uint64 hash(Args&&... args) {
+    uint64 v{0};
     (detail::combine(v, detail::hasher<std::decay_t<Args>>()(std::forward<Args>(args))),...);
     return v;
 }
