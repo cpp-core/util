@@ -13,7 +13,7 @@ public:
 
     Environment()
 	: cache_root_(fs::temp_directory_path()) {
-	cache_root_ += fmt::format("cache.{}", getpid());
+	cache_root_ += fmt::format("/cache.{}", getpid());
 	fs::remove_all(cache_root_);
     }
     
