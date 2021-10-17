@@ -5,54 +5,40 @@
 #include "core/hash/hash.h"
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
+#include "coro/stream/uniform_integral.h"
+#include "coro/stream/uniform_floating.h"
+#include "coro/stream/uniform_string.h"
+#include "coro/stream/uniform_container.h"
+#include "core/hash/test_hash.h"
 
-using namespace costr;
+using Integral = std::tuple<int8,int16,int32,int64,uint8,uint16,uint32,uint64>;
+using Floating = std::tuple<real32,real64>;
+using Containers = std::tuple<ints,reals,size_ts,std::list<int>>;
 
-template<class T>
-void test_pod_generator() {
-    map<T,size_t> counts;
-    auto g = uniform<T>();
-    for (auto elem : take(std::move(g), 1024)) {
-	if (not counts.contains(elem))
-	    counts[elem] = 0;
-	++counts[elem];
-	EXPECT_EQ(core::hash(elem), core::hash(elem));
-    }
-    for (const auto& [_, count] : counts)
-	EXPECT_LE(count, 2);
-}
-
-template<class T>
-void test_container_generator() {
-    map<T,size_t> counts;
-    auto g = uniform<T>();
-    for (auto container : take(std::move(g), 32)) {
-	if (container.size() == 0)
-	    continue;
-	if (not counts.contains(container))
-	    counts[container] = 0;
-	++counts[container];
-	EXPECT_EQ(core::hash(container), core::hash(container));
-    }
-    for (const auto& [_, count] : counts)
-	EXPECT_LE(count, 2);
-}
-
-using Pods = std::tuple<int16,int,int64,uint16,uint,uint64,float,double>;
-using Containers = std::tuple<ints,reals,size_ts>;
-
-TEST(Hash, Simple)
+TEST(Hash, String)
 {
-    core::mp::foreach<Pods>([]<class T>() {
-    	    test_pod_generator<T>();
+    test_hash<string>(1024);
+}
+
+TEST(Hash, Integral)
+{
+    core::mp::foreach<Integral>([]<class T>() {
+    	    test_hash<T>(1024);
+    	});
+}
+
+TEST(Hash, Floating)
+{
+    core::mp::foreach<Floating>([]<class T>() {
+    	    test_hash<T>(1024);
     	});
 }
 
 TEST(Hash, Container)
 {
     core::mp::foreach<Containers>([]<class T>() {
-	    test_container_generator<T>();
-	});
+    	    test_hash<T>(16);
+    	});
 }
 
 int main(int argc, char *argv[])

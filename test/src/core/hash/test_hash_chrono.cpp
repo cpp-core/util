@@ -6,46 +6,28 @@
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
 #include "coro/stream/uniform_chrono.h"
-
-using namespace chron;
-using namespace costr;
+#include "core/hash/test_hash.h"
 
 constexpr size_t NumberSamples = 1024;
 
-template<class T>
-void test_hash() {
-    set<uint64> hashes;
-    set<T> tps;
-    auto tpG = Uniform<T>{}();
-    for (auto tp : take(std::move(tpG), NumberSamples)) {
-	auto hid = core::hash(tp);
-	auto hid_same = core::hash(tp);
-	EXPECT_EQ(hid, hid_same);
-
-	if (not tps.contains(tp))
-	    EXPECT_FALSE(hashes.contains(hid));
-	
-	tps.insert(tp);
-	hashes.insert(hid);
-    }
-}
+using namespace chron;
 
 TEST(Hash, Date)
 {
-    test_hash<Date>();
+    test_hash<Date>(NumberSamples);
 }
 
 TEST(Hash, TimePoint)
 {
     core::mp::foreach<TimePointAll>([]<class T>() {
-	    test_hash<T>();
+	    test_hash<T>(NumberSamples);
 	});
 }
 
 TEST(Hash, Duration)
 {
     core::mp::foreach<DurationAll>([]<class T>() {
-	    test_hash<T>();
+	    test_hash<T>(NumberSamples);
 	});
 }
 
