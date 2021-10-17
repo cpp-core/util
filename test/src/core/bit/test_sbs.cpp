@@ -3,8 +3,8 @@
 
 #include <gtest/gtest.h>
 #include "core/bit/sbs/sbs.h"
-#include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
+#include "core/mp/foreach.h"
 
 using namespace core;
 using namespace costr;
@@ -13,7 +13,7 @@ const size_t NumberSamples = 64;
 
 template<class T>
 void test_with_generator() {
-    auto g = Uniform<T>{}();
+    auto g = Sampler<T>{}();
     for (auto elem : take(std::move(g), NumberSamples)) {
 	std::stringstream ss;
 	to_sbs(ss, elem);
