@@ -13,7 +13,7 @@ const size_t NumberSamples = 64;
 
 template<class T>
 void test_with_generator() {
-    auto g = uniform<T>();
+    auto g = Uniform<T>{}();
     for (auto elem : take(std::move(g), NumberSamples)) {
 	std::stringstream ss;
 	to_sbs(ss, elem);
@@ -25,7 +25,7 @@ void test_with_generator() {
 }
 
 using BaseTypes = std::tuple<int16,int,int64,uint16,uint,uint64,float,real,string>;
-using BriefBaseTypes = std::tuple<int,std::vector<real>,string>;
+using BriefBaseTypes = std::tuple<int,string>;
     
 TEST(SBS, BaseTypes)
 {
