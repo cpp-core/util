@@ -1,7 +1,7 @@
 // Copyright (C) 2021 by Mark Melton
 //
 
-#include "core/common.h"
+#pragma once
 #include "core/hash/hash.h"
 
 namespace core {

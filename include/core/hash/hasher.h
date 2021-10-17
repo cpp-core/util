@@ -1,6 +1,7 @@
 // Copyright (C) 2021 by Mark Melton
 //
 
+#pragma once
 #include <deque>
 #include "core/mp/same.h"
 #include "core/hash/mixer.h"
@@ -11,11 +12,23 @@ template<class T>
 struct hasher;
 
 template<class T>
-requires std::is_pod_v<T>
+requires (std::is_integral_v<T>
+	  or std::is_floating_point_v<T>
+	  or std::is_same_v<T, string>
+	  or std::is_same_v<T, char const[]>
+	  or std::is_same_v<T, const char *>
+	  )
 struct hasher<T> {
     using U = std::decay_t<T>;
     uint64 operator()(const T& value) const noexcept {
 	return mixer(std::hash<U>{}(value), 32);
+    }
+};
+
+template<>
+struct hasher<string> {
+    uint64 operator()(const string& s) const noexcept {
+	return mixer(std::hash<string>{}(s), 32);
     }
 };
 

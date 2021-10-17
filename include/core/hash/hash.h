@@ -1,6 +1,7 @@
 // Copyright (C) 2021 by Mark Melton
 //
 
+#pragma once
 #include "core/hash/combine.h"
 #include "core/hash/hasher.h"
 
