@@ -5,10 +5,6 @@
 #include "core/hash/hash.h"
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "coro/stream/uniform_integral.h"
-#include "coro/stream/uniform_floating.h"
-#include "coro/stream/uniform_string.h"
-#include "coro/stream/uniform_container.h"
 #include "core/hash/test_hash.h"
 
 using Integral = std::tuple<int8,int16,int32,int64,uint8,uint16,uint32,uint64>;

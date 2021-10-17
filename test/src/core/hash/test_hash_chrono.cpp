@@ -5,7 +5,6 @@
 #include "core/hash/hash_chrono.h"
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "coro/stream/uniform_chrono.h"
 #include "core/hash/test_hash.h"
 
 constexpr size_t NumberSamples = 1024;
