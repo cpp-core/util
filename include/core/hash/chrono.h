@@ -7,13 +7,13 @@
 #include "core/hash/detail/mixer.h"
 #include "core/mp/same.h"
 
-namespace core::detail {
+namespace core::hasher {
 
 template<>
 struct Hash<chron::Date> {
     uint64 operator()(const chron::Date& date) const noexcept {
 	auto n = chron::sys_days(date).time_since_epoch().count();
-	return mixer(std::hash<decltype(n)>{}(n), 32);
+	return detail::mixer(std::hash<decltype(n)>{}(n), 32);
     }
 };
 
@@ -22,7 +22,7 @@ requires core::mp::is_same_template_v<T, std::chrono::time_point>
 struct Hash<T> {
     uint64 operator()(const T& tp) const noexcept {
 	auto n = tp.time_since_epoch().count();
-	return mixer(std::hash<decltype(n)>{}(n), 32);
+	return detail::mixer(std::hash<decltype(n)>{}(n), 32);
     }
 };
 
@@ -31,8 +31,8 @@ requires core::mp::is_same_template_v<T, std::chrono::duration>
 struct Hash<T> {
     uint64 operator()(const T& duration) const noexcept {
 	auto n = duration.count();
-	return mixer(std::hash<decltype(n)>{}(n), 32);
+	return detail::mixer(std::hash<decltype(n)>{}(n), 32);
     }
 };
 
-}; // core:detail
+}; // core:hasher

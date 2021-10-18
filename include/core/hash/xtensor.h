@@ -6,7 +6,7 @@
 #include "core/hash/hash.h"
 #include "core/hash/detail/mixer.h"
 
-namespace core::detail {
+namespace core::hasher {
 
 template<class T>
 struct Hash<xt::xarray<T>> {
@@ -18,4 +18,4 @@ struct Hash<xt::xarray<T>> {
     }
 };
 
-}; // core:detail
+}; // core::hasher

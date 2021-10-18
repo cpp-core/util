@@ -7,7 +7,9 @@
 #include "core/hash/hash.h"
 #include "core/hash/detail/mixer.h"
 
-namespace core::detail {
+namespace core::hasher {
+
+using namespace core::detail;
 
 template<class T>
 requires (std::is_integral_v<T>
@@ -56,4 +58,4 @@ struct Hash<T> {
     }
 };
 
-}; // core:detail
+}; // core:hasher

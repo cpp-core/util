@@ -6,7 +6,7 @@
 
 namespace core {
 
-namespace detail {
+namespace hasher {
 
 template<class T>
 struct Hash;
@@ -18,7 +18,7 @@ struct Hash;
 template<class... Args>
 uint64 hash(Args&&... args) {
     uint64 v{0};
-    (detail::combine(v, detail::Hash<std::decay_t<Args>>()(std::forward<Args>(args))),...);
+    (detail::combine(v, hasher::Hash<std::decay_t<Args>>()(std::forward<Args>(args))),...);
     return v;
 }
 
