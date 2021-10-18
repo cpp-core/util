@@ -2,10 +2,10 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/hash/hash_chrono.h"
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "core/hash/test_hash.h"
+#include "core/hash/chrono.h"
+#include "core/hash/detail/test_hash.h"
 
 constexpr size_t NumberSamples = 1024;
 

@@ -1,7 +1,7 @@
 // Copyright (C) 2021 by Mark Melton
 //
 
-#include "core/hash/mixer.h"
+#include "core/hash/detail/mixer.h"
 
 namespace core::detail
 {

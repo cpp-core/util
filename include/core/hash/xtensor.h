@@ -4,15 +4,16 @@
 #pragma once
 #include <xtensor/xarray.hpp>
 #include "core/hash/hash.h"
+#include "core/hash/detail/mixer.h"
 
 namespace core::detail {
 
 template<class T>
-struct hasher<xt::xarray<T>> {
+struct Hash<xt::xarray<T>> {
     uint64 operator()(const xt::xarray<T>& data) const noexcept {
 	uint64 v{0};
 	for (const auto& x : data)
-	    combine(v, hasher<T>{}(x));
+	    combine(v, Hash<T>{}(x));
 	return v;
     }
 };

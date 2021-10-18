@@ -2,10 +2,11 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/hash/hash_xtensor.h"
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "core/hash/test_hash.h"
+#include "core/hash/core.h"
+#include "core/hash/xtensor.h"
+#include "core/hash/detail/test_hash.h"
 
 TEST(Hash, XArray)
 {

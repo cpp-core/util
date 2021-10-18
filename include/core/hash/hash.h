@@ -3,15 +3,22 @@
 
 #pragma once
 #include "core/hash/combine.h"
-#include "core/hash/hasher.h"
 
 namespace core {
+
+namespace detail {
+
+template<class T>
+struct Hash;
+
+};
+
 
 // hash - return hash of arguments
 template<class... Args>
 uint64 hash(Args&&... args) {
     uint64 v{0};
-    (detail::combine(v, detail::hasher<std::decay_t<Args>>()(std::forward<Args>(args))),...);
+    (detail::combine(v, detail::Hash<std::decay_t<Args>>()(std::forward<Args>(args))),...);
     return v;
 }
 
