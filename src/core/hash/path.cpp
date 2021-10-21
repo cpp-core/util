@@ -20,7 +20,7 @@ uint64 Hash<fs::path>::operator()(const fs::path& path) const {
 	    return hid;
 	}
 	else {
-	    string name{path};
+	    string name{fs::absolute(path)};
 	    auto size = fs::file_size(path);
 	    uint64 tp = fs::last_write_time(path).time_since_epoch().count();
 	
