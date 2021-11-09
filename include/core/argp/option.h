@@ -1,12 +1,12 @@
-// Copyright (C) 2019 by Mark Melton
+// Copyright (C) 2019, 2021 by Mark Melton
 //
 
 #pragma once
 #include "core/argp/base.h"
 #include "core/argp/context.h"
 #include "core/argp/error.h"
-#include "core/demangle.h"
 #include "core/string/lexical_cast.h"
+#include "core/utility/type_name.h"
 
 namespace core::argp
 {
