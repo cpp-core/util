@@ -7,8 +7,8 @@ template<class T>
 void test_hash(size_t count) {
     set<uint64> hashes;
     set<T> tps;
-    auto tpG = costr::Sampler<T>{}();
-    for (auto tp : costr::take(std::move(tpG), count)) {
+    auto tpG = coro::Sampler<T>{}();
+    for (auto tp : coro::take(std::move(tpG), count)) {
 	auto hid = core::hash(tp);
 	auto hid_same = core::hash(tp);
 	EXPECT_EQ(hid, hid_same);
