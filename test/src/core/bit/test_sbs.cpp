@@ -7,7 +7,7 @@
 #include "core/mp/foreach.h"
 
 using namespace core;
-using namespace costr;
+using namespace coro;
 
 const size_t NumberSamples = 64;
 
