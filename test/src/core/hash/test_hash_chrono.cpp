@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
+#include "core/chrono/stream.h"
 #include "core/hash/chrono.h"
 #include "core/hash/detail/test_hash.h"
 
