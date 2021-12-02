@@ -4,7 +4,9 @@
 #include <gtest/gtest.h>
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "core/chrono/stream.h"
+#include "core/chrono/date_stream.h"
+#include "core/chrono/duration_stream.h"
+#include "core/chrono/timepoint_stream.h"
 #include "core/hash/chrono.h"
 #include "core/hash/detail/test_hash.h"
 
@@ -19,9 +21,7 @@ TEST(Hash, Date)
 
 TEST(Hash, TimePoint)
 {
-    core::mp::foreach<TimePointAll>([]<class T>() {
-	    test_hash<T>(NumberSamples);
-	});
+    test_hash<TimePoint>(NumberSamples);
 }
 
 TEST(Hash, Duration)
