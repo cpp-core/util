@@ -1,9 +1,9 @@
-// Copyright (C) 2019 by Mark Melton
+// Copyright (C) 2019, 2022 by Mark Melton
 //
 
 #pragma once
 #include <typeinfo>
-#include "core/common.h"
+#include "core/utility/common.h"
 #include "core/argp/context.h"
 
 namespace core::argp
