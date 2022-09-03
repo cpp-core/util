@@ -4,7 +4,7 @@
 #include <fmt/format.h>
 #include "core/argp/error.h"
 #include "core/argp/message.h"
-#include "core/types/type_name.h"
+#include "core/type/type_name.h"
 
 namespace core::argp
 {

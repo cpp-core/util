@@ -6,7 +6,7 @@
 #include "core/argp/context.h"
 #include "core/argp/error.h"
 #include "core/string/lexical_cast.h"
-#include "core/types/type_name.h"
+#include "core/type/type_name.h"
 
 namespace core::argp
 {
