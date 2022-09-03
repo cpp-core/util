@@ -1,9 +1,9 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
 #include <deque>
-#include "core/common.h"
+#include "core/utility/common.h"
 #include "core/mp/same.h"
 
 namespace core::sbs {
