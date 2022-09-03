@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 #include "core/range_for/range_for_zip.h"
-#include "core/utility/common.h"
+#include "core/util/common.h"
 
 using namespace core;
 
