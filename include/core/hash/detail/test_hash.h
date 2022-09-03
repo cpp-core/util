@@ -1,7 +1,7 @@
-// Copyright 2021 by Mark Melton
+// Copyright 2021, 2022 by Mark Melton
 //
 
-#include "core/common.h"
+#include "core/utility/common.h"
 
 template<class T>
 void test_hash(size_t count) {

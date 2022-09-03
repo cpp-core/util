@@ -1,8 +1,8 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
-#include "core/chrono.h"
+#include "core/chrono/chrono.h"
 #include "core/hash/hash.h"
 #include "core/hash/detail/mixer.h"
 #include "core/mp/same.h"
