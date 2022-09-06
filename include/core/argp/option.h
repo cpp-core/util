@@ -44,9 +44,20 @@ struct ArgBase
     size_t count{0};
 };
 
+/// Describes an argument with no parameters.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam F The optional functor.
+/// 
 template<char C, class F>
 struct ArgFlag : ArgBase<C>
 {
+    /// Construct an ArgFlag
+    ///
+    /// \note Use the free function argFlag to construct an ArgFlag.
+    /// \param long_name The long version of the argument name.
+    /// \param description A description of the argument.
+    /// \param func Functor applied when argument is recognized during parsing.
     ArgFlag(string_view long_name, string_view description, F&& func)
 	: ArgBase<C>(long_name, description)
 	, function(std::move(func))
@@ -63,18 +74,43 @@ struct ArgFlag : ArgBase<C>
     F function;
 };
 
+/// Construct an ArgFlag describing an argument with no parameters.
+///
+/// \tparam C The single character version of the argument name.
+/// \param long_name The long version of the argument name.
+/// \param description A description of the argument.
 template<char C>
 auto argFlag(string_view long_name, string_view description)
 { return ArgFlag<C,noop>(long_name, description, std::move(noop{})); }
 
+/// Construct an ArgFlag describing an argument with no parameters.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam F Functor
+/// \param long_name The long version of the argument name.
+/// \param description A description of the argument.
+/// \param func Functor applied when argument is recognized during parsing.
 template<char C, class F>
 auto argFlag(string_view long_name, string_view description, F&& func = noop{})
 { return ArgFlag<C,F>(long_name, description, std::move(func)); }
 
+/// Describes an argument that takes exactly one parameter.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam T The parameter type.
+/// \tparam F The functor type.
 template<char C, class T, class F>
 struct ArgValue : ArgBase<C>
 {
     using Base = ArgBase<C>;
+
+    /// Construct an ArgValue
+    ///
+    /// \note Use the free functions argValue to construct an ArgValue.
+    /// \param long_name The long version of the argument name.
+    /// \param default_value The default value of the parameter.
+    /// \param description A description of the argument.
+    /// \param func Functor applied when argument is recognized during parsing.
     ArgValue(string_view long_name, T default_value, string_view description, F&& func)
 	: Base(long_name, description)
 	, value(default_value)
@@ -102,18 +138,46 @@ struct ArgValue : ArgBase<C>
     F function;
 };
 
+/// Construct an ArgValue descibing an argument that takes exactly one paramter.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam T The type of the parameter.
+/// \param long_name The long version of the argument name.
+/// \param description A description of the argument.
 template<char C, class T>
 auto argValue(string_view long_name, string_view description)
 { return ArgValue<C,T,noop>(long_name, T{}, description, std::move(noop{})); }
 
+/// Construct an ArgValue descibing an argument that takes exactly one paramter.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam T The type of the parameter.
+/// \param long_name The long version of the argument name.
+/// \param default_value The default value of the parameter.
+/// \param description A description of the argument.
 template<char C, class T>
 auto argValue(string_view long_name, T default_value, string_view description)
 { return ArgValue<C,T,noop>(long_name, default_value, description, std::move(noop{})); }
 
+/// Construct an ArgValue descibing an argument that takes exactly one paramter.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam T The type of the parameter.
+/// \param long_name The long version of the argument name.
+/// \param description A description of the argument.
+/// \param func The functor to apply when the argument is recognized during parsing.
 template<char C, class T, class F>
 auto argValue(string_view long_name, string_view description, F&& func)
 { return ArgValue<C,T,F>(long_name, T{}, description, std::move(func)); }
 
+/// Construct an ArgValue descibing an argument that takes exactly one paramter.
+///
+/// \tparam C The single character version of the argument name.
+/// \tparam T The type of the parameter.
+/// \param long_name The long version of the argument name.
+/// \param default_value The default value of the parameter.
+/// \param description A description of the argument.
+/// \param func The functor to apply when the argument is recognized during parsing.
 template<char C, class T, class F>
 auto argValue(string_view long_name, T default_value, string_view description, F&& func)
 { return ArgValue<C,T,F>(long_name, default_value, description, std::move(func)); }
@@ -126,7 +190,6 @@ void emplace(Container& container, T&& value)
     else
 	container.emplace_back(std::forward<T>(value));
 }
-
 
 template<char C, template<class...> class Container, class T, class F>
 struct ArgValues : ArgBase<C>

@@ -1,4 +1,4 @@
-// Copyright (C) 2019, 2021 by Mark Melton
+// Copyright (C) 2019, 2021, 2022 by Mark Melton
 //
 
 #pragma once
@@ -22,13 +22,19 @@ namespace argp
 template<class T>
 using flag_character = core::mp::_char<T::FlagCharacter>;
 
+/// Describes a set of command line arguments.
+///
+/// \tparam Ts ArgFlag, ArgValue or ArgValues
 template<class... Ts>
 class ArgParse
 {
 public:
     using Tuple = std::tuple<Ts...>;
     using Flags = core::mp::transform_t<flag_character, core::mp::list<Ts...>>;
-    
+
+    /// Construct a description of a set of command line arguments.
+    ///
+    /// \param args Descriptions of individual arguments.
     ArgParse(Ts&&... args)
 	: m_tuple(std::make_tuple(std::move(args)...))
     { }
@@ -147,13 +153,22 @@ public:
 	
 	return true;
     }
-    
+
+    /// Parse the arguments.
+    ///
+    /// \param largs Arguments
+    /// \returns True if arguments are parsed successfully.
     bool parse(std::initializer_list<string> largs)
     {
 	strings args(largs.begin(), largs.end());
 	return parse(args);
     }
     
+    /// Parse the command line arguments.
+    ///
+    /// \param argc Argument count (unix conventions).
+    /// \param argv Array of pointers to arguments.
+    /// \returns True if arguments are parsed successfully.
     bool parse(int argc, const char *argv[])
     {
 	strings args;
