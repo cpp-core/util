@@ -6,13 +6,26 @@
 
 namespace core {
 
-// The RangeForEnum template class facilitate range-based-for-loop
-// iteration over the values of an enumeration. The first enumerated
-// values must have a corresponding integral value of zero, the last
-// enumerated value must be called Sentinel and there cannot be any
-// gaps.
-//
-// e.g `for (auto e : RangeForEnum<MyEnumClass>{});`
+/// The RangeForEnum template class allows a range-based-for-loop to
+/// iterate over the values of a conforming enumeration.
+///
+/// A conforming enumeration must satisfy the following:
+///
+/// - The first enumerated value must have a integral value of zero.
+/// - The last enumerated value must be called `Sentinel`.
+/// - There cannot be any gaps in the enumeration.
+///
+/// \verbatim embed:rst:leading-slashes
+///
+/// ```{code-block} cpp
+/// enum class E { a, b, c, Sentinel };
+/// for (auto e : RangeforEnum<E>{}) {
+///    // iterates over a, b, c
+/// }
+/// ```
+///
+/// \endverbatim
+///
 template<class T>
 struct RangeForEnum {};
 

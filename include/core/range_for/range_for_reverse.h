@@ -6,14 +6,20 @@
 
 namespace core {
 
-// Reverse the iteration in a range-based for loop.
-//
-// The RangeForReverse template class is used to reverse the iteration
-// in a range-based for loop or other similar circumstance. It will
-// store a reference to the container if possible or move from a
-// temporary if necessary.
-//
-// *for (auto elem : RangeForReverse{elems});*
+/// The RangeForReverse template class allows a range-based-for-loop
+/// to iterate over the values of a container in reverse order.
+///
+/// \verbatim embed:rst:leading-slashes
+///
+/// ```{code-block} cpp
+/// std::vector<int> vec{1, 2, 3}
+/// for (auto e : RangeforReverse{vec}) {
+///    // iterates over 3, 2, 1
+/// }
+/// ```
+///
+/// \endverbatim
+///
 template<class C>
 struct RangeForReverse {
     RangeForReverse(C&& c) : container_(std::forward<C>(c)) { }

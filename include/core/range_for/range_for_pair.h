@@ -1,4 +1,4 @@
-// Copyright (C) 2019, 2021 by Mark Melton
+// Copyright (C) 2019, 2021, 2022 by Mark Melton
 //
 
 #pragma once
@@ -7,9 +7,23 @@
 
 namespace core {
 
-// Template class RangeForPair captures the supplied `pair` or
-// pair-like container and adapts it for use with a
-// range-based-for-loop.
+/// The RangeForPair template class allows a range-based-for-loop to
+/// iterate over the elements delineated by a begin and end iterator
+/// pair.
+///
+/// \verbatim embed:rst:leading-slashes
+///
+/// ```{code-block} cpp
+/// std::vector<int> vec{1, 2, 3, 4};
+/// auto b = vec.begin() + 1;
+/// auto e = vec.end();
+/// for (auto e : RangeforPair{b, e}) {
+///    // iterates over 2, 3, 4
+/// }
+/// ```
+///
+/// \endverbatim
+///
 template<class P>
 struct RangeForPair {
     using Pair = P;

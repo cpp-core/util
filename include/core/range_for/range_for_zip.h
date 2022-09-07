@@ -6,9 +6,19 @@
 
 namespace core {
 
-// Template class RangeForZip captures the supplied `first` and
-// `second` containers and adapts them for use with a
-// range-based-for-loop return the zipped elements.
+/// The RangeForZip template class allows a range-based-for-loop to
+/// iterate over the values of a pair of containers zipped together.
+///
+/// \verbatim embed:rst:leading-slashes
+///
+/// ```{code-block} cpp
+/// std::vector<int> vec1{1, 2, 3}, vec2{4, 5, 6};
+/// for (auto e : RangeforZip{vec1, vec2}) {
+///    // iterates over the pairs (1, 4), (2, 5), (3, 6)
+/// }
+/// ```
+///
+/// \endverbatim
 template<class T, class U>
 struct RangeForZip {
     RangeForZip(std::add_rvalue_reference_t<T> first, std::add_rvalue_reference_t<U> second)
