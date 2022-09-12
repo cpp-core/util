@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include <gtest/gtest.h>
-#include "core/util/file.h"
+#include "core/type/file.h"
 
 namespace fs = std::filesystem;
 
