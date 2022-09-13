@@ -4,7 +4,7 @@
 #include <fmt/format.h>
 #include "core/argp/error.h"
 #include "core/argp/message.h"
-#include "core/type/type_name.h"
+#include "core/mp/type_name.h"
 
 namespace core::argp
 {
@@ -36,13 +36,13 @@ unknown_option_error::unknown_option_error(string_view name, const Context& ctx)
 missing_value_error::missing_value_error(string_view name,
 					 const Context& ctx,
 					 const std::type_info& type)
-    : error_type(fmt::format(missing_value_msg, name, core::demangle(type.name())), ctx, type)
+    : error_type(fmt::format(missing_value_msg, name, core::mp::demangle(type.name())), ctx, type)
 { }
 
 bad_value_error::bad_value_error(string_view name,
 				 const Context& ctx,
 				 const std::type_info& type)
-    : error_type(fmt::format(bad_value_msg, ctx.front(), core::demangle(type.name()), name),
+    : error_type(fmt::format(bad_value_msg, ctx.front(), core::mp::demangle(type.name()), name),
 		 ctx, type)
 { }
 
@@ -51,7 +51,7 @@ too_few_values_error::too_few_values_error(string_view name,
 					   const std::type_info& type,
 					   size_t number_found,
 					   size_t number_limit)
-    : error_count(fmt::format(too_few_values_msg, number_limit, core::demangle(type.name()),
+    : error_count(fmt::format(too_few_values_msg, number_limit, core::mp::demangle(type.name()),
 			      name, number_found),
 		  ctx, type, number_found, number_limit)
 { }
@@ -61,7 +61,7 @@ too_many_values_error::too_many_values_error(string_view name,
 					     const std::type_info& type,
 					     size_t number_found,
 					     size_t number_limit)
-    : error_count(fmt::format(too_many_values_msg, number_limit, core::demangle(type.name()),
+    : error_count(fmt::format(too_many_values_msg, number_limit, core::mp::demangle(type.name()),
 			      name, number_found),
 		  ctx, type, number_found, number_limit)
 { }

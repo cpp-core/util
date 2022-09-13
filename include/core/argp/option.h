@@ -6,7 +6,7 @@
 #include "core/argp/context.h"
 #include "core/argp/error.h"
 #include "core/string/lexical_cast.h"
-#include "core/type/type_name.h"
+#include "core/mp/type_name.h"
 
 namespace core::argp
 {
@@ -117,7 +117,7 @@ struct ArgValue : ArgBase<C>
 	, function(std::move(func))
     {
 	if (Base::FlagCharacter == '*') Base::value_spec = make_spec(long_name, 1, 1);
-	else Base::value_spec = make_spec(core::type_name<T>(), 1, 1);
+	else Base::value_spec = make_spec(core::mp::type_name<T>(), 1, 1);
     }
     
     void match(string_view token, Context& ctx)
@@ -202,7 +202,7 @@ struct ArgValues : ArgBase<C>
 	, function(std::move(func))
     {
 	if (Base::FlagCharacter == '*') Base::value_spec = make_spec(long_name, min, max);
-	else Base::value_spec = make_spec(core::type_name<T>(), min, max);
+	else Base::value_spec = make_spec(core::mp::type_name<T>(), min, max);
     }
     
     void match(string_view token, Context& ctx)
