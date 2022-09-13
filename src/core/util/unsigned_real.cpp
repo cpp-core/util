@@ -1,10 +1,10 @@
 // Copyright (C) 2019, 2021, 2022 by Mark Melton
 //
 
-#include "core/type/unsigned_real.h"
+#include "core/util/unsigned_real.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 void unsigned_real::validate() {
     if (value < 0.0)
@@ -12,12 +12,12 @@ void unsigned_real::validate() {
 }
 
 void to_json(json& j, unsigned_real value) {
-    j = (real)value;
+    j = (double)value;
 }
 
 void from_json(const json& j, unsigned_real& value) {
-    value = j.get<real>();
+    value = j.get<double>();
 }
 
-}; // type
+}; // util
 }; // core

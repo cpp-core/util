@@ -6,7 +6,7 @@
 #include <optional>
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 class tribool {
 public:

@@ -3,10 +3,10 @@
 
 #include <bit>
 #include <fmt/format.h>
-#include "core/type/tribool32.h"
+#include "core/util/tribool32.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 tribool32::reference::reference()
     : m_ptr_true(nullptr)

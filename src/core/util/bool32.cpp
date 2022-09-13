@@ -2,10 +2,10 @@
 //
 
 #include <bit>
-#include "core/type/bool32.h"
+#include "core/util/bool32.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 bool32::reference::reference()
     : m_ptr(nullptr)

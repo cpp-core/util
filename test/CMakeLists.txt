@@ -6,12 +6,9 @@ find_package(googletest REQUIRED)
 find_package(Threads REQUIRED)
 
 set(TESTS
-  fp/either
-  fp/fold
-  fp/option
-  fp/try
+  util/bool32
   )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/configure_tests.cmake)
-set(LIBS "cxx_core_mp::cxx_core_mp;googletest::cxx-googletest;Threads::Threads")
+set(LIBS "googletest::cxx-googletest;Threads::Threads")
 configure_tests("core" "${LIBS}" ${TESTS})

@@ -2,10 +2,11 @@
 //
 
 #pragma once
-#include "core/extra/json/nljson.h"
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 // CRTP mixin providing std::ostream output and json conversion to
 // improve the ergonomics of creating and using phantom types

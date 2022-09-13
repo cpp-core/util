@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 // Compact representation of 32 underlying bools.
 class bool32 {

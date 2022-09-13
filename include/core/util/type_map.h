@@ -9,7 +9,7 @@
 #include "core/mp/type_name.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 // TypeMap - A map-like container that maps types to values. Each
 // unique type functions as a unique key and is associated with a

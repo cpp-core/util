@@ -2,10 +2,10 @@
 //
 
 #include <ostream>
-#include "core/type/tribool.h"
+#include "core/util/tribool.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 tribool::tribool(bool is_true, bool is_false)
 {

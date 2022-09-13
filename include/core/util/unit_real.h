@@ -5,7 +5,7 @@
 #include <cstdint>
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 // The **unit_real** template class models the concept of a
 // real-valued quantity in the range [0,1). The goal is transparent

@@ -4,10 +4,10 @@
 
 #include <fmt/format.h>
 #include <stdexcept>
-#include "core/type/unit_real.h"
+#include "core/util/unit_real.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 template<class T>
 void unit_real<T>::validate() {
@@ -18,5 +18,5 @@ void unit_real<T>::validate() {
 template class unit_real<float>;
 template class unit_real<double>;
 
-}; // type
+}; // util
 }; // core

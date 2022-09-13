@@ -4,7 +4,7 @@
 #pragma once
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 // The **Fixed** template class transparently adapts any class `T` to
 // be non-copyable and non-moveable. A common use-case is to ensure

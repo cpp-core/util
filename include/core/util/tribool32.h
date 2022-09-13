@@ -3,11 +3,12 @@
 
 #pragma once
 #include <compare>
-#include "core/type/tribool.h"
-#include "core/type/bool32.h"
+#include <cstdint>
+#include "core/util/tribool.h"
+#include "core/util/bool32.h"
 
 namespace core {
-inline namespace type {
+inline namespace util {
        
 class tribool32 {
 public:
