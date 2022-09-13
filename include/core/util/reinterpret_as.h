@@ -2,7 +2,7 @@
 //
 
 #include "core/util/common.h"
-#include "core/type/type_name.h"
+#include "core/mp/type_name.h"
 
 template<class T>
 requires std::is_trivial_v<T> and std::is_standard_layout_v<T>
@@ -15,7 +15,7 @@ public:
 	if ((container.size() * sizeof(U)) % sizeof(T) != 0)
 	    throw std::runtime_error
 		(fmt::format("bad conversion: {} {}'s is not an intergral number of {}'s",
-			     container.size(), core::type_name<U>(), core::type_name<T>()));
+			     container.size(), core::mp::type_name<U>(),core::mp::type_name<T>()));
 	m_size = (container.size() * sizeof(U)) / sizeof(T);
 	m_ptr = (const T*)container.data();
 	m_end = m_ptr + m_size;
