@@ -3,9 +3,9 @@
 
 #include <random>
 #include <gtest/gtest.h>
-#include "core/type/tribool32.h"
+#include "core/util/tribool32.h"
 
-using namespace core::type;
+using namespace core::util;
 
 void assert_is_unknown(tribool32 a) {
     EXPECT_EQ(a.is_true(), 0);

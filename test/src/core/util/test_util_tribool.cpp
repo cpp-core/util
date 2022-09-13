@@ -2,9 +2,9 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/type/tribool.h"
+#include "core/util/tribool.h"
 
-using namespace core::type;
+using namespace core::util;
 
 void assert_is_unknown(tribool a) {
     EXPECT_FALSE(a.is_known());

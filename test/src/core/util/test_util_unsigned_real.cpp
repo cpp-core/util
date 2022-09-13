@@ -2,13 +2,13 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/type/unsigned_real.h"
+#include "core/util/unsigned_real.h"
 #include "coro/stream/stream.h"
 
 static const int NumberSamples = 32;
 
 using namespace coro;
-using namespace core::type;
+using namespace core::util;
 
 TEST(UnsignedReal, Construct)
 {

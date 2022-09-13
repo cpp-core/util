@@ -4,9 +4,9 @@
 #include <random>
 #include <bit>
 #include <gtest/gtest.h>
-#include "core/type/bool32.h"
+#include "core/util/bool32.h"
 
-using namespace core::type;
+using namespace core::util;
 
 TEST(Bool32, Initialization)
 {

@@ -7,9 +7,6 @@
 template<template<class...> class C, class T, class U>
 bool has_common_element(const C<T>& a, const C<U>& b)
 {
-    ExpectTRUE(std::is_sorted(a.begin(), a.end()));
-    ExpectTRUE(std::is_sorted(b.begin(), b.end()));
-    
     auto iter_a = a.begin();
     auto iter_b = b.begin();
     while (iter_a < a.end() and iter_b < b.end())

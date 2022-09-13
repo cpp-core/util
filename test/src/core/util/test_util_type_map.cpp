@@ -2,7 +2,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/type/type_map.h"
+#include "core/util/type_map.h"
 
 using core::TypeMap;
 using namespace std::string_literals;

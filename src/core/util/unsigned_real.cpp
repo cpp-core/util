@@ -2,6 +2,7 @@
 //
 
 #include "core/util/unsigned_real.h"
+#include "core/util/exception.h"
 
 namespace core {
 inline namespace util {

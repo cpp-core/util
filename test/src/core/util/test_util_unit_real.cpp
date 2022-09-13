@@ -2,13 +2,13 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/type/unit_real.h"
+#include "core/util/unit_real.h"
 #include "coro/stream/stream.h"
 
 static const int NumberSamples = 64;
 
 using namespace coro;
-using namespace core::type;
+using namespace core::util;
 
 TEST(UnitReal, Construct)
 {

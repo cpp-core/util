@@ -54,6 +54,9 @@ add_link_options(-stdlib=libc++)
 
 set(SOURCES
   util/bool32
+  util/guid
+  util/random
+  util/round
   util/tribool
   util/tribool32
   util/unit_real

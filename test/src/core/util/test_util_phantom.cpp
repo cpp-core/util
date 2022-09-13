@@ -2,9 +2,10 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/type/phantom.h"
+#include "core/util/phantom.h"
 
-using namespace core::type;
+using namespace core::util;
+using namespace std::string_literals;
 
 TEST(Phantom, String)
 {
