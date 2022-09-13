@@ -6,7 +6,7 @@
 #include <fmt/format.h>
 #include <map>
 #include <typeindex>
-#include "core/type/type_name.h"
+#include "core/mp/type_name.h"
 
 namespace core {
 inline namespace type {
@@ -43,7 +43,8 @@ public:
     template<class T, class... Ts>
     void insert(T&& arg, Ts&& ...args) {
 	if (auto iter = properties_.find(typeid(T)); iter != properties_.end())
-	    throw std::runtime_error(fmt::format("Attempt to insert duplicate type: {}", type_name<T>()));
+	    throw std::runtime_error(fmt::format("Attempt to insert duplicate type: {}",
+						 core::mp::type_name<T>()));
 	properties_[typeid(T)] = std::forward<T>(arg);
 	if constexpr (sizeof...(Ts) > 0)
 	    insert(std::forward<Ts>(args)...);
@@ -104,7 +105,7 @@ public:
     T& get() {
 	if (auto iter = properties_.find(typeid(T)); iter != properties_.end())
 	    return std::any_cast<T&>(iter->second);
-	throw std::runtime_error(fmt::format("TypeMap: no `{}` in map", core::type_name<T>()));
+	throw std::runtime_error(fmt::format("TypeMap: no `{}` in map", core::mp::type_name<T>()));
     }
 
     // Return the value for type `T` if it is in the map; otherwise;
@@ -114,7 +115,7 @@ public:
 	if (auto iter = properties_.find(typeid(T)); iter != properties_.end())
 	    return std::any_cast<const T&>(iter->second);
 	throw std::runtime_error
-	    (fmt::format("TypeMap: no `{}` in map", type_name<T>()));
+	    (fmt::format("TypeMap: no `{}` in map", core::mp::type_name<T>()));
     }
 
     // Return the value for type `T` if it is in the map; otherwise,
