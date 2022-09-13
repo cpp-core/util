@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <cstdint>
 
 namespace core {
 inline namespace type {
@@ -22,7 +22,7 @@ public:
 
     // Return an **n** bit quantized representation of the underlying
     // real-valued quantity.
-    uint64 quantize(int n) const {
+    std::uint64_t quantize(int n) const {
 	return value_ * (1ul << n);
     }
     
@@ -31,8 +31,8 @@ private:
     T value_;
 };
 
-using unit_real32 = unit_real<real32>;
-using unit_real64 = unit_real<real64>;
+using unit_real32 = unit_real<float>;
+using unit_real64 = unit_real<double>;
 
 }; // type
 }; // core

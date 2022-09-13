@@ -5,6 +5,7 @@
 #include "core/type/type_map.h"
 
 using core::TypeMap;
+using namespace std::string_literals;
 
 TEST(TypeMap, Construct)
 {
@@ -17,7 +18,7 @@ TEST(TypeMap, Construct)
     TypeMap map2{1, 2u};
     EXPECT_EQ(map2.size(), 2);
 
-    EXPECT_THROW((TypeMap{1, 2}), core::runtime_error);
+    EXPECT_THROW((TypeMap{1, 2}), std::runtime_error);
 }
 
 TEST(TypeMap, Insert)
@@ -27,7 +28,7 @@ TEST(TypeMap, Insert)
     map.insert(1);
     EXPECT_EQ(map.size(), 1);
 
-    EXPECT_THROW(map.insert(1), core::runtime_error);
+    EXPECT_THROW(map.insert(1), std::runtime_error);
 
     map.insert(2u, 3.0);
     EXPECT_EQ(map.size(), 3);
@@ -85,7 +86,7 @@ TEST(TypeMap, Contains)
     
     EXPECT_TRUE(map.contains<int>());
     EXPECT_TRUE(map.contains<uint>());
-    EXPECT_TRUE(map.contains<real>());
+    EXPECT_TRUE(map.contains<double>());
 
     EXPECT_FALSE(map.contains<std::string>());
 }
@@ -96,8 +97,8 @@ TEST(TypeMap, Get)
 
     EXPECT_EQ(map.get<int>(), 1);
     EXPECT_EQ(map.get<uint>(), 2u);
-    EXPECT_EQ(map.get<real>(), 3.0);
-    EXPECT_THROW(map.get<std::string>(), core::runtime_error);
+    EXPECT_EQ(map.get<double>(), 3.0);
+    EXPECT_THROW(map.get<std::string>(), std::runtime_error);
 
     auto& value = map.get<int>();
     EXPECT_EQ(value, 1);

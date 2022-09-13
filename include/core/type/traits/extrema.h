@@ -2,7 +2,8 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <string>
+#include <fmt/format.h>
 #include "core/mp/same.h"
 #include "core/mp/same.h"
 
@@ -17,7 +18,7 @@ struct extrema<bool>
 {
     static bool min() { return false; }
     static bool max() { return true; }
-    static string fmt_spec() { return "{}"; }
+    static std::string fmt_spec() { return "{}"; }
 };
 
 template<class T>
@@ -25,7 +26,7 @@ requires std::is_integral_v<T>
 struct extrema<T> {
     static T min() { return std::numeric_limits<T>::min(); }
     static T max() { return std::numeric_limits<T>::max(); }
-    static string fmt_spec() { return "{}"s; }
+    static std::string fmt_spec() { return "{}"s; }
 };
 
 template<class T>
@@ -33,7 +34,7 @@ requires std::is_floating_point_v<T>
 struct extrema<T> {
     static T min() { return - std::numeric_limits<T>::max(); }
     static T max() { return + std::numeric_limits<T>::max(); }
-    static string fmt_spec()
+    static std::string fmt_spec()
     { return fmt::format("{{:.{}g}}", std::numeric_limits<T>::max_digits10); }
 };
 

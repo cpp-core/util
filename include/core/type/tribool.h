@@ -3,7 +3,7 @@
 
 #pragma once
 #include <compare>
-#include "core/util/common.h"
+#include <optional>
 
 namespace core {
 inline namespace type {

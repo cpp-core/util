@@ -2,7 +2,8 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <string>
+#include <cstdint>
 
 namespace core {
 
@@ -11,51 +12,51 @@ struct type_traits
 { };
 
 template<>
-struct type_traits<string>
+struct type_traits<std::string>
 { constexpr static char const *name = "string"; };
 
 template<>
-struct type_traits<int8>
+struct type_traits<std::int8_t>
 { constexpr static char const *name = "int8"; };
 
 template<>
-struct type_traits<int16>
+struct type_traits<std::int16_t>
 { constexpr static char const *name = "int16"; };
 
 template<>
-struct type_traits<int32>
+struct type_traits<std::int32_t>
 { constexpr static char const *name = "int32"; };
 
 template<>
-struct type_traits<int64>
+struct type_traits<std::int64_t>
 { constexpr static char const *name = "int64"; };
 
 template<>
-struct type_traits<uint8>
+struct type_traits<std::uint8_t>
 { constexpr static char const *name = "uint8"; };
 
 template<>
-struct type_traits<uint16>
+struct type_traits<std::uint16_t>
 { constexpr static char const *name = "uint16"; };
 
 template<>
-struct type_traits<uint32>
+struct type_traits<std::uint32_t>
 { constexpr static char const *name = "uint32"; };
 
 template<>
-struct type_traits<uint64>
+struct type_traits<std::uint64_t>
 { constexpr static char const *name = "uint64"; };
 
 template<>
-struct type_traits<real32>
+struct type_traits<float>
 { constexpr static char const *name = "real32"; };
 
 template<>
-struct type_traits<real64>
+struct type_traits<double>
 { constexpr static char const *name = "real64"; };
 
 template<>
-struct type_traits<real128>
+struct type_traits<long double>
 { constexpr static char const *name = "real128"; };
 
 }; // end ns core

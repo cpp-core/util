@@ -2,6 +2,7 @@
 //
 
 #include <bit>
+#include <fmt/format.h>
 #include "core/type/tribool32.h"
 
 namespace core {
@@ -13,7 +14,7 @@ tribool32::reference::reference()
     , m_mask(0)
 { }
 	
-tribool32::reference::reference(uint32 *ptr_true, uint32 *ptr_false, uint32 mask)
+tribool32::reference::reference(std::uint32_t *ptr_true, std::uint32_t *ptr_false, std::uint32_t mask)
     : m_ptr_true(ptr_true)
     , m_ptr_false(ptr_false)
     , m_mask(mask)
@@ -43,7 +44,7 @@ tribool32::tribool32(bool value)
     , m_false(~m_true)
 { }
     
-tribool32::tribool32(uint32 value)
+tribool32::tribool32(std::uint32_t value)
     : m_true(value)
     , m_false(~m_true)
 { }
@@ -53,7 +54,7 @@ tribool32::tribool32(bool32 value)
     , m_false(~m_true)
 { }
     
-tribool32::tribool32(uint32 mask_true, uint32 mask_false)
+tribool32::tribool32(std::uint32_t mask_true, std::uint32_t mask_false)
     : m_true(mask_true)
     , m_false(mask_false)
 {

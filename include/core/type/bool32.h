@@ -3,7 +3,9 @@
 
 #pragma once
 #include <compare>
-#include "core/util/common.h"
+#include <cstdint>
+#include <ostream>
+#include <vector>
 
 namespace core {
 inline namespace type {
@@ -14,24 +16,24 @@ public:
     class reference {
     public:
 	reference();
-	reference(uint32 *ptr, uint32 mask);
+	reference(std::uint32_t *ptr, std::uint32_t mask);
 	reference& operator=(bool x) noexcept;
 	constexpr reference& operator=(const reference& x) noexcept { return *this = bool(x); }
 	constexpr operator bool() const noexcept { return bool(*m_ptr & m_mask); }
 	constexpr void flip() noexcept { *m_ptr = *m_ptr ^ m_mask; }
     private:
-	uint32 *m_ptr;
-	uint32 m_mask;
+	std::uint32_t *m_ptr;
+	std::uint32_t m_mask;
     };
 
     // Construct a bool32 with all underlying bools set to <value>.
-    explicit bool32(bool value) : m_value(value ? ~uint32{0} : 0) { }
+    explicit bool32(bool value) : m_value(value ? ~std::uint32_t{0} : 0) { }
 
     // Construct a bool32 with the underlying bools set to the bits in <value>.
-    bool32(uint32 value = 0) : m_value(value) { }
+    bool32(std::uint32_t value = 0) : m_value(value) { }
 
     // Return the underlying unsigned integer.
-    uint32 as_uint() const { return m_value; }
+    std::uint32_t as_uint() const { return m_value; }
 
     // Return the bool at index <n>.
     bool at(size_t index) const { return m_value & (1u << index); }
@@ -46,7 +48,7 @@ public:
     bool any() const { return m_value; }
 
     // Return true if all underlying bools are true.
-    bool all() const { return m_value == ~uint32{0}; }
+    bool all() const { return m_value == ~std::uint32_t{0}; }
 
     // Return true if no underlying bools are true.
     bool none() const { return m_value == 0; }
@@ -71,10 +73,10 @@ public:
     std::strong_ordering operator<=>(const bool32&) const = default;
     
 private:
-    uint32 m_value;
+    std::uint32_t m_value;
 };
 
-using bool32s = vector<bool32>;
+using bool32s = std::vector<bool32>;
 
 std::ostream& operator<<(std::ostream& os, bool32 a);
 

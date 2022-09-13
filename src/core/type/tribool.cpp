@@ -1,6 +1,7 @@
 // Copyright (C) 2019, 2021, 2022 by Mark Melton
 //
 
+#include <ostream>
 #include "core/type/tribool.h"
 
 namespace core {

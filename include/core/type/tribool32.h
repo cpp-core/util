@@ -14,16 +14,16 @@ public:
     class reference {
     public:
 	reference();
-	reference(uint32 *ptr_true, uint32 *ptr_false, uint32 mask);
+	reference(std::uint32_t *ptr_true, std::uint32_t *ptr_false, std::uint32_t mask);
 	reference& operator=(tribool x) noexcept;
 	reference& operator=(const reference& x) noexcept;
 	operator tribool() const noexcept;
     private:
-	uint32 *m_ptr_true, *m_ptr_false;
-	uint32 m_mask;
+	std::uint32_t *m_ptr_true, *m_ptr_false;
+	std::uint32_t m_mask;
     };
 
-    using Value = uint32;
+    using Value = std::uint32_t;
 
     // Construct a tribool32 with all underling tribools indeterminate.
     tribool32();
@@ -33,7 +33,7 @@ public:
 
     // Construct a tribool32 with the underlying tribools coresponding
     // to the bits in <value>.
-    explicit tribool32(uint32 value);
+    explicit tribool32(std::uint32_t value);
 
     // Construct a tribool32 with the underlying tribools coresponding
     // to the underlying bools in <value>.
@@ -42,7 +42,7 @@ public:
     // Construct a tribool32 with <mask_true> underlying tribools set
     // to true, <mask_false> underlying tribools set to false, and the
     // remaining set to indeterminate.
-    tribool32(uint32 mask_true, uint32 mask_false);
+    tribool32(std::uint32_t mask_true, std::uint32_t mask_false);
 
     // Construct a tribool32 with <mask_true> underlying tribools set
     // to true, <mask_false> underlying tribools set to false, and the
@@ -125,7 +125,7 @@ private:
     Value m_false{0};
 };
 
-using tribool32s = vector<tribool32>;
+using tribool32s = std::vector<tribool32>;
 
 std::ostream& operator<<(std::ostream& os, tribool32 a);
 

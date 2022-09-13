@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <cstdint>
 
 namespace core { namespace detail {
 
@@ -10,20 +10,20 @@ template<class T>
 struct next_larger;
 
 template<>
-struct next_larger<int8>
-{ using type = int16; };
+struct next_larger<std::int8_t>
+{ using type = std::int16_t; };
 
 template<>
-struct next_larger<int16>
-{ using type = int32; };
+struct next_larger<std::int16_t>
+{ using type = std::int32_t; };
 
 template<>
-struct next_larger<int32>
-{ using type = int64; };
+struct next_larger<std::int32_t>
+{ using type = std::int64_t; };
 
 template<>
-struct next_larger<int64>
-{ using type = int128; };
+struct next_larger<std::int64_t>
+{ using type = __int128; };
 
 }; // end ns detail
 
@@ -37,16 +37,16 @@ template<class T>
 struct next_larger_fp;
 
 template<>
-struct next_larger_fp<int16>
-{ using type = real32; };
+struct next_larger_fp<std::int16_t>
+{ using type = float; };
 
 template<>
-struct next_larger_fp<int32>
-{ using type = real64; };
+struct next_larger_fp<std::int32_t>
+{ using type = double; };
 
 template<>
-struct next_larger_fp<int64>
-{ using type = real128; };
+struct next_larger_fp<std::int64_t>
+{ using type = long double; };
 
 }; // end ns detail
 

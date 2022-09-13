@@ -12,7 +12,7 @@ bool32::reference::reference()
     , m_mask(0)
 { }
 	
-bool32::reference::reference(uint32 *ptr, uint32 mask)
+bool32::reference::reference(std::uint32_t *ptr, std::uint32_t mask)
     : m_ptr(ptr)
     , m_mask(mask)
 { }

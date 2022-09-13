@@ -21,10 +21,10 @@ TEST(UnitReal, Construct)
 TEST(UnitReal, ConstructThrow)
 {
     for (auto value : sampler<real>(-1, 0) | take(NumberSamples))
-	EXPECT_THROW(unit_real{value}, core::runtime_error);
+	EXPECT_THROW(unit_real{value}, std::runtime_error);
 
     for (auto value : sampler<real>(1, 2) | take(NumberSamples))
-	EXPECT_THROW(unit_real{value}, core::runtime_error);
+	EXPECT_THROW(unit_real{value}, std::runtime_error);
 }
 
 TEST(UnitReal, Quantize)

@@ -14,7 +14,7 @@ TEST(Bool32, Initialization)
     auto ax{a.as_uint()}, bx{b.as_uint()}, cx{c.as_uint()};
     EXPECT_EQ(ax, 0);
     EXPECT_EQ(bx, 0);
-    EXPECT_EQ(cx, ~uint32{0});
+    EXPECT_EQ(cx, ~std::uint32_t{0});
 
     auto rng = std::random_device();
     for (auto i = 0; i < 16; ++i) {
@@ -76,7 +76,7 @@ TEST(Bool32, RotationShift)
 
 TEST(Bool32, AnyAllNone)
 {
-    bool32 a{0u}, b{1u}, c{~uint32{0}};
+    bool32 a{0u}, b{1u}, c{~std::uint32_t{0}};
     EXPECT_FALSE(any(a));
     EXPECT_FALSE(all(a));
     EXPECT_TRUE(none(a));

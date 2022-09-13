@@ -64,7 +64,7 @@ TEST(Tribool32, BinaryOps)
 
 TEST(Tribool32, AnyAllNone)
 {
-    tribool32 a{0u, 55u}, b{1u, 54u}, c{~uint32{0}, 0u};
+    tribool32 a{0u, 55u}, b{1u, 54u}, c{~std::uint32_t{0}, 0u};
     EXPECT_FALSE(any(a));
     EXPECT_FALSE(all(a));
     EXPECT_TRUE(none(a));
@@ -84,31 +84,31 @@ TEST(Tribool32, IO)
 	tribool32 a;
 	std::ostringstream ss;
 	ss << a;
-	EXPECT_EQ(ss.str(), string(32, '?'));
+	EXPECT_EQ(ss.str(), std::string(32, '?'));
     }
     {
 	tribool32 a{true};
 	std::ostringstream ss;
 	ss << a;
-	EXPECT_EQ(ss.str(), string(32, '1'));
+	EXPECT_EQ(ss.str(), std::string(32, '1'));
     }
     {
 	tribool32 a{true};
 	std::ostringstream ss;
 	ss << std::boolalpha << a;
-	EXPECT_EQ(ss.str(), string(32, 't'));
+	EXPECT_EQ(ss.str(), std::string(32, 't'));
     }
     {
 	tribool32 a{false};
 	std::ostringstream ss;
 	ss << a;
-	EXPECT_EQ(ss.str(), string(32, '0'));
+	EXPECT_EQ(ss.str(), std::string(32, '0'));
     }
     {
 	tribool32 a{false};
 	std::ostringstream ss;
 	ss << std::boolalpha << a;
-	EXPECT_EQ(ss.str(), string(32, 'f'));
+	EXPECT_EQ(ss.str(), std::string(32, 'f'));
     }
 }
 
