@@ -11,6 +11,7 @@ set(TESTS
   util/guid
   util/has_common_element
   util/phantom
+  util/reinterpret_as
   util/round
   util/signum
   util/span
@@ -18,9 +19,16 @@ set(TESTS
   util/tribool
   util/tribool32
   util/type_map
+  util/unit_real
+  util/unsigned_real
   util/view
+  util/zorder
   )
 
+set(LIBRARIES
+  cxx_core_util
+  cxx_coro_stream::cxx_coro_stream
+  googletest::cxx-googletest
+  Threads::Threads)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/configure_tests.cmake)
-set(LIBS "cxx_core_util;googletest::cxx-googletest;Threads::Threads")
-configure_tests("core" "${LIBS}" ${TESTS})
+configure_tests("core" "${LIBRARIES}" ${TESTS})

@@ -2,6 +2,7 @@
 //
 
 #include <gtest/gtest.h>
+#include "core/util/exception.h"
 #include "core/util/unsigned_real.h"
 #include "coro/stream/stream.h"
 
@@ -12,7 +13,7 @@ using namespace core::util;
 
 TEST(UnsignedReal, Construct)
 {
-    for (auto value : sampler<real>(0, 1) | take(NumberSamples)) {
+    for (auto value : sampler<double>(0, 1) | take(NumberSamples)) {
 	ureal x{value};
 	EXPECT_EQ(x, value);
     }
@@ -20,14 +21,14 @@ TEST(UnsignedReal, Construct)
 
 TEST(UnsignedReal, ConstructThrow)
 {
-    for (auto value : sampler<real>(-1, 0) | take(NumberSamples)) {
+    for (auto value : sampler<double>(-1, 0) | take(NumberSamples)) {
 	EXPECT_THROW(ureal{value}, core::runtime_error);
     }
 }
 
 TEST(UnsignedReal, Arithmetic)
 {
-    for (auto [a, b] : sampler<real>(0, 1) | group_tuple<2>() | take(NumberSamples)) {
+    for (auto [a, b] : sampler<double>(0, 1) | group_tuple<2>() | take(NumberSamples)) {
 	ureal x{a + b}, y{b};
 	EXPECT_EQ(+x, x);
 	EXPECT_EQ(typeid(+x), typeid(ureal));
@@ -48,35 +49,35 @@ TEST(UnsignedReal, Arithmetic)
 
 TEST(UnsignedReal, ArithmeticInterop)
 {
-    for (auto [a, b] : sampler<real>(0, 1) | group_tuple<2>() | take(NumberSamples)) {
-	real x{a + b}, y{b};
+    for (auto [a, b] : sampler<double>(0, 1) | group_tuple<2>() | take(NumberSamples)) {
+	double x{a + b}, y{b};
 	ureal ux{x};
 
 	EXPECT_EQ(ux + y, x + y);
 	EXPECT_EQ(y + ux, x + y);
-	EXPECT_EQ(typeid(x + y), typeid(real));
-	EXPECT_EQ(typeid(y + x), typeid(real));
+	EXPECT_EQ(typeid(x + y), typeid(double));
+	EXPECT_EQ(typeid(y + x), typeid(double));
 	
 	EXPECT_EQ(ux - y, x - y);
 	EXPECT_EQ(y - ux, y - x);
-	EXPECT_EQ(typeid(ux - y), typeid(real));
-	EXPECT_EQ(typeid(y - ux), typeid(real));
+	EXPECT_EQ(typeid(ux - y), typeid(double));
+	EXPECT_EQ(typeid(y - ux), typeid(double));
 	
 	EXPECT_EQ(ux * y, x * y);
 	EXPECT_EQ(y * ux, y * x);
-	EXPECT_EQ(typeid(ux * y), typeid(real));
-	EXPECT_EQ(typeid(y * ux), typeid(real));
+	EXPECT_EQ(typeid(ux * y), typeid(double));
+	EXPECT_EQ(typeid(y * ux), typeid(double));
 	
 	EXPECT_EQ(ux / y, x / y);
 	EXPECT_EQ(y / ux, y / x);
-	EXPECT_EQ(typeid(ux / y), typeid(real));
-	EXPECT_EQ(typeid(y / ux), typeid(real));
+	EXPECT_EQ(typeid(ux / y), typeid(double));
+	EXPECT_EQ(typeid(y / ux), typeid(double));
     }
 }
 
 TEST(UnsignedReal, ToFromJson)
 {
-    for (auto a : sampler<real>(0, 1) | take(NumberSamples)) {
+    for (auto a : sampler<double>(0, 1) | take(NumberSamples)) {
 	ureal x{a};
 	json j = x;
 	auto y = j.get<ureal>();

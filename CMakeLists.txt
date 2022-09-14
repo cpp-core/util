@@ -30,8 +30,9 @@ option(CORE_UTIL_DOCS "Generate the docs." OFF)
 # Add our dependencies
 #
 include(GNUInstallDirs)
-find_package(fmt)
-find_package(nlohmann_json)
+find_package(cxx_coro_stream REQUIRED)
+find_package(fmt REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 # Output configuration
 #
@@ -61,6 +62,7 @@ set(SOURCES
   util/tribool32
   util/unit_real
   util/unsigned_real
+  util/zorder
   )
 
 foreach(NAME ${SOURCES})
