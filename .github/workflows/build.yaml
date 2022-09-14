@@ -45,7 +45,7 @@ jobs:
         export CXX=clang++-11
         mkdir cxx-depends/build && pushd cxx-depends/build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opt ..
-        make cxx_core_stream fmt googletest json
+        make cxx_coro_stream fmt googletest json
         popd
 
     - name: Build and run the tests
