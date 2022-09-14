@@ -125,8 +125,8 @@ struct ArgValue : ArgBase<C>
 	if (ctx.end() or is_option(ctx.front()))
 	    throw missing_value_error(token, ctx, typeid(T));
 	
-	try { value = core::lexical_cast<T>(ctx.front()); }
-	catch (const core::lexical_cast_error& error)
+	try { value = core::str::lexical_cast<T>(ctx.front()); }
+	catch (const core::str::lexical_cast_error& error)
 	{ throw bad_value_error(token, ctx, typeid(T)); }
 
 	ctx.pop();
@@ -213,11 +213,11 @@ struct ArgValues : ArgBase<C>
 	{
 	    try
 	    {
-		auto&& v = core::lexical_cast<T>(ctx.front());
+		auto&& v = core::str::lexical_cast<T>(ctx.front());
 		function(v);
 		emplace(value, std::forward<T>(v));
 	    }
-	    catch (const core::lexical_cast_error& error)
+	    catch (const core::str::lexical_cast_error& error)
 	    { throw bad_value_error(token, ctx, typeid(T)); }
 
 	    ctx.pop();
