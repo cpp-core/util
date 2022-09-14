@@ -3,7 +3,7 @@
 
 #pragma once
 #include <array>
-#include "core/util/common.h"
+#include <string>
 
 namespace core
 {
@@ -32,7 +32,7 @@ public:
     bool operator!=(const Guid& other) const { return not (*this == other); }
     bool operator<(const Guid& other) const { return m_bytes < other.m_bytes; }
 
-    string as_string() const;
+    std::string as_string() const;
     const unsigned char *begin() const { return m_bytes.begin(); }
     const unsigned char *end() const { return m_bytes.end(); }
     

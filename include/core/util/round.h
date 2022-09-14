@@ -2,7 +2,6 @@
 //
 
 #pragma once
-#include "core/util/common.h"
 
 // floor
 //
@@ -11,7 +10,7 @@
 // floor(100.054, 0.05, 0.00) --> 100.05
 // floor(100.054, 0.05, 0.01) --> 100.01
 //
-real floor(real x, real precision, real bias = 0.0);
+double floor(double x, double precision, double bias = 0.0);
 
 // ceil
 //
@@ -19,5 +18,5 @@ real floor(real x, real precision, real bias = 0.0);
 //
 // ceil(100.044, 0.05, 0.00) --> 100.05
 // ceil(100.044, 0.05, 0.01) --> 100.09
-real ceil(real x, real precision, real bias = 0.0);
+double ceil(double x, double precision, double bias = 0.0);
 

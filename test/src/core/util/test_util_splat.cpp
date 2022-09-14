@@ -6,7 +6,7 @@
 
 TEST(Splat, OneElement)
 {
-    reals x{1.0};
+    std::vector<double> x{1.0};
     auto [x0] = splat(x, 0);
     EXPECT_EQ(x0, 1.0);
     EXPECT_THROW(splat(x, -1), core::runtime_error);
@@ -15,7 +15,7 @@ TEST(Splat, OneElement)
 
 TEST(Splat, TwoElement)
 {
-    reals x{1.0, 2.0};
+    std::vector<double> x{1.0, 2.0};
     {
 	auto [x0] = splat(x, 0);
 	EXPECT_EQ(x0, 1.0);
@@ -36,7 +36,7 @@ TEST(Splat, TwoElement)
 
 TEST(Splat, ThreeElement)
 {
-    reals x{1.0, 2.0, 3.0};
+    std::vector<double> x{1.0, 2.0, 3.0};
     {
 	auto [x0] = splat(x, 0);
 	EXPECT_EQ(x0, 1.0);

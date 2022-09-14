@@ -2,7 +2,6 @@
 //
 
 #pragma once
-#include "core/util/common.h"
 
 template<template<class...> class C, class T, class U>
 bool has_common_element(const C<T>& a, const C<U>& b)

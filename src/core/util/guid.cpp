@@ -37,9 +37,9 @@ bool Guid::nil() const
     return true;
 }
 
-string Guid::as_string() const
+std::string Guid::as_string() const
 {
-    string r;
+    std::string r;
     r.reserve(36);
     size_t idx{1};
     for (auto ptr = begin(); ptr != end(); ++ptr, ++idx)

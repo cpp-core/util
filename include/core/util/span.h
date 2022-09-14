@@ -2,11 +2,10 @@
 //
 
 #pragma once
-#include <limits>
-
-#include <span>
+#include <cstdint>
 #include <fmt/format.h>
-#include "core/util/common.h"
+#include <limits>
+#include <span>
 
 namespace std {
 
@@ -19,11 +18,11 @@ T& at(std::span<T>& s, size_t index) {
 }
 
 template<class T>
-std::span<T> shift(const std::span<T>& s, index_t pos) {
+std::span<T> shift(const std::span<T>& s, std::ptrdiff_t pos) {
     size_t n = std::abs(pos);
     if (n > s.size())
 	throw std::out_of_range{"shift(span s, index_t pos): abs(pos) exceeds size"};
-    return std::span<T>{ s.data() + std::max(index_t{0}, pos), s.size() - n };
+    return std::span<T>{ s.data() + std::max(std::ptrdiff_t{0}, pos), s.size() - n };
 }
 
 template<typename T>

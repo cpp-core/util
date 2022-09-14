@@ -1,6 +1,7 @@
 // Copyright 2019, 2021, 2022 by Mark Melton
 //
 
+#include <cstdint>
 #include <gtest/gtest.h>
 #include "core/pp/seq.h"
 #include "core/pp/map.h"
@@ -15,7 +16,7 @@ using namespace coro;
 template<class T, class U>
 void check()
 {
-    auto g = coro::sampler<size_t>(1, 64)
+    auto g = coro::sampler<std::size_t>(1u, 64u)
 	* coro::sampler<T>()
 	| sampler_vector();
     
@@ -41,16 +42,16 @@ void check()
 
 TEST(ReinterpretAs, Exception)
 {
-    string str{"ABCDE"};
+    std::string str{"ABCDE"};
     EXPECT_THROW(reinterpret_as<int> ivec{str};, std::runtime_error);
 
-    uints ivec{1,2,3};
-    EXPECT_THROW(reinterpret_as<real64> rvec{ivec};, std::runtime_error);
+    std::vector<int> ivec{1,2,3};
+    EXPECT_THROW(reinterpret_as<double> rvec{ivec};, std::runtime_error);
 }
 
 #define CODE(A,B) check<A,B>();
 #define CODE_SEQ(A) CODE(CORE_PP_HEAD_SEQ(A), CORE_PP_SECOND_SEQ(A))
-#define TYPES() (char, int8, uint8, int, uint, int64, uint64, real32, real64)
+#define TYPES() (char, std::int8_t, std::uint8_t, int, unsigned int, std::int64_t, std::uint64_t, float, double)
 #define PRODUCT() CORE_PP_EVAL_CARTESIAN_PRODUCT_SEQ(TYPES(), TYPES())
 
 TEST(ReinterpretAs, TypeToType)

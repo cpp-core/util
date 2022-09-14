@@ -1,7 +1,7 @@
 // Copyright 2019, 2021, 2022 by Mark Melton
 //
 
-#include "core/util/common.h"
+#include <fmt/format.h>
 #include "core/mp/type_name.h"
 
 template<class T>

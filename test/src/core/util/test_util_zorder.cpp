@@ -22,9 +22,9 @@ TEST(ZOrder, Basic)
 
 TEST(ZOrder, EncodeDecode)
 {
-    auto g = sampler<uint32>()
-	* sampler<uint32>()
-	* sampler<uint32>()
+    auto g = sampler<std::uint32_t>()
+	* sampler<std::uint32_t>()
+	* sampler<std::uint32_t>()
 	| zip()
 	| take(NumberSamples);
     for (const auto& [a, b, c] : g) {

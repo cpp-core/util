@@ -2,7 +2,6 @@
 //
 
 #pragma once
-#include "core/util/common.h"
 
 template <class T>
 constexpr int signum(T val)

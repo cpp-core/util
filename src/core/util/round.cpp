@@ -4,12 +4,12 @@
 #include <cmath>
 #include "core/util/round.h"
 
-real floor(real x, real precision, real bias)
+double floor(double x, double precision, double bias)
 {
     return std::floor((x - bias) / precision) * precision + bias;
 }
 
-real ceil(real x, real precision, real bias)
+double ceil(double x, double precision, double bias)
 {
     return std::ceil((x + bias) / precision) * precision - bias;
 }

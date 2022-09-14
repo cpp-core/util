@@ -3,6 +3,7 @@
 
 #pragma once
 #include "core/util/arith_star.h"
+#include "core/util/exception.h"
 
 // splat - Return the specified vector elements as a tuple which can
 // be unpacked using structered bindings.

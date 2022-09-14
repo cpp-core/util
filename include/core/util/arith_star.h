@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <functional>
 
 template<class T>
 T&& min_star(T&& value) { return std::forward<T>(value); }
