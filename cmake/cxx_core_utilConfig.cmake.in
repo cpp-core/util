@@ -5,4 +5,4 @@ check_required_components("@PROJECT_NAME@")
 
 include(CMakeFindDependencyMacro)
 find_dependency(cxx_coro_stream)
-find_dependency(json)
+find_dependency(nlohmann_json)
