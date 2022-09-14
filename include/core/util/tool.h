@@ -2,53 +2,48 @@
 //
 
 #pragma once
-#include <fstream>
-#include "core/util/common.h"
-#include "core/argp/parse.h"
+#include <iostream>
+#include "core/util/exception.h"
+// #include "core/argp/parse.h"
 #include "core/string/lexical_cast.h"
 
-using namespace core::argp::interface;
+// using namespace core::argp::interface;
 
 int tool_main(int argc, const char *argv[]);
 
 int main(int argc, const char *argv[])
 {
-    cout << std::boolalpha;
+    std::cout << std::boolalpha;
     
     try
     {
 	return tool_main(argc, argv);
     }
-    catch (core::expect_exception const& e)
+    catch (core::str::lexical_cast_error const& e)
     {
-	cerr << e.what() << endl;
+	std::cerr << "lexical_cast_error: " << e.what() << std::endl;
 	return -2;
     }
-    catch (core::lexical_cast_error const& e)
-    {
-	cerr << "lexical_cast_error: " << e.what() << endl;
-	return -2;
-    }
-    catch (core::argp::error const& e)
-    {
-	cerr << "argp_error: " << e.context.canonical_line() << endl;
-	cerr << "argp_error: " << e.context.canonical_marker() << endl;
-	cerr << "argp_error: " << e.what() << endl;
-	return -2;
-    }
+    // catch (core::argp::error const& e)
+    // {
+    // 	std::cerr << "argp_error: " << e.context.canonical_line() << std::endl;
+    // 	std::cerr << "argp_error: " << e.context.canonical_marker() << std::endl;
+    // 	std::cerr << "argp_error: " << e.what() << std::endl;
+    // 	return -2;
+    // }
     catch (std::runtime_error const& e)
     {
-	cerr << "runtime_error: " << e.what() << endl;
+	std::cerr << "runtime_error: " << e.what() << std::endl;
 	return -2;
     }
     catch (std::exception const& e)
     {
-	cerr << e.what() << endl;
+	std::cerr << e.what() << std::endl;
 	return -2;
     }
     catch (...)
     {
-	cerr << "unknown error: " << endl;
+	std::cerr << "unknown error: " << std::endl;
 	return -1;
     }
 }
