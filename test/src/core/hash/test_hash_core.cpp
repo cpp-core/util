@@ -7,7 +7,7 @@
 #include "core/hash/core.h"
 #include "core/hash/detail/test_hash.h"
 
-using Integral = std::tuple<int8,int16,int32,int64,std::uint8_t,std::uint16_t,std::uint32_t,std::uint64_t>;
+using Integral = std::tuple<std::int8_t,std::int16_t,std::int32_t,std::int64_t,std::uint8_t,std::uint16_t,std::uint32_t,std::uint64_t>;
 using Floating = std::tuple<float,double>;
 using Containers = std::tuple<ints,reals,std::vector<size_t>,std::list<int>>;
 

@@ -11,7 +11,7 @@ namespace core::hasher
 
 namespace fs = std::filesystem;
 
-uint64 Hash<fs::path>::operator()(const fs::path& path) const {
+std::uint64_t Hash<fs::path>::operator()(const fs::path& path) const {
     if (fs::exists(path)) {
 	if (fs::is_directory(path)) {
 	    std::uint64_t hid{0};

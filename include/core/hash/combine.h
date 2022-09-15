@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <cstdint>
 
 namespace core::detail {
 

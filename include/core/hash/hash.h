@@ -2,6 +2,7 @@
 //
 
 #pragma once
+#include <utility>
 #include "core/hash/combine.h"
 
 namespace core {
@@ -16,7 +17,7 @@ struct Hash;
 
 // hash - return hash of arguments
 template<class... Args>
-uint64 hash(Args&&... args) {
+std::uint64_t hash(Args&&... args) {
     std::uint64_t v{0};
     (detail::combine(v, hasher::Hash<std::decay_t<Args>>()(std::forward<Args>(args))),...);
     return v;

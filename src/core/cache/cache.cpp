@@ -2,14 +2,16 @@
 //
 
 #include <filesystem>
+#include <fmt/format.h>
 #include "core/cache/cache.h"
+#include "core/util/exception.h"
 
 namespace core
 {
 
 namespace fs = std::filesystem;
 
-string cache_root() {
+std::string cache_root() {
     if (auto p = getenv("CACHE_ROOT"); p)
 	return std::string{p};
     if (auto p = getenv("HOME"); p)
@@ -17,7 +19,7 @@ string cache_root() {
     return fmt::format("/home/cache");
 }
 
-string Cache::name() const {
+std::string Cache::name() const {
     return fmt::format("{}/{}/{}/{}", cache_root(), sid_[0], sid_[1], sid_);
 }
 
@@ -30,7 +32,7 @@ bool Cache::exists(const std::string& file) const {
     return fs::exists(path);
 }
 
-string Cache::get() const {
+std::string Cache::get() const {
     auto path = name();
     fs::create_directories(path);
     return path;
@@ -46,7 +48,7 @@ std::pair<bool, std::string> Cache::get(const std::string& file) const {
     return std::make_tuple(exists, path);
 }
     
-string Cache::get_or_throw(const std::string& file) const {
+std::string Cache::get_or_throw(const std::string& file) const {
     auto [exists, path] = get(file);
     if (exists)
 	return path;

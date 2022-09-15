@@ -2,11 +2,11 @@
 //
 
 #pragma once
-#include "core/util/common.h"
+#include <cstdint>
 
 namespace core::detail {
 
-uint64 mixer(std::uint64_t n, int b = 32);
+std::uint64_t mixer(std::uint64_t n, int b = 32);
 
 }; // core::detail
 
