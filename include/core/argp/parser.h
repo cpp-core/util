@@ -59,7 +59,7 @@ public:
 	return std::get<Idx>(m_tuple).count;
     }
 
-    void process_token(string_view token, Context& ctx)
+    void process_token(std::string_view token, Context& ctx)
     {
 	using core::tp::find_first;
 	using core::tp::apply_nth;
@@ -75,7 +75,7 @@ public:
 	apply_nth([&](auto& e) { e.match(token, ctx); }, idx, m_tuple);
     }
 
-    string star_value_spec()
+    std::string star_value_spec()
     {
 	auto printer = [&](const auto& result, const auto& arg)
 		       {
@@ -83,10 +83,10 @@ public:
 			       return result;
 			   return result + " " + arg.value_spec;
 		       };
-	return core::tp::fold_l(printer, string(), m_tuple);
+	return core::tp::fold_l(printer, std::string(), m_tuple);
     }
     
-    void output_help_message(std::ostream& os, const strings& args)
+    void output_help_message(std::ostream& os, const std::vector<std::string>& args)
     {
 	auto program_name = args.size() > 0 ? args[0] : "unknown program";
 	cout << "program: " << program_name << " [options]" << star_value_spec() << endl;
@@ -103,17 +103,17 @@ public:
 			   if (n + len < Info)
 			       n = Info - len;
 
-			   os << string(Indent, ' ');
+			   os << std::string(Indent, ' ');
 			   os << "-" << arg.FlagCharacter << ", ";
 			   os << "--" << arg.long_name << " ";
 			   os << arg.value_spec;
-			   os << string(n, ' ');
+			   os << std::string(n, ' ');
 			   os << arg.description << endl;
 		       };
 	core::tp::apply(printer, m_tuple);
     }
 
-    bool parse(const strings& args)
+    bool parse(const std::vector<std::string>& args)
     {
 	Context ctx{args};
 	ctx.pop();
@@ -145,7 +145,7 @@ public:
 	    {
 		ctx.pop();
 		for (auto c : token.substr(1))
-		    process_token(string{'-', c}, ctx);
+		    process_token(std::string{'-', c}, ctx);
 	    }
 	    else
 		throw unknown_option_error(token, ctx);
@@ -160,7 +160,7 @@ public:
     /// \returns True if arguments are parsed successfully.
     bool parse(std::initializer_list<string> largs)
     {
-	strings args(largs.begin(), largs.end());
+	std::vector<std::string> args(largs.begin(), largs.end());
 	return parse(args);
     }
     
@@ -171,15 +171,15 @@ public:
     /// \returns True if arguments are parsed successfully.
     bool parse(int argc, const char *argv[])
     {
-	strings args;
+	std::vector<std::string> args;
 	for (size_t i = 0; i < size_t(argc); ++i)
-	    args.emplace_back(string(argv[i]));
+	    args.emplace_back(std::string(argv[i]));
 	return parse(args);
     }
     
 private:
     Tuple m_tuple;
-    strings m_extra;
+    std::vector<std::string> m_extra;
 };
 
 namespace interface

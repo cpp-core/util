@@ -22,12 +22,12 @@ struct ArgBase
 {
     static constexpr char FlagCharacter = C;
 
-    ArgBase(string_view arg_long_name, string_view arg_description)
+    ArgBase(std::string_view arg_long_name, std::string_view arg_description)
 	: long_name(arg_long_name)
 	, description(arg_description)
     { }
 
-    bool matches(string_view token) const
+    bool matches(std::string_view token) const
     {
 	if (token.size() == 2 and token[0] == OptionSymbol)
 	    return token[1] == FlagCharacter;
@@ -38,9 +38,9 @@ struct ArgBase
 	return false;
     }
 
-    string long_name;
-    string description;
-    string value_spec;
+    std::string long_name;
+    std::string description;
+    std::string value_spec;
     size_t count{0};
 };
 
@@ -58,12 +58,12 @@ struct ArgFlag : ArgBase<C>
     /// \param long_name The long version of the argument name.
     /// \param description A description of the argument.
     /// \param func Functor applied when argument is recognized during parsing.
-    ArgFlag(string_view long_name, string_view description, F&& func)
+    ArgFlag(std::string_view long_name, std::string_view description, F&& func)
 	: ArgBase<C>(long_name, description)
 	, function(std::move(func))
     { }
 
-    void match(string_view token, Context& ctx)
+    void match(std::string_view token, Context& ctx)
     {
 	++this->count;
 	value = true;
@@ -80,7 +80,7 @@ struct ArgFlag : ArgBase<C>
 /// \param long_name The long version of the argument name.
 /// \param description A description of the argument.
 template<char C>
-auto argFlag(string_view long_name, string_view description)
+auto argFlag(std::string_view long_name, std::string_view description)
 { return ArgFlag<C,noop>(long_name, description, std::move(noop{})); }
 
 /// Construct an ArgFlag describing an argument with no parameters.
@@ -91,7 +91,7 @@ auto argFlag(string_view long_name, string_view description)
 /// \param description A description of the argument.
 /// \param func Functor applied when argument is recognized during parsing.
 template<char C, class F>
-auto argFlag(string_view long_name, string_view description, F&& func = noop{})
+auto argFlag(std::string_view long_name, std::string_view description, F&& func = noop{})
 { return ArgFlag<C,F>(long_name, description, std::move(func)); }
 
 /// Describes an argument that takes exactly one parameter.
@@ -111,7 +111,7 @@ struct ArgValue : ArgBase<C>
     /// \param default_value The default value of the parameter.
     /// \param description A description of the argument.
     /// \param func Functor applied when argument is recognized during parsing.
-    ArgValue(string_view long_name, T default_value, string_view description, F&& func)
+    ArgValue(std::string_view long_name, T default_value, std::string_view description, F&& func)
 	: Base(long_name, description)
 	, value(default_value)
 	, function(std::move(func))
@@ -120,7 +120,7 @@ struct ArgValue : ArgBase<C>
 	else Base::value_spec = make_spec(core::mp::type_name<T>(), 1, 1);
     }
     
-    void match(string_view token, Context& ctx)
+    void match(std::string_view token, Context& ctx)
     {
 	if (ctx.end() or is_option(ctx.front()))
 	    throw missing_value_error(token, ctx, typeid(T));
@@ -145,7 +145,7 @@ struct ArgValue : ArgBase<C>
 /// \param long_name The long version of the argument name.
 /// \param description A description of the argument.
 template<char C, class T>
-auto argValue(string_view long_name, string_view description)
+auto argValue(std::string_view long_name, std::string_view description)
 { return ArgValue<C,T,noop>(long_name, T{}, description, std::move(noop{})); }
 
 /// Construct an ArgValue descibing an argument that takes exactly one paramter.
@@ -156,7 +156,7 @@ auto argValue(string_view long_name, string_view description)
 /// \param default_value The default value of the parameter.
 /// \param description A description of the argument.
 template<char C, class T>
-auto argValue(string_view long_name, T default_value, string_view description)
+auto argValue(std::string_view long_name, T default_value, std::string_view description)
 { return ArgValue<C,T,noop>(long_name, default_value, description, std::move(noop{})); }
 
 /// Construct an ArgValue descibing an argument that takes exactly one paramter.
@@ -167,7 +167,7 @@ auto argValue(string_view long_name, T default_value, string_view description)
 /// \param description A description of the argument.
 /// \param func The functor to apply when the argument is recognized during parsing.
 template<char C, class T, class F>
-auto argValue(string_view long_name, string_view description, F&& func)
+auto argValue(std::string_view long_name, std::string_view description, F&& func)
 { return ArgValue<C,T,F>(long_name, T{}, description, std::move(func)); }
 
 /// Construct an ArgValue descibing an argument that takes exactly one paramter.
@@ -179,7 +179,7 @@ auto argValue(string_view long_name, string_view description, F&& func)
 /// \param description A description of the argument.
 /// \param func The functor to apply when the argument is recognized during parsing.
 template<char C, class T, class F>
-auto argValue(string_view long_name, T default_value, string_view description, F&& func)
+auto argValue(std::string_view long_name, T default_value, std::string_view description, F&& func)
 { return ArgValue<C,T,F>(long_name, default_value, description, std::move(func)); }
 
 template<class Container, class T>
@@ -195,7 +195,7 @@ template<char C, template<class...> class Container, class T, class F>
 struct ArgValues : ArgBase<C>
 {
     using Base = ArgBase<C>;
-    ArgValues(string_view long_name, string_view description, size_t amin, size_t amax, F&& func)
+    ArgValues(std::string_view long_name, std::string_view description, size_t amin, size_t amax, F&& func)
 	: Base(long_name, description)
 	, min(amin)
 	, max(amax)
@@ -205,7 +205,7 @@ struct ArgValues : ArgBase<C>
 	else Base::value_spec = make_spec(core::mp::type_name<T>(), min, max);
     }
     
-    void match(string_view token, Context& ctx)
+    void match(std::string_view token, Context& ctx)
     {
 	while (not ctx.end() and
 	       not is_option(ctx.front()) and
@@ -236,12 +236,12 @@ struct ArgValues : ArgBase<C>
 };
 
 template<char C, template<class...> class Container, class T>
-auto argValues(string_view long_name, string_view description,
+auto argValues(std::string_view long_name, std::string_view description,
 	       size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
 { return ArgValues<C,Container,T,noop>(long_name, description, min, max, std::move(noop{})); }
 
 template<char C, template<class...> class Container, class T, class F>
-auto argValuesApply(string_view long_name, string_view description, F&& func,
+auto argValuesApply(std::string_view long_name, std::string_view description, F&& func,
 		    size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
 { return ArgValues<C,Container,T,F>(long_name, description, min, max, std::move(func)); }
 
