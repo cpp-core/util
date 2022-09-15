@@ -24,8 +24,8 @@ void test_with_generator() {
     }
 }
 
-using BaseTypes = std::tuple<int16,int,int64,std::uint16_t,uint,std::uint64_t,float,double,string>;
-using BriefBaseTypes = std::tuple<int,string>;
+using BaseTypes = std::tuple<int16,int,int64,std::uint16_t,uint,std::uint64_t,float,double,std::string>;
+using BriefBaseTypes = std::tuple<int,std::string>;
     
 TEST(SBS, BaseTypes)
 {
