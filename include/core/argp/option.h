@@ -2,6 +2,7 @@
 //
 
 #pragma once
+#include <set>
 #include "core/argp/base.h"
 #include "core/argp/context.h"
 #include "core/argp/error.h"
