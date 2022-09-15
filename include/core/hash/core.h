@@ -3,6 +3,9 @@
 
 #pragma once
 #include <deque>
+#include <list>
+#include <map>
+#include <set>
 #include "core/mp/same.h"
 #include "core/hash/hash.h"
 #include "core/hash/detail/mixer.h"
@@ -26,9 +29,9 @@ struct Hash<T> {
 };
 
 template<>
-struct Hash<string> {
+struct Hash<std::string> {
     std::uint64_t operator()(const std::string& s) const noexcept {
-	return mixer(std::hash<string>{}(s), 32);
+	return mixer(std::hash<std::string>{}(s), 32);
     }
 };
 

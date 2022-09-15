@@ -2,9 +2,11 @@
 //
 
 #include <filesystem>
+#include <fmt/format.h>
 #include <fstream>
 #include <gtest/gtest.h>
 #include "core/hash/path.h"
+#include "core/util/exception.h"
 
 namespace fs = std::filesystem;
 

@@ -1,12 +1,14 @@
 // Copyright 2021, 2022 by Mark Melton
 //
 
-#include "core/util/common.h"
+#include <set>
+#include "coro/stream/stream.h"
+#include "core/hash/hash.h"
 
 template<class T>
 void test_hash(size_t count) {
-    set<std::uint64_t> hashes;
-    set<T> tps;
+    std::set<std::uint64_t> hashes;
+    std::set<T> tps;
     auto tpG = coro::Sampler<T>{}();
     for (auto tp : coro::take(std::move(tpG), count)) {
 	auto hid = core::hash(tp);
