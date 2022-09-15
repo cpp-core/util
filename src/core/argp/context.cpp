@@ -1,4 +1,4 @@
-// Copyright (C) 2019 by Mark Melton
+// Copyright (C) 2019, 2022 by Mark Melton
 //
 
 #include "core/argp/context.h"
@@ -6,7 +6,7 @@
 namespace core::argp
 {
 
-Context::Context(const strings& args)
+Context::Context(const std::vector<std::string>& args)
     : m_index(0)
 {
     for (const auto& arg : args)
@@ -29,14 +29,14 @@ void Context::pop()
 	++m_index;
 }
 
-const strings& Context::tokens() const
+const std::vector<std::string>& Context::tokens() const
 {
     return m_tokens;
 }
 
 string Context::canonical_line() const
 {
-    string line;
+    std::string line;
     for (const auto& token : m_tokens)
     {
 	line += " ";
@@ -47,13 +47,13 @@ string Context::canonical_line() const
 
 string Context::canonical_marker() const
 {
-    string line;
+    std::string line;
     for (const auto& token : m_tokens)
     {
 	line += " ";
 	if (token == front())
 	    line += "^";
-	line += string(token.size(), ' ');
+	line += std::string(token.size(), ' ');
     }
     return line;
 }

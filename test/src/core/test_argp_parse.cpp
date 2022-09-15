@@ -1,4 +1,4 @@
-// Copyright (C) 2019 by Mark Melton
+// Copyright (C) 2019, 2022 by Mark Melton
 //
 
 #include <gtest/gtest.h>
@@ -59,7 +59,7 @@ TEST(ArgParse, ArgValue)
 	 argValue<'a'>("aint", 0, "Int A"),
 	 argValue<'b'>("bstr", "baz"s, "String B"),
 	 argValue<'c',int>("cint", "Int C"),
-	 argValue<'d',string>("dstr", "String D")
+	 argValue<'d',std::string>("dstr", "String D")
 	 );
     opts.parse({"program", "-a", "-10", "-d", "foo"});
 
@@ -72,13 +72,13 @@ TEST(ArgParse, ArgValue)
 TEST(ArgParse, ArgValueApply)
 {
     int aint{0}, cint{7};
-    string bstr{"baz"}, dstr{"baz"};
+    std::string bstr{"baz"}, dstr{"baz"};
     ArgParse opts
 	(
 	 argValue<'a'>("aint", 0, "Int A", [&](auto value) { aint = value; }),
 	 argValue<'b'>("bstr", "baz"s, "String B", [&](auto value) { bstr = value; }),
 	 argValue<'c',int>("cint", "Int C", [&](auto value) { cint = value; }),
-	 argValue<'d',string>("dstr", "String D", [&](auto value) { dstr = value; })
+	 argValue<'d',std::string>("dstr", "String D", [&](auto value) { dstr = value; })
 	 );
     opts.parse({"program", "-a", "-10", "-d", "foo"});
 
@@ -100,7 +100,7 @@ TEST(ArgParse, ArgValues)
     ArgParse opts
 	(
 	 argValues<'a', vector, int>("aint", "Ints A"),
-	 argValues<'b', std::list, string>("bstr", "Strings B"),
+	 argValues<'b', std::list, std::string>("bstr", "Strings B"),
 	 argValues<'c', std::set, int>("cset", "Ints C")
 	 );
     opts.parse({"program", "-a", "-10", "7", "-b", "foo", "-c", "1", "2", "3"});
@@ -129,7 +129,7 @@ TEST(ArgParse, ThrowUnknownOptionError)
 
     try { opts.parse({"program", "-c"}); }
     catch (const argp::unknown_option_error& e)
-    { EXPECT_EQ(string(e.what()), fmt::format(argp::unknown_option_msg, "-c")); }
+    { EXPECT_EQ(std::string(e.what()), fmt::format(argp::unknown_option_msg, "-c")); }
 }
 
 TEST(ArgParse, ThrowMissingValueError)
@@ -151,7 +151,7 @@ TEST(ArgParse, ThrowMissingValueError)
 
     try { opts.parse({"program", "-a", "-b", "foo"}); }
     catch (const argp::missing_value_error& e)
-    { EXPECT_EQ(string(e.what()), fmt::format(argp::missing_value_msg, "-a", "int")); }
+    { EXPECT_EQ(std::string(e.what()), fmt::format(argp::missing_value_msg, "-a", "int")); }
 }
 
 TEST(ArgParse, ThrowBadValueError)
@@ -173,7 +173,7 @@ TEST(ArgParse, ThrowBadValueError)
 
     try { opts.parse({"program", "-a", "abc", "-b", "foo"}); }
     catch (const argp::bad_value_error& e)
-    { EXPECT_EQ(string(e.what()), fmt::format(argp::bad_value_msg, "abc", "int", "-a")); }
+    { EXPECT_EQ(std::string(e.what()), fmt::format(argp::bad_value_msg, "abc", "int", "-a")); }
 }
 
 TEST(ArgParse, ThrowTooFewValuesError)
@@ -182,7 +182,7 @@ TEST(ArgParse, ThrowTooFewValuesError)
 	ArgParse opts
 	    (
 	     argValues<'a', vector, int>("aint", "Ints A", 3, 5),
-	     argValues<'b', std::list, string>("bstr", "Strings B", 0)
+	     argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	     );
 	ASSERT_THROW(opts.parse({"program", "-a", "-10", "7", "-b"}), argp::too_few_values_error);
     }
@@ -190,11 +190,11 @@ TEST(ArgParse, ThrowTooFewValuesError)
     ArgParse opts
 	(
 	 argValues<'a', vector, int>("aint", "Ints A", 3, 5),
-	 argValues<'b', std::list, string>("bstr", "Strings B", 0)
+	 argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	 );
     try { opts.parse({"program", "-a", "-10", "7", "-b"}); }
     catch (const argp::too_few_values_error& e)
-    { EXPECT_EQ(string(e.what()), fmt::format(argp::too_few_values_msg, 3, "int", "aint", 2)); }
+    { EXPECT_EQ(std::string(e.what()), fmt::format(argp::too_few_values_msg, 3, "int", "aint", 2)); }
 }
 
 TEST(ArgParse, ThrowTooManyValuesError)
@@ -203,7 +203,7 @@ TEST(ArgParse, ThrowTooManyValuesError)
 	ArgParse opts
 	    (
 	     argValues<'a', vector, int>("aint", "Ints A", 0, 1),
-	     argValues<'b', std::list, string>("bstr", "Strings B", 0)
+	     argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	     );
 	ASSERT_THROW(opts.parse({"program", "-a", "-10", "7", "-b"}), argp::too_many_values_error);
     }
@@ -211,11 +211,11 @@ TEST(ArgParse, ThrowTooManyValuesError)
     ArgParse opts
 	(
 	 argValues<'a', vector, int>("aint", "Ints A", 0, 1),
-	 argValues<'b', std::list, string>("bstr", "Strings B", 0)
+	 argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	 );
     try { opts.parse({"program", "-a", "-10", "7", "-b"}); }
     catch (const argp::too_many_values_error& e)
-    { EXPECT_EQ(string(e.what()), fmt::format(argp::too_many_values_msg, 1, "int", "aint", 2)); }
+    { EXPECT_EQ(std::string(e.what()), fmt::format(argp::too_many_values_msg, 1, "int", "aint", 2)); }
 }
 
 

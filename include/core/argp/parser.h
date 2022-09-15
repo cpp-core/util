@@ -158,7 +158,7 @@ public:
     ///
     /// \param largs Arguments
     /// \returns True if arguments are parsed successfully.
-    bool parse(std::initializer_list<string> largs)
+    bool parse(std::initializer_list<std::string> largs)
     {
 	std::vector<std::string> args(largs.begin(), largs.end());
 	return parse(args);
