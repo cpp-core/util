@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
@@ -14,7 +14,7 @@ using namespace core::detail;
 template<class T>
 requires (std::is_integral_v<T>
 	  or std::is_floating_point_v<T>
-	  or std::is_same_v<T, string>
+	  or std::is_same_v<T, std::string>
 	  or std::is_same_v<T, char const[]>
 	  or std::is_same_v<T, const char *>
 	  )
@@ -27,7 +27,7 @@ struct Hash<T> {
 
 template<>
 struct Hash<string> {
-    uint64 operator()(const string& s) const noexcept {
+    uint64 operator()(const std::string& s) const noexcept {
 	return mixer(std::hash<string>{}(s), 32);
     }
 };
