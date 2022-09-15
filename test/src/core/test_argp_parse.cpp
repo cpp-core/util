@@ -1,6 +1,7 @@
 // Copyright (C) 2019, 2022 by Mark Melton
 //
 
+#include <fmt/format.h>
 #include <gtest/gtest.h>
 #include <list>
 #include "core/argp/parse.h"
@@ -8,6 +9,7 @@
 
 using namespace core;
 using namespace core::argp::interface;
+using namespace std::string_literals;
 
 TEST(ArgParse, ArgFlag)
 {
@@ -99,14 +101,14 @@ TEST(ArgParse, ArgValues)
 {
     ArgParse opts
 	(
-	 argValues<'a', vector, int>("aint", "Ints A"),
+	 argValues<'a', std::vector, int>("aint", "Ints A"),
 	 argValues<'b', std::list, std::string>("bstr", "Strings B"),
 	 argValues<'c', std::set, int>("cset", "Ints C")
 	 );
     opts.parse({"program", "-a", "-10", "7", "-b", "foo", "-c", "1", "2", "3"});
 
-    EXPECT_EQ(opts.get<'a'>(), (ints{ -10, 7 }));
-    EXPECT_EQ(opts.get<'b'>(), std::list<string>{"foo"});
+    EXPECT_EQ(opts.get<'a'>(), (std::vector<int>{ -10, 7 }));
+    EXPECT_EQ(opts.get<'b'>(), std::list<std::string>{"foo"});
     EXPECT_EQ(opts.get<'c'>(), (std::set<int>{1, 2, 3}));
 }
 
@@ -181,7 +183,7 @@ TEST(ArgParse, ThrowTooFewValuesError)
     {
 	ArgParse opts
 	    (
-	     argValues<'a', vector, int>("aint", "Ints A", 3, 5),
+	     argValues<'a', std::vector, int>("aint", "Ints A", 3, 5),
 	     argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	     );
 	ASSERT_THROW(opts.parse({"program", "-a", "-10", "7", "-b"}), argp::too_few_values_error);
@@ -189,7 +191,7 @@ TEST(ArgParse, ThrowTooFewValuesError)
 
     ArgParse opts
 	(
-	 argValues<'a', vector, int>("aint", "Ints A", 3, 5),
+	 argValues<'a', std::vector, int>("aint", "Ints A", 3, 5),
 	 argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	 );
     try { opts.parse({"program", "-a", "-10", "7", "-b"}); }
@@ -202,7 +204,7 @@ TEST(ArgParse, ThrowTooManyValuesError)
     {
 	ArgParse opts
 	    (
-	     argValues<'a', vector, int>("aint", "Ints A", 0, 1),
+	     argValues<'a', std::vector, int>("aint", "Ints A", 0, 1),
 	     argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	     );
 	ASSERT_THROW(opts.parse({"program", "-a", "-10", "7", "-b"}), argp::too_many_values_error);
@@ -210,7 +212,7 @@ TEST(ArgParse, ThrowTooManyValuesError)
 
     ArgParse opts
 	(
-	 argValues<'a', vector, int>("aint", "Ints A", 0, 1),
+	 argValues<'a', std::vector, int>("aint", "Ints A", 0, 1),
 	 argValues<'b', std::list, std::string>("bstr", "Strings B", 0)
 	 );
     try { opts.parse({"program", "-a", "-10", "7", "-b"}); }
