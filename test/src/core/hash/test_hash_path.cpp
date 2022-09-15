@@ -1,4 +1,4 @@
-// Copyright 2021 by Mark Melton
+// Copyright 2021, 2022 by Mark Melton
 //
 
 #include <filesystem>
@@ -27,17 +27,17 @@ public:
 	fs::remove_all(root_);
     }
 
-    const string root() const {
+    const std::string root() const {
 	return root_;
     }
     
 private:
-    string root_;
+    std::string root_;
 };
 
 Environment *env{nullptr};
 
-void write_to_file(const string& file) {
+void write_to_file(const std::string& file) {
     std::ofstream ofs{file, std::ios::app};
     ASSERT_TRUE(ofs.good());
 
@@ -47,9 +47,9 @@ void write_to_file(const string& file) {
 
 TEST(Hash, File)
 {
-    string dir = env->root();
-    string foo_file = fmt::format("{}/foo", dir);
-    string bar_file = fmt::format("{}/bar", dir);
+    std::string dir = env->root();
+    std::string foo_file = fmt::format("{}/foo", dir);
+    std::string bar_file = fmt::format("{}/bar", dir);
     write_to_file(foo_file);
     write_to_file(bar_file);
     
@@ -69,11 +69,11 @@ TEST(Hash, File)
 
 TEST(Hash, Dir)
 {
-    string dir = env->root();
-    string new_dir = fmt::format("{}/duh", dir);
+    std::string dir = env->root();
+    std::string new_dir = fmt::format("{}/duh", dir);
     fs::create_directory(new_dir);
     
-    string foo_file = fmt::format("{}/foo", new_dir);
+    std::string foo_file = fmt::format("{}/foo", new_dir);
     write_to_file(foo_file);
 
     fs::path dir_path{new_dir};
@@ -86,8 +86,8 @@ TEST(Hash, Dir)
 
 TEST(Hash, PathException)
 {
-    string dir = env->root();
-    string file = fmt::format("{}/nothere", dir);
+    std::string dir = env->root();
+    std::string file = fmt::format("{}/nothere", dir);
     fs::path nonexistent_path = fs::path{file};
     EXPECT_THROW(core::hash(nonexistent_path), core::runtime_error);
 }

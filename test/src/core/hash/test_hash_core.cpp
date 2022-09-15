@@ -1,4 +1,4 @@
-// Copyright 2021 by Mark Melton
+// Copyright 2021, 2022 by Mark Melton
 //
 
 #include <gtest/gtest.h>
@@ -9,7 +9,7 @@
 
 using Integral = std::tuple<int8,int16,int32,int64,std::uint8_t,std::uint16_t,std::uint32_t,std::uint64_t>;
 using Floating = std::tuple<float,double>;
-using Containers = std::tuple<ints,reals,size_ts,std::list<int>>;
+using Containers = std::tuple<ints,reals,std::vector<size_t>,std::list<int>>;
 
 TEST(Hash, String)
 {

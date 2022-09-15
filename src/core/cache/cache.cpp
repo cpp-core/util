@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #include <filesystem>
@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 
 string cache_root() {
     if (auto p = getenv("CACHE_ROOT"); p)
-	return string{p};
+	return std::string{p};
     if (auto p = getenv("HOME"); p)
 	return fmt::format("{}/cache", p);
     return fmt::format("/home/cache");
@@ -25,7 +25,7 @@ bool Cache::exists() const {
     return fs::exists(name());
 }
 
-bool Cache::exists(const string& file) const {
+bool Cache::exists(const std::string& file) const {
     auto path = fmt::format("{}/{}", name(), file);
     return fs::exists(path);
 }
@@ -40,13 +40,13 @@ void Cache::prepare() const {
     get();
 }
     
-std::pair<bool, string> Cache::get(const string& file) const {
+std::pair<bool, std::string> Cache::get(const std::string& file) const {
     auto path = fmt::format("{}/{}", name(), file);
     auto exists = fs::exists(path);
     return std::make_tuple(exists, path);
 }
     
-string Cache::get_or_throw(const string& file) const {
+string Cache::get_or_throw(const std::string& file) const {
     auto [exists, path] = get(file);
     if (exists)
 	return path;

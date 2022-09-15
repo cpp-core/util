@@ -1,4 +1,4 @@
-// Copyright 2021 by Mark Melton
+// Copyright 2021, 2022 by Mark Melton
 //
 
 #include <gtest/gtest.h>
@@ -30,7 +30,7 @@ public:
     }
     
 private:
-    string cache_root_;
+    std::string cache_root_;
 };
 
 TEST(Cache, UniqueName)
