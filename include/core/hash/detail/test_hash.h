@@ -5,7 +5,7 @@
 
 template<class T>
 void test_hash(size_t count) {
-    set<uint64> hashes;
+    set<std::uint64_t> hashes;
     set<T> tps;
     auto tpG = coro::Sampler<T>{}();
     for (auto tp : coro::take(std::move(tpG), count)) {

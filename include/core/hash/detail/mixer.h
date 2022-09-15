@@ -6,7 +6,7 @@
 
 namespace core::detail {
 
-uint64 mixer(uint64 n, int b = 32);
+uint64 mixer(std::uint64_t n, int b = 32);
 
 }; // core::detail
 

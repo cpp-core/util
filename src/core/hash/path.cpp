@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #include "core/hash/path.h"
@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
 uint64 Hash<fs::path>::operator()(const fs::path& path) const {
     if (fs::exists(path)) {
 	if (fs::is_directory(path)) {
-	    uint64 hid{0};
+	    std::uint64_t hid{0};
 	    for(const auto& p: fs::directory_iterator(path))
 		core::detail::combine(hid, this->operator()(p));
 	    return hid;
@@ -22,9 +22,9 @@ uint64 Hash<fs::path>::operator()(const fs::path& path) const {
 	else {
 	    string name{fs::absolute(path)};
 	    auto size = fs::file_size(path);
-	    uint64 tp = fs::last_write_time(path).time_since_epoch().count();
+	    std::uint64_t tp = fs::last_write_time(path).time_since_epoch().count();
 	
-	    uint64 hid{0};
+	    std::uint64_t hid{0};
 	    core::detail::combine(hid, std::hash<decltype(name)>{}(name));
 	    core::detail::combine(hid, std::hash<decltype(size)>{}(size));
 	    core::detail::combine(hid, std::hash<decltype(tp)>{}(tp));

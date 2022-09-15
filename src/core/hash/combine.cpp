@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #include "core/hash/combine.h"
@@ -6,13 +6,13 @@
 namespace core::detail
 {
 
-uint64 rotl(uint64 n, int i) {
-    auto m = (std::numeric_limits<uint64>::digits - 1);
-    uint64 c = i & m;
-    return (n << c) | (n >> ((uint64{0} - c) & m));
+uint64 rotl(std::uint64_t n, int i) {
+    auto m = (std::numeric_limits<std::uint64_t>::digits - 1);
+    std::uint64_t c = i & m;
+    return (n << c) | (n >> ((std::uint64_t{0} - c) & m));
 }
 
-void combine(uint64& seed, uint64 key) {
+void combine(std::uint64_t& seed, std::uint64_t key) {
     seed = rotl(seed, 21) ^ key;
 }
 

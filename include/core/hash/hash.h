@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
@@ -17,7 +17,7 @@ struct Hash;
 // hash - return hash of arguments
 template<class... Args>
 uint64 hash(Args&&... args) {
-    uint64 v{0};
+    std::uint64_t v{0};
     (detail::combine(v, hasher::Hash<std::decay_t<Args>>()(std::forward<Args>(args))),...);
     return v;
 }

@@ -6,7 +6,7 @@
 
 namespace core::detail {
 
-void combine(uint64& seed, uint64 key);
+void combine(std::uint64_t& seed, std::uint64_t key);
 
 }; // core::detail
 

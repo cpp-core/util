@@ -20,14 +20,14 @@ requires (std::is_integral_v<T>
 	  )
 struct Hash<T> {
     using U = std::decay_t<T>;
-    uint64 operator()(const T& value) const noexcept {
+    std::uint64_t operator()(const T& value) const noexcept {
 	return mixer(std::hash<U>{}(value), 32);
     }
 };
 
 template<>
 struct Hash<string> {
-    uint64 operator()(const std::string& s) const noexcept {
+    std::uint64_t operator()(const std::string& s) const noexcept {
 	return mixer(std::hash<string>{}(s), 32);
     }
 };
@@ -35,8 +35,8 @@ struct Hash<string> {
 template<class T>
 requires core::mp::is_same_template_v<T, std::pair>
 struct Hash<T> {
-    uint64 operator()(const T& value) const noexcept {
-	uint64 v{0};
+    std::uint64_t operator()(const T& value) const noexcept {
+	std::uint64_t v{0};
 	combine(v, Hash<typename T::first_type>{}(value.first));
 	combine(v, Hash<typename T::second_type>{}(value.second));
 	return v;
@@ -50,8 +50,8 @@ requires (core::mp::is_same_template_v<T, std::vector> or
 	  core::mp::is_same_template_v<T, std::map> or
 	  core::mp::is_same_template_v<T, std::set>)
 struct Hash<T> {
-    uint64 operator()(const T& container) const noexcept {
-	uint64 v{0};
+    std::uint64_t operator()(const T& container) const noexcept {
+	std::uint64_t v{0};
 	for (const auto& element : container)
 	    combine(v, Hash<std::decay_t<decltype(element)>>{}(element));
 	return v;

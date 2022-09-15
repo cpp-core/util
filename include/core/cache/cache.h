@@ -40,7 +40,7 @@ public:
     std::string get_or_throw(const std::string& file) const;
 
 private:
-    uint64 hid_;
+    std::uint64_t hid_;
     std::string sid_;
 };
 

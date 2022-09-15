@@ -11,7 +11,7 @@ namespace core::hasher {
 
 template<>
 struct Hash<chron::Date> {
-    uint64 operator()(const chron::Date& date) const noexcept {
+    std::uint64_t operator()(const chron::Date& date) const noexcept {
 	auto n = chron::TimePoint{date}.time_since_epoch().count();
 	return detail::mixer(std::hash<decltype(n)>{}(n), 32);
     }
@@ -19,7 +19,7 @@ struct Hash<chron::Date> {
 
 template<>
 struct Hash<chron::TimePoint> {
-    uint64 operator()(const chron::TimePoint& tp) const noexcept {
+    std::uint64_t operator()(const chron::TimePoint& tp) const noexcept {
 	auto n = tp.time_since_epoch().count();
 	return detail::mixer(std::hash<decltype(n)>{}(n), 32);
     }
@@ -28,7 +28,7 @@ struct Hash<chron::TimePoint> {
 template<class T>
 requires chron::is_duration_v<T>
 struct Hash<T> {
-    uint64 operator()(const T& duration) const noexcept {
+    std::uint64_t operator()(const T& duration) const noexcept {
 	auto n = duration.count();
 	return detail::mixer(std::hash<decltype(n)>{}(n), 32);
     }

@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
@@ -10,7 +10,7 @@ namespace core::hasher {
 
 template<>
 struct Hash<std::filesystem::path> {
-    uint64 operator()(const std::filesystem::path& path) const;
+    std::uint64_t operator()(const std::filesystem::path& path) const;
 };
 
 }; // core::hasher

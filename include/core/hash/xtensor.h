@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
@@ -10,8 +10,8 @@ namespace core::hasher {
 
 template<class T>
 struct Hash<xt::xarray<T>> {
-    uint64 operator()(const xt::xarray<T>& data) const noexcept {
-	uint64 v{0};
+    std::uint64_t operator()(const xt::xarray<T>& data) const noexcept {
+	std::uint64_t v{0};
 	for (const auto& x : data)
 	    combine(v, Hash<T>{}(x));
 	return v;
