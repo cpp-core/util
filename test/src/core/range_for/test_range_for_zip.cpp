@@ -3,9 +3,9 @@
 
 #include <gtest/gtest.h>
 #include "core/range_for/range_for_zip.h"
-#include "core/util/common.h"
 
 using namespace core;
+using namespace std::string_literals;
 
 TEST(RangeForZip, Smoke)
 {
