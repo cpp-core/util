@@ -2,7 +2,6 @@
 //
 
 #pragma once
-#include "core/util/common.h"
 
 namespace core {
 
@@ -35,7 +34,7 @@ template<class T>
 struct RangeIterForEnum {
     RangeIterForEnum(T e): e_(e) {}
     RangeIterForEnum operator++() {
-	e_ = static_cast<T>(static_cast<uint>(e_) + 1);
+	e_ = static_cast<T>(static_cast<unsigned int>(e_) + 1);
 	return *this;
     }
     bool operator!=(const RangeIterForEnum<T>& other) const { return e_ != other.e_; }
