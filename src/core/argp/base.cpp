@@ -48,7 +48,7 @@ bool is_option_group(std::string_view arg)
 	and is_identifier(arg[2]);
 }
 
-string make_spec(std::string_view arg_value, size_t min, size_t max)
+std::string make_spec(std::string_view arg_value, size_t min, size_t max)
 {
     std::string value = std::string(arg_value);
     std::string r;

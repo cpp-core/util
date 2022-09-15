@@ -3,7 +3,7 @@
 
 #pragma once
 #include <queue>
-#include "core/util/common.h"
+#include <string>
 
 namespace core::argp
 {
@@ -17,6 +17,6 @@ bool is_option_separator(std::string_view arg);
 bool is_option(std::string_view arg);
 bool is_option_group(std::string_view arg);
 
-string make_spec(std::string_view arg_value, size_t min, size_t max);
+std::string make_spec(std::string_view arg_value, size_t min, size_t max);
 
 }; // core::argp

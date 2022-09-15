@@ -3,6 +3,7 @@
 
 #pragma once
 #include <any>
+#include <iostream>
 #include "core/argp/base.h"
 #include "core/argp/context.h"
 #include "core/argp/error.h"
@@ -89,7 +90,7 @@ public:
     void output_help_message(std::ostream& os, const std::vector<std::string>& args)
     {
 	auto program_name = args.size() > 0 ? args[0] : "unknown program";
-	cout << "program: " << program_name << " [options]" << star_value_spec() << endl;
+	std::cout << "program: " << program_name << " [options]" << star_value_spec() << std::endl;
 	auto printer = [&](const auto& arg)
 		       {
 			   static constexpr size_t Indent = 4;
@@ -108,7 +109,7 @@ public:
 			   os << "--" << arg.long_name << " ";
 			   os << arg.value_spec;
 			   os << std::string(n, ' ');
-			   os << arg.description << endl;
+			   os << arg.description << std::endl;
 		       };
 	core::tp::apply(printer, m_tuple);
     }
@@ -128,7 +129,7 @@ public:
 	    }
 	    else if (ctx.front() == "--help")
 	    {
-		output_help_message(cout, args);
+		output_help_message(std::cout, args);
 		exit(0);
 	    }
 	    else if (is_option_separator(token))

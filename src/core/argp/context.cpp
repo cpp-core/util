@@ -18,7 +18,7 @@ bool Context::end() const
     return m_index >= m_tokens.size();
 }
 
-string_view Context::front() const
+std::string_view Context::front() const
 {
     return m_tokens[m_index];
 }
@@ -34,7 +34,7 @@ const std::vector<std::string>& Context::tokens() const
     return m_tokens;
 }
 
-string Context::canonical_line() const
+std::string Context::canonical_line() const
 {
     std::string line;
     for (const auto& token : m_tokens)
@@ -45,7 +45,7 @@ string Context::canonical_line() const
     return line;
 }
 
-string Context::canonical_marker() const
+std::string Context::canonical_marker() const
 {
     std::string line;
     for (const auto& token : m_tokens)
