@@ -1,4 +1,4 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #include <gtest/gtest.h>
@@ -24,7 +24,7 @@ void test_with_generator() {
     }
 }
 
-using BaseTypes = std::tuple<int16,int,int64,uint16,uint,uint64,float,real,string>;
+using BaseTypes = std::tuple<int16,int,int64,std::uint16_t,uint,std::uint64_t,float,real,string>;
 using BriefBaseTypes = std::tuple<int,string>;
     
 TEST(SBS, BaseTypes)
