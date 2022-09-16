@@ -13,6 +13,7 @@ set(TESTS
   util/phantom
   util/reinterpret_as
   util/round
+  util/scanner
   util/signum
   util/span
   util/splat
