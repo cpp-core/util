@@ -8,7 +8,7 @@
 #include "core/util/argp/argp.h"
 #include "core/string/lexical_cast.h"
 
-using namespace core::util::argp::interface;
+using namespace core::argp::interface;
 using namespace std::string_literals;
 using std::cin, std::cout, std::cerr, std::endl;
 
@@ -27,7 +27,7 @@ int main(int argc, const char *argv[])
 	cerr << "lexical_cast_error: " << e.what() << endl;
 	return -2;
     }
-    catch (core::util::argp::error const& e)
+    catch (core::argp::error const& e)
     {
 	cerr << "argp_error: " << e.context.canonical_line() << endl;
 	cerr << "argp_error: " << e.context.canonical_marker() << endl;
