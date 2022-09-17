@@ -7,8 +7,8 @@
 #include "core/util/argp/argp.h"
 #include "core/util/argp/message.h"
 
-using namespace core::util::argp::interface;
-namespace argp = core::util::argp;
+using namespace core::argp::interface;
+namespace argp = core::argp;
 using namespace std::string_literals;
 
 TEST(ArgParse, ArgFlag)

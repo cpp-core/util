@@ -9,7 +9,7 @@
 #include "core/string/lexical_cast.h"
 #include "core/mp/type_name.h"
 
-namespace core::util::argp
+namespace core::argp
 {
 
 struct noop
@@ -246,4 +246,4 @@ auto argValuesApply(std::string_view long_name, std::string_view description, F&
 		    size_t min = 1, size_t max = std::numeric_limits<size_t>::max())
 { return ArgValues<C,Container,T,F>(long_name, description, min, max, std::move(func)); }
 
-}; // core::util::argp
+}; // core::argp

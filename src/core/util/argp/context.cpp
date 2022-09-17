@@ -3,7 +3,7 @@
 
 #include "core/util/argp/context.h"
 
-namespace core::util::argp
+namespace core::argp
 {
 
 Context::Context(const std::vector<std::string>& args)
@@ -59,4 +59,4 @@ std::string Context::canonical_marker() const
 }
 
 
-}; // core::util::argp
+}; // core::argp

@@ -5,7 +5,7 @@
 #include <typeinfo>
 #include "core/util/argp/context.h"
 
-namespace core::util::argp
+namespace core::argp
 {
 
 struct error : public std::runtime_error
@@ -54,4 +54,4 @@ struct too_many_values_error : public error_count
 			  size_t arg_number_found, size_t arg_number_max);
 };
 
-}; // core::util::argp
+}; // core::argp

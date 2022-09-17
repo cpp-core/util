@@ -4,7 +4,7 @@
 #pragma once
 #include "core/util/argp/base.h"
 
-namespace core::util::argp
+namespace core::argp
 {
 
 class Context
@@ -25,4 +25,4 @@ private:
     std::vector<std::string> m_tokens;
 };
 
-}; // core::util::argp
+}; // core::argp

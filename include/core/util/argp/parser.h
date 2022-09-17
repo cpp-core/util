@@ -14,7 +14,7 @@
 #include "core/mp/find_index.h"
 #include "core/mp/transform.h"
 
-namespace core::util::argp {
+namespace core::argp {
 
 template<class T>
 using flag_character = core::mp::_char<T::FlagCharacter>;
@@ -179,6 +179,6 @@ private:
     std::vector<std::string> m_extra;
 };
 
-}; // core::util::argp
+}; // core::argp
 
 

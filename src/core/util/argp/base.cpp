@@ -3,7 +3,7 @@
 
 #include "core/util/argp/base.h"
 
-namespace core::util::argp {
+namespace core::argp {
 
 bool is_identifier(char c)
 {
@@ -64,4 +64,4 @@ std::string make_spec(std::string_view arg_value, size_t min, size_t max)
     return r;
 }
 
-}; // core::util::argp
+}; // core::argp

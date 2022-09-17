@@ -3,11 +3,13 @@
 
 #pragma once
 #include <iostream>
+#include <string>
 #include "core/util/exception.h"
 #include "core/util/argp/argp.h"
 #include "core/string/lexical_cast.h"
 
 using namespace core::util::argp::interface;
+using namespace std::string_literals;
 using std::cin, std::cout, std::cerr, std::endl;
 
 int tool_main(int argc, const char *argv[]);

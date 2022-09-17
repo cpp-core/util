@@ -5,9 +5,9 @@
 #include "core/util/argp/option.h"
 #include "core/util/argp/parser.h"
 
-namespace core::util::argp::interface {
-using core::util::argp::ArgParse;
-using core::util::argp::argFlag;
-using core::util::argp::argValue;
-using core::util::argp::argValues;
+namespace core::argp::interface {
+using core::argp::ArgParse;
+using core::argp::argFlag;
+using core::argp::argValue;
+using core::argp::argValues;
 };
