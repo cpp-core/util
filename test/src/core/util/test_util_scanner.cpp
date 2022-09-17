@@ -6,9 +6,25 @@
 
 using namespace core::util;
 
+TEST(Scanner, MaybeMatch)
+{
+    auto str = "abc,def";
+    Scanner scanner{str};
+    auto result = scanner.maybe_consume_to(',');
+    EXPECT_EQ(result, "abc");
+}
+
 TEST(Scanner, Match)
 {
     auto str = "abc,def";
+    Scanner scanner{str};
+    auto result = scanner.consume_to(',');
+    EXPECT_EQ(result, "abc");
+}
+
+TEST(Scanner, MaybeEnd)
+{
+    auto str = "abc";
     Scanner scanner{str};
     auto result = scanner.maybe_consume_to(',');
     EXPECT_EQ(result, "abc");
@@ -18,17 +34,25 @@ TEST(Scanner, End)
 {
     auto str = "abc";
     Scanner scanner{str};
-    auto result = scanner.maybe_consume_to(',');
+    auto result = scanner.consume_to(',');
     EXPECT_EQ(result, "abc");
 }
 
-TEST(Scanner, Empty)
+TEST(Scanner, MaybeEmpty)
 {
     auto str = "abc,";
     Scanner scanner{str};
     scanner.maybe_consume_to(',');
     auto result = scanner.maybe_consume_to(',');
     EXPECT_EQ(result, "");
+}
+
+TEST(Scanner, Empty)
+{
+    auto str = "abc,";
+    Scanner scanner{str};
+    scanner.consume_to(',');
+    EXPECT_THROW(scanner.consume_to(','), std::runtime_error);
 }
 
 int main(int argc, char *argv[])

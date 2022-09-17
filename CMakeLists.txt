@@ -58,6 +58,7 @@ set(SOURCES
   util/guid
   util/random
   util/round
+  util/scanner
   util/tribool
   util/tribool32
   util/unit_real

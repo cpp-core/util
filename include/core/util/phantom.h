@@ -2,8 +2,7 @@
 //
 
 #pragma once
-#include "nlohmann/json.hpp"
-using json = nlohmann::json;
+#include "core/util/json.h"
 
 namespace core {
 inline namespace util {
@@ -80,5 +79,5 @@ void from_json(const json& j, Phantom<T>& phantom) {
     phantom = j.get<T>();
 }
 
-}; // type
+}; // util
 }; // core
