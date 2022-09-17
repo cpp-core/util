@@ -4,9 +4,9 @@
 #pragma once
 #include <any>
 #include <iostream>
-#include "core/argp/base.h"
-#include "core/argp/context.h"
-#include "core/argp/error.h"
+#include "core/util/argp/base.h"
+#include "core/util/argp/context.h"
+#include "core/util/argp/error.h"
 #include "core/tuple/apply.h"
 #include "core/tuple/find.h"
 #include "core/tuple/map.h"
@@ -14,11 +14,7 @@
 #include "core/mp/find_index.h"
 #include "core/mp/transform.h"
 
-namespace core
-{
-
-namespace argp
-{
+namespace core::util::argp {
 
 template<class T>
 using flag_character = core::mp::_char<T::FlagCharacter>;
@@ -183,19 +179,6 @@ private:
     std::vector<std::string> m_extra;
 };
 
-namespace interface
-{
-using core::argp::ArgParse;
-using core::argp::argFlag;
-using core::argp::argValue;
-using core::argp::argValues;
-
-};
-
-}; // argp
-
-using namespace argp::interface;
-
-}; // core
+}; // core::util::argp
 
 

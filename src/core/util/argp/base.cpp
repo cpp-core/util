@@ -1,10 +1,9 @@
 // Copyright (C) 2019, 2022 by Mark Melton
 //
 
-#include "core/argp/base.h"
+#include "core/util/argp/base.h"
 
-namespace core::argp
-{
+namespace core::util::argp {
 
 bool is_identifier(char c)
 {
@@ -65,4 +64,4 @@ std::string make_spec(std::string_view arg_value, size_t min, size_t max)
     return r;
 }
 
-}; // core::argp
+}; // core::util::argp

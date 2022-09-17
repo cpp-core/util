@@ -5,7 +5,7 @@
 #include <queue>
 #include <string>
 
-namespace core::argp
+namespace core::util::argp
 {
 
 static constexpr char OptionSymbol = '-';
@@ -19,4 +19,4 @@ bool is_option_group(std::string_view arg);
 
 std::string make_spec(std::string_view arg_value, size_t min, size_t max);
 
-}; // core::argp
+}; // core::util::argp

@@ -1,9 +1,9 @@
 // Copyright (C) 2019, 2022 by Mark Melton
 //
 
-#include "core/argp/context.h"
+#include "core/util/argp/context.h"
 
-namespace core::argp
+namespace core::util::argp
 {
 
 Context::Context(const std::vector<std::string>& args)
@@ -59,4 +59,4 @@ std::string Context::canonical_marker() const
 }
 
 
-}; // core::argp
+}; // core::util::argp

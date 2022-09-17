@@ -30,6 +30,7 @@ option(CORE_UTIL_DOCS "Generate the docs." OFF)
 # Add our dependencies
 #
 include(GNUInstallDirs)
+find_package(cxx_core_string REQUIRED)
 find_package(cxx_coro_stream REQUIRED)
 find_package(fmt REQUIRED)
 find_package(nlohmann_json REQUIRED)
@@ -54,6 +55,9 @@ add_compile_options(-O)
 add_link_options(-stdlib=libc++)
 
 set(SOURCES
+  util/argp/base
+  util/argp/context
+  util/argp/error
   util/bool32
   util/guid
   util/random
@@ -72,7 +76,11 @@ endforeach()
 
 add_library(cxx_core_util ${FILES})
 
-target_link_libraries(cxx_core_util PUBLIC fmt::fmt nlohmann_json::nlohmann_json)
+target_link_libraries(cxx_core_util PUBLIC
+  cxx_core_string::cxx_core_string
+  cxx_coro_stream::cxx_coro_stream
+  fmt::fmt
+  nlohmann_json::nlohmann_json)
 
 target_include_directories(cxx_core_util
   PRIVATE

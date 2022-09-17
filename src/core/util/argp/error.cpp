@@ -2,11 +2,11 @@
 //
 
 #include <fmt/format.h>
-#include "core/argp/error.h"
-#include "core/argp/message.h"
+#include "core/util/argp/error.h"
+#include "core/util/argp/message.h"
 #include "core/mp/type_name.h"
 
-namespace core::argp
+namespace core::util::argp
 {
 
 error::error(std::string_view msg, const Context& ctx)
@@ -66,4 +66,4 @@ too_many_values_error::too_many_values_error(std::string_view name,
 		  ctx, type, number_found, number_limit)
 { }
 
-}; // core::argp
+}; // core::util::argp

@@ -4,11 +4,11 @@
 #include <fmt/format.h>
 #include <gtest/gtest.h>
 #include <list>
-#include "core/argp/parse.h"
-#include "core/argp/message.h"
+#include "core/util/argp/argp.h"
+#include "core/util/argp/message.h"
 
-using namespace core;
-using namespace core::argp::interface;
+using namespace core::util::argp::interface;
+namespace argp = core::util::argp;
 using namespace std::string_literals;
 
 TEST(ArgParse, ArgFlag)

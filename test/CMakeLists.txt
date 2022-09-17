@@ -6,6 +6,7 @@ find_package(googletest REQUIRED)
 find_package(Threads REQUIRED)
 
 set(TESTS
+  util/argp/parse
   util/arith_star
   util/bool32
   util/guid
