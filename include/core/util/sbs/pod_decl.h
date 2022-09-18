@@ -1,8 +1,8 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
-#include "core/bit/sbs/concept.h"
+#include "core/util/sbs/concept.h"
 
 // For mem-copyable types, write/read the object bytes to/from the
 // stream.

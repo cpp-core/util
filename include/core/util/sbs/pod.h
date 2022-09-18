@@ -1,8 +1,8 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
-#include "core/bit/sbs/pod_decl.h"
+#include "core/util/sbs/pod_decl.h"
 
 template<class T>
 requires core::sbs::PodLike<T>

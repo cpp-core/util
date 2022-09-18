@@ -2,8 +2,8 @@
 //
 
 #pragma once
-#include "core/bit/sbs/string_decl.h"
-#include "core/bit/sbs/pod_decl.h"
+#include "core/util/sbs/string_decl.h"
+#include "core/util/sbs/pod_decl.h"
 
 inline void to_sbs(std::ostream& os, const std::string& str) {
     to_sbs(os, str.size());

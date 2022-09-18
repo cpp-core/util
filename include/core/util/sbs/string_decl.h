@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include "core/bit/sbs/concept.h"
+#include "core/util/sbs/concept.h"
 
 void to_sbs(std::ostream& os, const std::string& str);
 void from_sbs(std::istream& is, std::string& str);

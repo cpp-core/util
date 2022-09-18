@@ -1,8 +1,8 @@
-// Copyright (C) 2021 by Mark Melton
+// Copyright (C) 2021, 2022 by Mark Melton
 //
 
 #pragma once
-#include "core/bit/sbs/decl.h"
+#include "core/util/sbs/decl.h"
 
 template<class T, class U>
 void to_sbs(std::ostream& os, const std::pair<T,U>& pair) {

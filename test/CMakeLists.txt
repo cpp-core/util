@@ -18,6 +18,7 @@ set(TESTS
   util/range_for_zip
   util/reinterpret_as
   util/round
+  util/sbs
   util/scanner
   util/signum
   util/span

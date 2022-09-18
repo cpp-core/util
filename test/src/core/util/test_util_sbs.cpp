@@ -2,7 +2,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/bit/sbs/sbs.h"
+#include "core/util/sbs/sbs.h"
 #include "coro/stream/stream.h"
 #include "core/mp/foreach.h"
 

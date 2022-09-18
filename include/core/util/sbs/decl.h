@@ -2,8 +2,8 @@
 //
 
 #pragma once
-#include "core/bit/sbs/associative_decl.h"
-#include "core/bit/sbs/pair_decl.h"
-#include "core/bit/sbs/pod_decl.h"
-#include "core/bit/sbs/sequence_decl.h"
-#include "core/bit/sbs/string_decl.h"
+#include "core/util/sbs/associative_decl.h"
+#include "core/util/sbs/pair_decl.h"
+#include "core/util/sbs/pod_decl.h"
+#include "core/util/sbs/sequence_decl.h"
+#include "core/util/sbs/string_decl.h"
