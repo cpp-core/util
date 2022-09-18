@@ -108,4 +108,4 @@ endif()
 #
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install_config.cmake)
 install_config(cxx_core_util)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/core/util DESTINATION include/core/)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/core/util DESTINATION include/core)
