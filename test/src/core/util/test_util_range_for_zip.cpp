@@ -2,7 +2,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "core/range_for/range_for_zip.h"
+#include "core/util/range_for_zip.h"
 
 using namespace core;
 using namespace std::string_literals;

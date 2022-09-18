@@ -12,6 +12,10 @@ set(TESTS
   util/guid
   util/has_common_element
   util/phantom
+  util/range_for_enum
+  util/range_for_pair
+  util/range_for_reverse
+  util/range_for_zip
   util/reinterpret_as
   util/round
   util/scanner
