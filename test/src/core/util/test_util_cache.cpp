@@ -4,7 +4,8 @@
 #include <gtest/gtest.h>
 #include <filesystem>
 #include <fstream>
-#include "core/cache/all.h"
+#include "core/util/cache/all.h"
+#include "core/util/exception.h"
 
 namespace fs = std::filesystem;
 

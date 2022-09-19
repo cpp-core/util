@@ -4,8 +4,8 @@
 #include <gtest/gtest.h>
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "core/hash/core.h"
-#include "core/hash/detail/test_hash.h"
+#include "core/util/hash/core.h"
+#include "core/util/hash/detail/test_hash.h"
 
 using Integral = std::tuple<std::int8_t,
 			    std::int16_t,

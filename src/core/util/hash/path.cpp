@@ -1,9 +1,9 @@
 // Copyright (C) 2021, 2022 by Mark Melton
 //
 
-#include "core/hash/path.h"
-#include "core/hash/chrono.h"
-#include "core/hash/combine.h"
+#include "core/util/hash/path.h"
+#include "core/util/hash/combine.h"
+#include "core/util/exception.h"
 #include <filesystem>
 
 namespace core::hasher

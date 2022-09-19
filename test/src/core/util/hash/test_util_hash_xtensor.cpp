@@ -1,12 +1,12 @@
-// Copyright 2021 by Mark Melton
+// Copyright 2021, 2022 by Mark Melton
 //
 
 #include <gtest/gtest.h>
 #include "core/mp/foreach.h"
 #include "coro/stream/stream.h"
-#include "core/hash/core.h"
-#include "core/hash/xtensor.h"
-#include "core/hash/detail/test_hash.h"
+#include "core/util/hash/core.h"
+#include "core/util/hash/xtensor.h"
+#include "core/util/hash/detail/test_hash.h"
 
 TEST(Hash, XArray)
 {

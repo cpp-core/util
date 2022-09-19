@@ -3,7 +3,7 @@
 
 #include <set>
 #include "coro/stream/stream.h"
-#include "core/hash/hash.h"
+#include "core/util/hash/hash.h"
 
 template<class T>
 void test_hash(size_t count) {

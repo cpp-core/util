@@ -3,7 +3,7 @@
 
 #pragma once
 #include <fmt/format.h>
-#include "core/hash/hash.h"
+#include "core/util/hash/hash.h"
 
 namespace core {
 

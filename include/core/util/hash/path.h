@@ -3,8 +3,8 @@
 
 #pragma once
 #include <filesystem>
-#include "core/hash/hash.h"
-#include "core/hash/detail/mixer.h"
+#include "core/util/hash/hash.h"
+#include "core/util/hash/detail/mixer.h"
 
 namespace core::hasher {
 

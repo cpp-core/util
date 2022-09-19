@@ -9,7 +9,10 @@ set(TESTS
   util/argp/parse
   util/arith_star
   util/bool32
+  util/cache
   util/guid
+  util/hash/core
+  util/hash/path
   util/has_common_element
   util/phantom
   util/range_for_enum
@@ -37,5 +40,27 @@ set(LIBRARIES
   cxx_coro_stream::cxx_coro_stream
   googletest::cxx-googletest
   Threads::Threads)
+
+function(maybe_include_test NEEDS ADDS DESCRIPTION ADD_TARGET)
+  find_package(${NEEDS} QUIET)
+  if(${${NEEDS}_FOUND})
+    message("-- cxx-core-util: ${NEEDS} found, including ${DESCRIPTION} tests")
+    foreach(ITEM ${ADDS})
+      list(APPEND TESTS ${ITEM})
+    endforeach()
+    set(TESTS ${TESTS} PARENT_SCOPE)
+
+    if(${ADD_TARGET})
+      list(APPEND LIBRARIES ${NEEDS}::${NEEDS})
+      set(LIBRARIES ${LIBRARIES} PARENT_SCOPE)
+    endif()
+  else()
+    message("-- cxx-core-util: ${NEEDS} not found, excluding ${DESCRIPTION} tests")
+  endif()
+endfunction()
+
+maybe_include_test(cxx_core_chrono util/hash/chrono "hash chrono" YES)
+maybe_include_test(xtensor util/hash/xtensor "hash xtensor" NO)
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/configure_tests.cmake)
 configure_tests("core" "${LIBRARIES}" ${TESTS})

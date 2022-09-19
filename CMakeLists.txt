@@ -59,7 +59,11 @@ set(SOURCES
   util/argp/context
   util/argp/error
   util/bool32
+  util/cache/cache
   util/guid
+  util/hash/combine
+  util/hash/path
+  util/hash/detail/mixer
   util/random
   util/round
   util/scanner
