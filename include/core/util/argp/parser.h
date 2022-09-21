@@ -7,9 +7,9 @@
 #include "core/util/argp/base.h"
 #include "core/util/argp/context.h"
 #include "core/util/argp/error.h"
-#include "core/tuple/apply.h"
 #include "core/tuple/find.h"
 #include "core/tuple/map.h"
+#include "core/tuple/fold.h"
 #include "core/mp/constants.h"
 #include "core/mp/find_index.h"
 #include "core/mp/transform.h"
@@ -59,7 +59,7 @@ public:
     void process_token(std::string_view token, Context& ctx)
     {
 	using core::tp::find_first;
-	using core::tp::apply_nth;
+	using core::tp::map_nth;
 		
 	auto idx = find_first(m_tuple, [&](const auto& e) { return e.matches(token); });
 
@@ -69,7 +69,7 @@ public:
 	    else throw unknown_option_error(token, ctx);
 	}
 	
-	apply_nth([&](auto& e) { e.match(token, ctx); }, idx, m_tuple);
+	map_nth([&](auto& e) { e.match(token, ctx); }, idx, m_tuple);
     }
 
     std::string star_value_spec()
@@ -107,7 +107,7 @@ public:
 			   os << std::string(n, ' ');
 			   os << arg.description << std::endl;
 		       };
-	core::tp::apply(printer, m_tuple);
+	core::tp::map_inplace(printer, m_tuple);
     }
 
     bool parse(const std::vector<std::string>& args)
