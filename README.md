@@ -1,4 +1,4 @@
-[![Build and Unit Test](https://github.com/melton1968/cxx-core-util/actions/workflows/build.yaml/badge.svg)](https://github.com/melton1968/cxx-core-util/actions/workflows/build.yaml)
+[![Build and Unit Test](https://github.com/cpp-core/util/actions/workflows/build.yaml/badge.svg)](https://github.com/cpp-core/util/actions/workflows/build.yaml)
 
 # Utilities
 
@@ -18,7 +18,7 @@
 	
 ### Standalone
 
-	git clone git@github.com:melton1968/cxx-core-util
+	git clone git@github.com:cpp-core/util
 	mkdir cxx-core-util/build && cd cxx-core-util/build
     CC=clang-mp-11 CXX=clang++-mp-11 cmake -DCMAKE_INSTALL_PREFIX=$HOME/opt -DCORE_FP_TEST=ON ..
 	make check    # Run tests
