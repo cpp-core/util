@@ -1,9 +1,9 @@
 cmake_minimum_required (VERSION 3.22 FATAL_ERROR)
-project (cxx_core_util VERSION 0.1 LANGUAGES C CXX)
+project (util VERSION 0.1 LANGUAGES C CXX)
 
 # Make including this file idempotent
 #
-if(TARGET cxx_core_util)
+if(TARGET util)
   return()
 endif()
 
@@ -12,7 +12,7 @@ endif()
 # Build the tests and set directories if this is the master project
 #
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-  set(CORE_UTIL_TEST ON CACHE BOOL "Generate the tests.")
+  set(UTIL_TEST ON CACHE BOOL "Generate the tests.")
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -24,24 +24,24 @@ endif()
 
 # Options for generating tests and documentation.
 #
-option(CORE_UTIL_TEST "Generate the tests." OFF)
-option(CORE_UTIL_DOCS "Generate the docs." OFF)
+option(UTIL_TEST "Generate the tests." OFF)
+option(UTIL_DOCS "Generate the docs." OFF)
 
 # Add our dependencies
 #
 include(GNUInstallDirs)
-find_package(cxx_core_string REQUIRED)
-find_package(cxx_coro_stream REQUIRED)
+find_package(string REQUIRED)
+find_package(stream REQUIRED)
 find_package(fmt REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
 # Output configuration
 #
-message("-- cxx-core-util: Configuration: ${CMAKE_CURRENT_SOURCE_DIR}")
-message("-- cxx-core-util: Included from: ${CMAKE_SOURCE_DIR}")
-message("-- cxx-core-util: CORE_UTIL_TEST ${CORE_UTIL_TEST}")
-message("-- cxx-core-util: CORE_UTIL_DOCS ${CORE_UTIL_DOCS}")
-message("-- cxx-core-util: CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
+message("-- util: Configuration: ${CMAKE_CURRENT_SOURCE_DIR}")
+message("-- util: Included from: ${CMAKE_SOURCE_DIR}")
+message("-- util: UTIL_TEST ${UTIL_TEST}")
+message("-- util: UTIL_DOCS ${UTIL_DOCS}")
+message("-- util: CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
 
 # Compilation
 #
@@ -78,22 +78,22 @@ foreach(NAME ${SOURCES})
   list(APPEND FILES "src/core/${NAME}.cpp")
 endforeach()
 
-add_library(cxx_core_util ${FILES})
+add_library(util ${FILES})
 
-target_link_libraries(cxx_core_util PUBLIC
-  cxx_core_string::cxx_core_string
-  cxx_coro_stream::cxx_coro_stream
+target_link_libraries(util PUBLIC
+  string::string
+  stream::stream
   fmt::fmt
   nlohmann_json::nlohmann_json)
 
-target_include_directories(cxx_core_util
+target_include_directories(util
   PRIVATE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 # Optionally configure the tests
 #
-if(CORE_UTIL_TEST)
+if(UTIL_TEST)
   enable_testing()
   if (NOT TARGET check)
     add_custom_target(check ${CMAKE_CTEST_COMMAND})
@@ -104,12 +104,12 @@ endif()
 
 # Optionally configure the documentation
 #
-# if(CORE_UTIL_DOCS)
+# if(UTIL_DOCS)
 #   add_subdirectory(docs)
 # endif()
 
 # Installation
 #
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install_config.cmake)
-install_config(cxx_core_util)
+install_config(util)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/core/util DESTINATION include/core)

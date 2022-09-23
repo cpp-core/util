@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.22 FATAL_ERROR)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./bin)
 
-find_package(googletest REQUIRED)
+find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 
 set(TESTS
@@ -36,15 +36,15 @@ set(TESTS
   )
 
 set(LIBRARIES
-  cxx_core_util
-  cxx_coro_stream::cxx_coro_stream
-  googletest::cxx-googletest
+  util
+  stream::stream
+  GTest::gtest
   Threads::Threads)
 
 function(maybe_include_test NEEDS ADDS DESCRIPTION ADD_TARGET)
   find_package(${NEEDS} QUIET)
   if(${${NEEDS}_FOUND})
-    message("-- cxx-core-util: ${NEEDS} found, including ${DESCRIPTION} tests")
+    message("-- util: ${NEEDS} found, including ${DESCRIPTION} tests")
     foreach(ITEM ${ADDS})
       list(APPEND TESTS ${ITEM})
     endforeach()
@@ -55,11 +55,11 @@ function(maybe_include_test NEEDS ADDS DESCRIPTION ADD_TARGET)
       set(LIBRARIES ${LIBRARIES} PARENT_SCOPE)
     endif()
   else()
-    message("-- cxx-core-util: ${NEEDS} not found, excluding ${DESCRIPTION} tests")
+    message("-- util: ${NEEDS} not found, excluding ${DESCRIPTION} tests")
   endif()
 endfunction()
 
-maybe_include_test(cxx_core_chrono util/hash/chrono "hash chrono" YES)
+maybe_include_test(chrono util/hash/chrono "hash chrono" YES)
 maybe_include_test(xtensor util/hash/xtensor "hash xtensor" NO)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/configure_tests.cmake)
