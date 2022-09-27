@@ -59,7 +59,7 @@ cpp_core_find_package(stream)
 cpp_core_find_package(string)
 
 set(JSON_Install ON CACHE INTERNAL "Have json create the install target")
-cpp_core_find_package(json VERSION v3.11.2)
+cpp_core_find_package(nlohmann_json URL https://github.com/cpp-core/json VERSION v3.11.2)
 
 # Build the library
 #
