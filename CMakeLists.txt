@@ -22,7 +22,7 @@ if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
   
   # Geneerte the tests
   #
-  set(TUPLE_TEST ON CACHE BOOL "Generate the tests." FORCE)
+  set(UTIL_TEST ON CACHE BOOL "Generate the tests." FORCE)
 
   # compile_commands.json
   #
