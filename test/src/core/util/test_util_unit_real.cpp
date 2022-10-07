@@ -35,7 +35,8 @@ TEST(UnitReal, Quantize)
 	unit_real x{value};
 	auto q = x.quantize(60);
 	auto y = q / double(1ul << 60);
-	EXPECT_EQ((double)x, y);
+	auto diff = (double)x - y;
+	EXPECT_LT(diff, 1e-12);
     }    
 }
 
