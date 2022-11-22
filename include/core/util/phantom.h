@@ -22,15 +22,15 @@ template<class T>
 class Phantom {
 public:
     // Construct a Phantom with default intialization of the value.
-    Phantom() {}
+    constexpr Phantom() {}
 
     // Construct a Phantom initialized to value.
-    Phantom(const T& value)
+    constexpr Phantom(const T& value)
 	: value_(value) {
     }
     
     // Construct a Phantom initialized to value.
-    Phantom(T&& value)
+    constexpr Phantom(T&& value)
 	: value_(std::forward<T>(value)) {
     }
 
