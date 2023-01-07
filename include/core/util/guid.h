@@ -1,4 +1,4 @@
-// Copyright (C) 2019, 2022 by Mark Melton
+// Copyright (C) 2019, 2022, 2023 by Mark Melton
 //
 
 #pragma once
@@ -42,6 +42,6 @@ private:
     std::array<unsigned char, NumberBytes> m_bytes{};
 };
 
-}; // core
+std::ostream& operator<<(std::ostream& os, const Guid& guid);
 
-std::ostream& operator<<(std::ostream& os, const core::Guid& guid);
+}; // core

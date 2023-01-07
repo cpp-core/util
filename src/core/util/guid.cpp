@@ -1,4 +1,4 @@
-// Copyright (C) 2019, 2022 by Mark Melton
+// Copyright (C) 2019, 2022, 2023 by Mark Melton
 //
 
 #include <random>
@@ -56,11 +56,11 @@ std::string Guid::as_string() const
     return r;
 }
 
-}; // core
-
-std::ostream& operator<<(std::ostream& os, const core::Guid& guid)
+std::ostream& operator<<(std::ostream& os, const Guid& guid)
 {
     os << guid.as_string();
     return os;
 }
+
+}; // core
 

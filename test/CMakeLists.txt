@@ -7,6 +7,7 @@ set(TESTS
   util/arith_star
   util/bool32
   util/cache
+  util/floating_point
   util/for_while
   util/guid
   util/hash/core
