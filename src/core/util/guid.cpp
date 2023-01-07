@@ -1,6 +1,7 @@
 // Copyright (C) 2019, 2022, 2023 by Mark Melton
 //
 
+#include <iostream>
 #include <random>
 #include "core/util/guid.h"
 
