@@ -2,6 +2,9 @@
 //
 
 #pragma once
+#include <algorithm>
+#include <bit>
+#include <concepts>
 #include <cmath>
 #include <cfloat>
 
@@ -14,8 +17,15 @@ template<std::floating_point T>
 auto fp_to_integer_exponent(T x) {
     int exp{};
     auto r = std::frexp(x, &exp);
-    int64_t n = r * pow(2, DBL_MANT_DIG);
+    uint64_t m = abs(r) * pow(2, DBL_MANT_DIG);
     exp -= DBL_MANT_DIG;
+
+    auto norm_shift = std::max(0, std::min(-exp, std::countr_zero(m)));
+    m >>= norm_shift;
+    exp += norm_shift;
+
+    int64_t n(m);
+    n = r < 0 ? -n : +n;
     return std::make_pair(n, exp);
 }
 

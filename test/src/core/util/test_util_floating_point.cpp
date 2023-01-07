@@ -15,6 +15,16 @@ TEST(FloatingPoint, ToIntegerExponent)
     }
 }
 
+TEST(FloatingPoint, Normalized)
+{
+    for (auto a : log_sampler<int64_t>() | take(1024)) {
+	double x(a);
+	auto [n, e] = core::fp_to_integer_exponent(x);
+	EXPECT_GE(e, 0);
+	EXPECT_EQ(core::integer_exponent_to_fp(n, e), x);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
