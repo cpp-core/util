@@ -1,4 +1,4 @@
-// Copyright (C) 2019, 2021, 2022 by Mark Melton
+// Copyright (C) 2019, 2021, 2022, 2023 by Mark Melton
 //
 
 #include <span>
@@ -43,7 +43,7 @@ TEST(Span, C3)
 TEST(Span, C4)
 {
     std::string buffer = "abcdef";
-    auto s = std::span{buffer};
+    auto s = std::span{buffer.c_str(), buffer.size()};
     EXPECT_EQ(s.data(), buffer);
     EXPECT_EQ(s.size(), buffer.size());
     EXPECT_EQ(std::string(s.begin(), s.end()), "abcdef");
