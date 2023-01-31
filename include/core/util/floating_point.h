@@ -31,7 +31,7 @@ auto fp_to_integer_exponent(T x) {
 
 /// Return the floating point number corresponding to the given
 /// integer raised to the base-2 exponent.
-auto integer_exponent_to_fp(int64_t n, int exponent) {
+inline auto integer_exponent_to_fp(int64_t n, int exponent) {
     return std::ldexp((double)n, exponent);
 }
 
